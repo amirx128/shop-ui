@@ -1,0 +1,33 @@
+{
+  "general": {
+    "supportNumber": "شماره پشتیبانی",
+    "workingHours": "8 صبح تا 18 هر روز هفته",
+    "header": {
+      "search": "جستجو"
+    }
+  },
+  "navbar": {
+    "home": "خانه",
+    "categories": "دسته بندی",
+    "store": "فروشگاه",
+    "cart": "سبد خرید",
+    "profile": "پروفایل"
+  },
+  "shop": {
+    "filter": "فیلتر",
+    "mostDiscounted": "بیشترین تخفیف",
+    "mostViewed": "پربازدیدترین",
+    "newest": "جدیدترین",
+    "bestSelling": "پرفروش ترین",
+    "cheapest": "ارزان ترین",
+    "mostExpensive": "گران ترین",
+    "addToCart": "افزودن به سبد خرید",
+    "viewProducts": "مشاهده",
+    "clearFilters": "حذف فیلترها",
+    "from": "از",
+    "to": "تا",
+    "currency": "تومان",
+    "cheapestPrice": "ارزانترین",
+    "mostExpensivePrice": "گرانترین"
+  }
+}
