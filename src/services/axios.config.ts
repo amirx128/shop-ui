@@ -3,9 +3,17 @@ import { getCookie } from '@/lib/utils/cookies';
 import { defaultLocale } from '@/i18n';
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
+const baseIdentityURL = process.env.NEXT_PUBLIC_IDENTITY_API_URL;
 
 const axiosInstance = axios.create({
   baseURL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+const axiosInstanceIdentity = axios.create({
+  baseURL: baseIdentityURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -76,5 +84,5 @@ axiosInstanceWithAuth.interceptors.response.use(
   }
 );
 
-export { axiosInstanceWithAuth };
+export { axiosInstanceWithAuth, axiosInstanceIdentity };
 export default axiosInstance;

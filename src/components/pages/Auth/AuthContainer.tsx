@@ -12,10 +12,5 @@ export async function generateMetadata() {
 }
 
 export default async function AuthContainer() {
-  const locale = await getLocale();
-  const [t] = await Promise.all([
-    getTranslations({ locale, namespace: 'auth' }),
-  ]);
-
   return <AuthContent />;
 }

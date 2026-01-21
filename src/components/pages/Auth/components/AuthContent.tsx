@@ -2,25 +2,74 @@
 
 import { useState } from 'react';
 import { Container } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 import PhoneForm from './PhoneForm';
 import OTPForm from './OTPForm';
 import type { PhoneFormData, OTPFormData } from '../types';
+import { authService } from '@/services/auth.service';
 
 export default function AuthContent() {
   const [step, setStep] = useState<'phone' | 'otp'>('phone');
   const [phoneNumber, setPhoneNumber] = useState('');
 
+  const getErrorMessage = (error: unknown, fallback: string) => {
+    if (error && typeof error === 'object') {
+      const message = (error as { response?: { data?: { message?: string } } })
+        .response?.data?.message;
+      if (message) {
+        return message;
+      }
+    }
+    return fallback;
+  };
+
+  const lastOtpMutation = useMutation({
+    mutationFn: authService.getLastOtp,
+    onSuccess: (data) => {
+      console.log('Last OTP:', data);
+    },
+    onError: (error) => {
+      console.error('Last OTP error:', error);
+    },
+  });
+
+  const requestOtpMutation = useMutation({
+    mutationFn: authService.requestOtp,
+    onSuccess: (data, variables) => {
+      setPhoneNumber(variables.phoneNumber);
+      setStep('otp');
+      toast.success(data?.message ?? 'OTP sent.');
+      lastOtpMutation.mutate();
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error, 'OTP request failed.'));
+    },
+  });
+
+  const loginOtpMutation = useMutation({
+    mutationFn: authService.loginOtp,
+    onSuccess: (data) => {
+      toast.success(data?.message ?? 'Login successful.');
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error, 'Login failed.'));
+    },
+  });
+
   const handlePhoneSubmit = (data: PhoneFormData) => {
-    setPhoneNumber(data.phoneNumber);
-    setStep('otp');
+    requestOtpMutation.mutate({ phoneNumber: data.phoneNumber });
   };
 
   const handleOTPSubmit = (data: OTPFormData) => {
-    console.log('OTP submitted:', data);
+    loginOtpMutation.mutate({ phoneNumber, code: data.otp });
   };
 
   const handleResendCode = () => {
-    console.log('Resending code to:', phoneNumber);
+    if (!phoneNumber) {
+      return;
+    }
+    requestOtpMutation.mutate({ phoneNumber });
   };
 
   const handleBack = () => {
@@ -38,13 +87,18 @@ export default function AuthContent() {
       }}
     >
       {step === 'phone' ? (
-        <PhoneForm onSubmit={handlePhoneSubmit} />
+        <PhoneForm
+          onSubmit={handlePhoneSubmit}
+          isSubmitting={requestOtpMutation.isPending}
+        />
       ) : (
         <OTPForm
           phoneNumber={phoneNumber}
           onSubmit={handleOTPSubmit}
           onResendCode={handleResendCode}
           onBack={handleBack}
+          isSubmitting={loginOtpMutation.isPending}
+          isResending={requestOtpMutation.isPending}
         />
       )}
     </Container>

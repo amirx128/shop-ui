@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useTranslations } from 'next-intl';
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Typography, Link, CircularProgress } from '@mui/material';
 import Image from 'next/image';
 import NumberInput from '@/components/ui/NumberInput';
 import Button from '@/components/ui/Button';
@@ -12,9 +12,10 @@ import type { PhoneFormData } from '../types';
 
 interface PhoneFormProps {
   onSubmit: (data: PhoneFormData) => void;
+  isSubmitting: boolean;
 }
 
-export default function PhoneForm({ onSubmit }: PhoneFormProps) {
+export default function PhoneForm({ onSubmit, isSubmitting }: PhoneFormProps) {
   const t = useTranslations('auth');
 
   const phoneSchema = z.object({
@@ -108,7 +109,7 @@ export default function PhoneForm({ onSubmit }: PhoneFormProps) {
           type="submit"
           variant="solid"
           fullWidth
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
           sx={{
             py: 1.5,
             color: 'common.white',
@@ -118,7 +119,11 @@ export default function PhoneForm({ onSubmit }: PhoneFormProps) {
             },
           }}
         >
-          {t('phone.submit')}
+          {isSubmitting ? (
+            <CircularProgress size={20} color="inherit" />
+          ) : (
+            t('phone.submit')
+          )}
         </Button>
 
         <Typography

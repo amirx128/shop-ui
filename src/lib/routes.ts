@@ -1,5 +1,6 @@
 export const ROUTES = {
   BASE: '/',
+  AUTH: '/auth',
 } as const;
 
 export const PROTECTED_ROUTES = [

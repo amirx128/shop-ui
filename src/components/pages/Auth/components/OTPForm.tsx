@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useTranslations } from 'next-intl';
-import { Box, Typography, IconButton, Link } from '@mui/material';
+import { Box, Typography, IconButton, Link, CircularProgress } from '@mui/material';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import RestartAltOutlinedIcon from '@mui/icons-material/RestartAltOutlined';
@@ -19,6 +19,8 @@ interface OTPFormProps {
   onSubmit: (data: OTPFormData) => void;
   onResendCode: () => void;
   onBack: () => void;
+  isSubmitting: boolean;
+  isResending: boolean;
 }
 
 export default function OTPForm({
@@ -26,6 +28,8 @@ export default function OTPForm({
   onSubmit,
   onResendCode,
   onBack,
+  isSubmitting,
+  isResending,
 }: OTPFormProps) {
   const t = useTranslations('auth');
 
@@ -46,9 +50,12 @@ export default function OTPForm({
     mode: 'onChange',
   });
 
-  const { seconds, isExpired, reset, formatTime } = useCountdown(180);
+  const { isExpired, reset, formatTime } = useCountdown(180);
 
   const handleResendCode = () => {
+    if (isResending) {
+      return;
+    }
     reset();
     onResendCode();
   };
@@ -188,6 +195,7 @@ export default function OTPForm({
                 component="button"
                 type="button"
                 onClick={handleResendCode}
+                disabled={isResending}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -202,9 +210,17 @@ export default function OTPForm({
                   '&:hover': {
                     opacity: 0.8,
                   },
+                  '&:disabled': {
+                    cursor: 'not-allowed',
+                    opacity: 0.6,
+                  },
                 }}
               >
-                <RestartAltOutlinedIcon sx={{ fontSize: 18 }} />
+                {isResending ? (
+                  <CircularProgress size={16} color="inherit" />
+                ) : (
+                  <RestartAltOutlinedIcon sx={{ fontSize: 18 }} />
+                )}
                 {t('otp.resend')}
               </Box>
             )}
@@ -223,7 +239,7 @@ export default function OTPForm({
           type="submit"
           variant="solid"
           fullWidth
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
           sx={{
             py: 1.5,
             color: 'common.white',
@@ -233,7 +249,11 @@ export default function OTPForm({
             },
           }}
         >
-          {t('otp.submit')}
+          {isSubmitting ? (
+            <CircularProgress size={20} color="inherit" />
+          ) : (
+            t('otp.submit')
+          )}
         </Button>
 
         <Typography

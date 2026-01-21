@@ -6,6 +6,7 @@ import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlin
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import NavItem from './components/NavItem';
 import type { NavItem as NavItemType } from './types';
+import { ROUTES } from '@/lib/routes';
 
 const navItems: NavItemType[] = [
   {
@@ -35,7 +36,7 @@ const navItems: NavItemType[] = [
   {
     icon: AccountCircleOutlinedIcon,
     label: 'profile',
-    href: '#',
+    href: ROUTES.AUTH,
     key: 'profile',
   },
 ];
