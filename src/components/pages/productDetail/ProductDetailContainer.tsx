@@ -8,6 +8,9 @@ import ProductDescriptionSection from './components/ProductDescriptionSection';
 import ProductFeatureSection from './components/ProductFeatureSection';
 import ProductCommentSection from './components/ProductCommentSection';
 import { Box, Container } from '@mui/material';
+import ProductGudeSection from './components/ProductGudeSection';
+import SimilarProductSection from './components/SimilarProductSection';
+import SuggestionProductSection from './components/SuggestionProductSection';
 
 export default async function ProductDetailContainer() {
   const [locale, t] = await Promise.all([
@@ -152,6 +155,9 @@ export default async function ProductDetailContainer() {
             commentText: translations.commentText,
           }}
         />
+        <ProductGudeSection />
+        <SimilarProductSection addToCartText={translations.addToCart} />
+        <SuggestionProductSection addToCartText={translations.addToCart} />
       </Box>
 
       <ProductDetailFooter

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Box, Typography, SxProps, Theme } from '@mui/material';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import Image from 'next/image';
 import Button from './Button';
@@ -15,6 +16,8 @@ interface ProductCardProps {
   name: string;
   price: number;
   addToCartText: string;
+  size?: 'full' | 'md';
+  onCompareClick?: () => void;
 }
 
 export default function ProductCard({
@@ -24,6 +27,8 @@ export default function ProductCard({
   name,
   price,
   addToCartText,
+  size = 'full',
+  onCompareClick,
 }: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -31,6 +36,164 @@ export default function ProductCard({
     return price.toLocaleString('fa-IR');
   };
 
+  if (size === 'md') {
+    return (
+      <Box
+        sx={{
+          border: 1,
+          borderColor: 'divider',
+          borderRadius: 2,
+        }}
+      >
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100%',
+            height: 121,
+            borderRadius: 1,
+            overflow: 'hidden',
+          }}
+        >
+          <Image
+            src={image}
+            alt={name}
+            fill
+            sizes="131px"
+            style={{
+              objectFit: 'fill',
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: 2,
+            padding: '14px 16px',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              flex: 1,
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Typography
+                variant="caption"
+                sx={{
+                  color: 'caption',
+                  fontSize: '10px',
+                }}
+              >
+                {category}
+              </Typography>
+            </Box>
+
+            <Typography
+              variant="subtitle1"
+              sx={{
+                fontWeight: 700,
+                fontSize: '18px',
+              }}
+            >
+              {name}
+            </Typography>
+
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'secondary.main',
+                  fontWeight: 700,
+                  textAlign: 'left',
+                }}
+              >
+                {formatPrice(price)} تومان
+              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                }}
+              >
+                {colors.map((color, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: 16,
+                      height: 16,
+                      borderRadius: '2px',
+                      backgroundColor: color,
+                    }}
+                  />
+                ))}
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Button
+                startIcon={<ShoppingBasketOutlinedIcon />}
+                sx={{ alignSelf: 'flex-end' }}
+              >
+                {addToCartText}
+              </Button>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Box
+                  sx={{
+                    cursor: 'pointer',
+                    color: isFavorite ? 'error.main' : 'text.primary',
+                    '&:hover': {
+                      color: 'error.main',
+                    },
+                  }}
+                  onClick={() => setIsFavorite(!isFavorite)}
+                >
+                  {isFavorite ? (
+                    <FavoriteIcon fontSize="small" color="error" />
+                  ) : (
+                    <FavoriteBorderOutlinedIcon fontSize="small" />
+                  )}
+                </Box>
+                <Box
+                  sx={{
+                    cursor: 'pointer',
+                    color: 'text.primary',
+                    '&:hover': {
+                      color: 'secondary.main',
+                    },
+                  }}
+                  onClick={onCompareClick}
+                >
+                  <CompareArrowsOutlinedIcon fontSize="small" />
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    );
+  }
   return (
     <Box
       sx={{
@@ -38,6 +201,7 @@ export default function ProductCard({
         borderColor: 'divider',
         borderRadius: 2,
         padding: '14px 16px',
+        width: '100%',
       }}
     >
       <Box
