@@ -6,7 +6,6 @@ const MobileLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <TopHeader />
-      <Header />
       <main>{children}</main>
       <Navbar />
     </div>

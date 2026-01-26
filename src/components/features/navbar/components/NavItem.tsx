@@ -3,22 +3,18 @@
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 
 interface NavItemProps {
   icon: React.ElementType;
   label: string;
   href: string;
-  isActive: boolean;
 }
 
-export default function NavItem({
-  icon: Icon,
-  label,
-  href,
-  isActive,
-}: NavItemProps) {
+export default function NavItem({ icon: Icon, label, href }: NavItemProps) {
   const t = useTranslations('navbar');
-
+  const pathname = usePathname();
+  const isActive = pathname.split('/').at(-1) === href.split('/').at(-1);
   return (
     <Link href={href}>
       <Box

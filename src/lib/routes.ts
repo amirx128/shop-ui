@@ -1,6 +1,7 @@
 export const ROUTES = {
   BASE: '/',
   AUTH: '/auth',
+  CART: '/cart',
 } as const;
 
 export const PROTECTED_ROUTES = [

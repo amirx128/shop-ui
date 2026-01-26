@@ -30,7 +30,7 @@ const navItems: NavItemType[] = [
   {
     icon: ShoppingBasketOutlinedIcon,
     label: 'cart',
-    href: '#',
+    href: ROUTES.CART,
     key: 'cart',
   },
   {
@@ -71,7 +71,6 @@ export default function Navbar() {
               icon={item.icon}
               label={item.label}
               href={item.href}
-              isActive={item.key === 'store'}
             />
           ))}
         </Box>
