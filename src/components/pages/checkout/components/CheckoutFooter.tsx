@@ -26,7 +26,7 @@ export default function CheckoutFooter({
     <Box
       sx={{
         position: 'fixed',
-        bottom: 72,
+        bottom: 0,
         left: 0,
         right: 0,
         zIndex: 1000,
