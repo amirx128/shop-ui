@@ -1,0 +1,13 @@
+{
+  "compare": {
+    "title": "Compare",
+    "remove": "Remove",
+    "addToCart": "Add to cart",
+    "currency": "Toman",
+    "sample": {
+      "category": "Crib & cradle",
+      "name": "Wooden baby crib - Roya",
+      "feature": "Adjustable in 2 positions facing mother or environment"
+    }
+  }
+}
