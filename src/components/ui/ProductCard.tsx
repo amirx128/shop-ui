@@ -15,8 +15,10 @@ interface ProductCardProps {
   category: string;
   name: string;
   price: number;
+  originalPrice?: number;
   addToCartText: string;
   size?: 'full' | 'md';
+  backgroundColor?: string;
   onCompareClick?: () => void;
 }
 
@@ -26,8 +28,10 @@ export default function ProductCard({
   category,
   name,
   price,
+  originalPrice,
   addToCartText,
   size = 'full',
+  backgroundColor = 'transparent',
   onCompareClick,
 }: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -43,6 +47,7 @@ export default function ProductCard({
           border: 1,
           borderColor: 'divider',
           borderRadius: 2,
+          backgroundColor,
         }}
       >
         <Box
@@ -116,16 +121,36 @@ export default function ProductCard({
                 alignItems: 'center',
               }}
             >
-              <Typography
-                variant="body1"
+              <Box
                 sx={{
-                  color: 'secondary.main',
-                  fontWeight: 700,
-                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  gap: 0.25,
                 }}
               >
-                {formatPrice(price)} تومان
-              </Typography>
+                {originalPrice ? (
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: 'text.disabled',
+                      textDecoration: 'line-through',
+                    }}
+                  >
+                    {formatPrice(originalPrice)} تومان
+                  </Typography>
+                ) : null}
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: 'secondary.main',
+                    fontWeight: 700,
+                    textAlign: 'left',
+                  }}
+                >
+                  {formatPrice(price)} تومان
+                </Typography>
+              </Box>
               <Box
                 sx={{
                   display: 'flex',
@@ -202,6 +227,7 @@ export default function ProductCard({
         borderRadius: 2,
         padding: '14px 16px',
         width: '100%',
+        backgroundColor,
       }}
     >
       <Box
@@ -310,16 +336,29 @@ export default function ProductCard({
             {name}
           </Typography>
 
-          <Typography
-            variant="body1"
-            sx={{
-              color: 'secondary.main',
-              fontWeight: 700,
-              textAlign: 'left',
-            }}
-          >
-            {formatPrice(price)} تومان
-          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.25 }}>
+            {originalPrice ? (
+              <Typography
+                variant="caption"
+                sx={{
+                  color: 'text.disabled',
+                  textDecoration: 'line-through',
+                }}
+              >
+                {formatPrice(originalPrice)} تومان
+              </Typography>
+            ) : null}
+            <Typography
+              variant="body1"
+              sx={{
+                color: 'secondary.main',
+                fontWeight: 700,
+                textAlign: 'left',
+              }}
+            >
+              {formatPrice(price)} تومان
+            </Typography>
+          </Box>
 
           <Button
             startIcon={<ShoppingBasketOutlinedIcon />}
