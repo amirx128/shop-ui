@@ -1,0 +1,109 @@
+{
+  "home": {
+    "meta": {
+      "title": "Home",
+      "description": "Shop the best baby essentials and create sweet childhood moments."
+    },
+    "hero": {
+      "title": "A playful, beautiful world — a place for dreams and creativity!",
+      "subtitle": "With the best baby essentials, create sweet childhood moments for your little one.",
+      "cta": "View products",
+      "imageAlt": "Hero background illustration"
+    },
+    "categories": {
+      "transport": "Baby transport",
+      "hygiene": "Hygiene",
+      "stationery": "Stationery",
+      "clothing": "Baby clothing",
+      "room": "Nursery",
+      "toys": "Toys"
+    },
+    "topSelling": {
+      "title": "Top selling products",
+      "subtitle": "Most popular products of the month",
+      "tabs": {
+        "all": "All",
+        "newest": "Newest",
+        "bestSelling": "Best selling",
+        "discounted": "Discounted"
+      },
+      "viewMore": "View more",
+      "addToCart": "Add to cart",
+      "productCategory": "Crib & cot",
+      "productName": "Wooden baby crib, Roya model"
+    },
+    "features": {
+      "organizations": {
+        "title": "Organizational partnerships",
+        "subtitle": "Partnerships with organizations and companies"
+      },
+      "support": {
+        "title": "Support and sales service",
+        "subtitle": "24/7 support, 7 days a week"
+      },
+      "authenticity": {
+        "title": "Authenticity guarantee",
+        "subtitle": "All products are original and warranty-backed"
+      },
+      "pricing": {
+        "title": "Affordable pricing",
+        "subtitle": "All products are high quality and guaranteed"
+      }
+    },
+    "discount": {
+      "badge": "Special offer",
+      "title": {
+        "primary": "Special discount",
+        "accent": "Spring"
+      },
+      "description": "10% off selected baby essentials, limited-time deals at exceptional prices.",
+      "timer": {
+        "days": "Days",
+        "hours": "Hours",
+        "minutes": "Minutes",
+        "seconds": "Seconds"
+      },
+      "imageAlt": "Special discount banner",
+      "viewAll": "View all discounted products"
+    },
+    "sliders": {
+      "subtitle": "New products",
+      "cta": "Aqua toys",
+      "slide1": {
+        "title": "Aqua toys"
+      },
+      "slide2": {
+        "title": "Handmade kids crafts"
+      },
+      "slide3": {
+        "title": "Chicco hygiene essentials"
+      }
+    },
+    "favoriteBrands": {
+      "title": "Favorite brands",
+      "subtitle": "Partnering with the world’s most trusted brands",
+      "brands": [
+        "Avent",
+        "Fisher",
+        "Graco",
+        "Chicco",
+        "Philips",
+        "Pampers",
+        "Huggies",
+        "Gerber",
+        "NUK",
+        "Munchkin"
+      ]
+    },
+    "blog": {
+      "title": "Baby magazine",
+      "subtitle": "Helpful articles and guides for parents",
+      "tag": "Buying guide",
+      "timeAgo": "2 days ago",
+      "cardTitle": "Complete guide to buying baby essentials",
+      "cardDescription": "Creative and inspiring ideas for designing a beautiful and functional nursery for your child using soft colors.",
+      "cardCta": "Read more",
+      "viewAll": "View all articles"
+    }
+  }
+}

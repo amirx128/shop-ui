@@ -1,11 +1,23 @@
+import { getTranslations } from 'next-intl/server';
 import Header from '@/components/features/header';
-import ShopContainer from '@/components/pages/shop/ShopContainer';
+import HomeContainer from '@/components/pages/home/HomeContainer';
 
-export default function MobilePage() {
+export async function generateMetadata() {
+  const t = await getTranslations('home');
+
+  return {
+    title: t('meta.title'),
+    description: t('meta.description'),
+  };
+}
+
+const MainPage = () => {
   return (
     <div>
-      <Header />
-      <ShopContainer />
+      <Header mode="secondary" />
+      <HomeContainer />
     </div>
   );
-}
+};
+
+export default MainPage;
