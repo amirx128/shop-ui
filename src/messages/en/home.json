@@ -104,6 +104,37 @@
       "cardDescription": "Creative and inspiring ideas for designing a beautiful and functional nursery for your child using soft colors.",
       "cardCta": "Read more",
       "viewAll": "View all articles"
+    },
+    "testimonials": {
+      "title": "Customer reviews",
+      "subtitle": "Shopping experience at Kaleskechi",
+      "userName": "Maryam Ahmadi",
+      "comment": "The product quality was excellent and prices were fair. The support team guided me well and the stroller I bought is truly outstanding."
+    },
+    "footer": {
+      "logoAlt": "Kaleskechi logo",
+      "description": "Kaleskechi is a specialized online store for baby and kids products. We care about customer satisfaction by providing quality and safe products. Our team strives to deliver items quickly and with the best quality. Kaleskechi offers a wide range of baby and kids items including toys, transport, stationery, and clothing.",
+      "quickAccess": {
+        "title": "Quick access",
+        "links": ["About us", "Contact us", "Careers", "Magazine"]
+      },
+      "customerServices": {
+        "title": "Customer services",
+        "links": ["Order tracking", "Return policy", "FAQ", "Buying guide"]
+      },
+      "contact": {
+        "title": "Contact us",
+        "phoneNumbers": [
+          { "display": "0993-7822091", "value": "09937822091" },
+          { "display": "021-92009332", "value": "02192009332" }
+        ],
+        "email": "kaleskehchi@gmail.com",
+        "address": "Tehran, Sattar Khan, Marjan Tower, Floor 9"
+      },
+      "copyright": {
+        "text": "All material and intellectual rights of this site belong to",
+        "brandName": "Kaleskechi"
+      }
     }
   }
 }

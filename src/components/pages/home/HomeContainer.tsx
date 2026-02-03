@@ -7,6 +7,8 @@ import DiscountSectionClient from './components/DiscountSectionClient';
 import SlidersSection from './components/SlidersSection';
 import FavoriteBrandsSectionClient from './components/FavoriteBrandsSectionClient';
 import BlogSectionClient from './components/BlogSectionClient';
+import TestimonialsSectionClient from './components/TestimonialsSectionClient';
+import FooterSection from './components/FooterSection';
 import { ROUTES } from '@/lib/routes';
 
 export default async function HomeContainer() {
@@ -130,10 +132,43 @@ export default async function HomeContainer() {
     description: blogTranslations.cardDescription,
   }));
 
+  const testimonialsTranslations = {
+    title: t('testimonials.title'),
+    subtitle: t('testimonials.subtitle'),
+    userName: t('testimonials.userName'),
+    comment: t('testimonials.comment'),
+  };
+
+  const testimonials = Array.from({ length: 10 }, (_, index) => ({
+    id: `testimonial-${index + 1}`,
+    name: testimonialsTranslations.userName,
+    comment: testimonialsTranslations.comment,
+    avatar: '/images/home/tempAvatar.jpg',
+  }));
+
+  const footerTranslations = {
+    logoAlt: t('footer.logoAlt'),
+    description: t('footer.description'),
+    quickAccessTitle: t('footer.quickAccess.title'),
+    quickAccessLinks: t.raw('footer.quickAccess.links') as string[],
+    customerServicesTitle: t('footer.customerServices.title'),
+    customerServicesLinks: t.raw('footer.customerServices.links') as string[],
+    contactTitle: t('footer.contact.title'),
+    phoneNumbers: t.raw('footer.contact.phoneNumbers') as {
+      display: string;
+      value: string;
+    }[],
+    email: t('footer.contact.email'),
+    address: t('footer.contact.address'),
+    copyrightText: t('footer.copyright.text'),
+    brandName: t('footer.copyright.brandName'),
+    copyrightSuffix: t('footer.copyright.suffix'),
+  };
+
   const shopHref = `/${locale}/mobile${ROUTES.SHOP}`;
 
   return (
-    <div className="pb-96">
+    <div>
       <HeroSection translations={heroTranslations} shopHref={shopHref} />
       <CategorySection translations={categoryTranslations} />
       <TopSellingSectionClient
@@ -149,6 +184,11 @@ export default async function HomeContainer() {
       <SlidersSection translations={sliderTranslations} />
       <FavoriteBrandsSectionClient translations={favoriteBrandsTranslations} />
       <BlogSectionClient translations={blogTranslations} posts={blogPosts} />
+      <TestimonialsSectionClient
+        translations={testimonialsTranslations}
+        testimonials={testimonials}
+      />
+      <FooterSection translations={footerTranslations} />
     </div>
   );
 }

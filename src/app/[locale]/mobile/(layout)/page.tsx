@@ -13,7 +13,7 @@ export async function generateMetadata() {
 
 const MainPage = () => {
   return (
-    <div>
+    <div className="pb-18! relative!">
       <Header mode="secondary" />
       <HomeContainer />
     </div>

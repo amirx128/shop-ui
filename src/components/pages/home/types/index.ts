@@ -112,3 +112,36 @@ export interface HomeBlogPost {
   title: string;
   description: string;
 }
+
+export interface HomeTestimonialsTranslations {
+  title: string;
+  subtitle: string;
+  userName: string;
+  comment: string;
+}
+
+export interface HomeTestimonial {
+  id: string;
+  name: string;
+  comment: string;
+  avatar: string;
+}
+
+export interface HomeFooterTranslations {
+  logoAlt: string;
+  description: string;
+  quickAccessTitle: string;
+  quickAccessLinks: string[];
+  customerServicesTitle: string;
+  customerServicesLinks: string[];
+  contactTitle: string;
+  phoneNumbers: {
+    display: string;
+    value: string;
+  }[];
+  email: string;
+  address: string;
+  copyrightText: string;
+  brandName: string;
+  copyrightSuffix?: string;
+}
