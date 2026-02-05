@@ -1,0 +1,85 @@
+{
+  "checkout": {
+    "metadata": {
+      "title": "Checkout"
+    },
+    "success": {
+      "metadata": {
+        "title": "Purchase successful"
+      },
+      "title": "Purchase successful",
+      "description": "Your order has been placed successfully. To track and view the order status, please visit the Orders section in your profile.",
+      "actionLabel": "Got it"
+    },
+    "error": {
+      "metadata": {
+        "title": "Purchase failed"
+      },
+      "title": "Purchase failed",
+      "description": "Unfortunately, your purchase was not completed. If any amount was deducted from your account, it will be returned within 72 hours.",
+      "actionLabel": "Got it"
+    },
+    "back": "Back",
+    "currency": "Toman",
+    "steps": {
+      "address": "Shipping address",
+      "delivery": "Delivery time",
+      "payment": "Payment",
+      "placeholder": "This step will be designed next."
+    },
+    "actions": {
+      "selectDeliveryTime": "Select delivery time",
+      "addNewAddress": "Add new address",
+      "editAddress": "Edit address",
+      "cancel": "Cancel",
+      "continue": "Continue",
+      "confirmOrder": "Confirm order",
+      "pay": "Pay"
+    },
+    "delivery": {
+      "methodTitle": "Shipping method",
+      "timeTitle": "Delivery time",
+      "postMethod": "Post office",
+      "courierMethod": "Motor courier (120,000 Toman)"
+    },
+    "payment": {
+      "gateway": "Bank gateway",
+      "wallet": "Wallet",
+      "walletBalance": "Balance: 1,250,000 Toman",
+      "discountTitle": "Discount code",
+      "discountPlaceholder": "Gift card or discount code",
+      "applyCode": "Apply code",
+      "bankMelli": "Melli Bank",
+      "bankMellat": "Mellat Bank"
+    },
+    "address": {
+      "emptyMessage": "You haven't added a delivery address yet.",
+      "emptyAction": "Add new address +",
+      "emptyAlt": "No address yet",
+      "selectedAddress": "Send to selected address",
+      "receiverLabel": "Receiver",
+      "addTitle": "Add new address",
+      "editTitle": "Edit address",
+      "receiverName": "Receiver name",
+      "phone": "Mobile phone",
+      "email": "Email (optional)",
+      "province": "Province",
+      "city": "City",
+      "postalCode": "Postal code",
+      "addressLine": "Address"
+    },
+    "summary": {
+      "itemsPrice": "Items price",
+      "shippingCost": "Shipping cost",
+      "cartTotal": "Cart total",
+      "savings": "Your savings"
+    },
+    "form": {
+      "required": "This field is required."
+    },
+    "toast": {
+      "selectAddressWarning": "Please select an address first.",
+      "selectDeliveryWarning": "Please select shipping method and delivery time."
+    }
+  }
+}

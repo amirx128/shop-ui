@@ -1,0 +1,158 @@
+{
+  "filters": [
+    {
+      "id": 0,
+      "titleEn": "product category",
+      "titleFa": "دسته بندی کالاها",
+      "mode": "SELECT",
+      "options": [
+        {
+          "id": 0,
+          "titleEn": "All",
+          "titleFa": "همه کالا ها"
+        },
+        {
+          "id": 1,
+          "titleEn": "Clothing",
+          "titleFa": "پوشاک"
+        },
+        {
+          "id": 2,
+          "titleEn": "Shoes",
+          "titleFa": "کفش"
+        },
+        {
+          "id": 3,
+          "titleEn": "Accessories",
+          "titleFa": "لوازم جانبی"
+        },
+        {
+          "id": 4,
+          "titleEn": "Other",
+          "titleFa": "سایر"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "titleEn": "sex",
+      "titleFa": "جنسیت",
+      "mode": "SELECT",
+      "options": [
+        {
+          "id": 0,
+          "titleEn": "All",
+          "titleFa": "همه"
+        },
+        {
+          "id": 1,
+          "titleEn": "Male",
+          "titleFa": "مرد"
+        },
+        {
+          "id": 2,
+          "titleEn": "Female",
+          "titleFa": "زن"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "titleEn": "price range",
+      "titleFa": "محدوده قیمت",
+      "mode": "RANGE",
+      "min": 0,
+      "max": 10000000
+    },
+    {
+      "id": 3,
+      "titleEn": "AGE_RANGE",
+      "titleFa": "محدوده سنی",
+      "mode": "SELECT",
+      "options": [
+        {
+          "id": 0,
+          "titleEn": "All",
+          "titleFa": "همه"
+        },
+        {
+          "id": 1,
+          "titleEn": "Child",
+          "titleFa": "کودک"
+        },
+        {
+          "id": 2,
+          "titleEn": "Teen",
+          "titleFa": "نوجوان"
+        },
+        {
+          "id": 3,
+          "titleEn": "Adult",
+          "titleFa": "بزرگسال"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "titleEn": "color",
+      "titleFa": "رنگ",
+      "mode": "COLOR",
+      "options": [
+        {
+          "id": 0,
+          "color": "BLACK"
+        },
+        {
+          "id": 1,
+          "color": "WHITE"
+        },
+        {
+          "id": 2,
+          "color": "GRAY"
+        },
+        {
+          "id": 3,
+          "color": "SILVER"
+        },
+        {
+          "id": 4,
+          "color": "BLUE"
+        },
+        {
+          "id": 5,
+          "color": "PURPLE"
+        },
+        {
+          "id": 6,
+          "color": "RED"
+        },
+        {
+          "id": 7,
+          "color": "PINK"
+        },
+        {
+          "id": 8,
+          "color": "GREEN"
+        },
+        {
+          "id": 9,
+          "color": "ORANGE"
+        },
+        {
+          "id": 10,
+          "color": "YELLOW"
+        },
+        {
+          "id": 11,
+          "color": "BROWN"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "titleEn": "just in stock",
+      "titleFa": "فقط کالاهای موجود",
+      "mode": "SWITCH"
+    }
+  ]
+}

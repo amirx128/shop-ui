@@ -1,0 +1,33 @@
+{
+  "general": {
+    "supportNumber": "Support Number",
+    "workingHours": "8 AM to 6 PM every day",
+    "header": {
+      "search": "Search"
+    }
+  },
+  "navbar": {
+    "home": "Home",
+    "categories": "Categories",
+    "store": "Store",
+    "cart": "Cart",
+    "profile": "Profile"
+  },
+  "shop": {
+    "filter": "Filter",
+    "mostDiscounted": "Most Discounted",
+    "mostViewed": "Most Viewed",
+    "newest": "Newest",
+    "bestSelling": "Best Selling",
+    "cheapest": "Cheapest",
+    "mostExpensive": "Most Expensive",
+    "addToCart": "Add to Cart",
+    "viewProducts": "View Products",
+    "clearFilters": "Clear Filters",
+    "from": "From",
+    "to": "To",
+    "currency": "Toman",
+    "cheapestPrice": "Cheapest",
+    "mostExpensivePrice": "Most Expensive"
+  }
+}

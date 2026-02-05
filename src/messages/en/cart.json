@@ -1,0 +1,16 @@
+{
+  "cart": {
+    "title": "Cart",
+    "back": "Back",
+    "currency": "Toman",
+    "increase": "Increase quantity",
+    "decrease": "Decrease quantity",
+    "remove": "Remove from cart",
+    "productsNeedTitle": "Products you might need.",
+    "addToCart": "Add to cart",
+    "itemsPrice": "Items price",
+    "cartTotal": "Cart total",
+    "savings": "Your savings",
+    "checkout": "Confirm and complete order"
+  }
+}

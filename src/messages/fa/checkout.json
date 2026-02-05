@@ -1,0 +1,85 @@
+{
+  "checkout": {
+    "metadata": {
+      "title": "تکمیل خرید"
+    },
+    "success": {
+      "metadata": {
+        "title": "خرید موفق"
+      },
+      "title": "خرید موفق",
+      "description": "کاربر عزیز، خرید شما با موفقیت ثبت شد. برای پیگیری و مشاهده وضعیت سفارش، لطفاً به بخش سفارش‌ها در پروفایل خود مراجعه کنید.",
+      "actionLabel": "متوجه شدم"
+    },
+    "error": {
+      "metadata": {
+        "title": "خرید ناموفق"
+      },
+      "title": "خرید ناموفق",
+      "description": "متأسفانه، خرید شما انجام نشد. اگر مبلغی از حساب شما کسر شده باشد، تا ۷۲ ساعت دیگر به حساب شما بازگردانده خواهد شد.",
+      "actionLabel": "متوجه شدم"
+    },
+    "back": "بازگشت",
+    "currency": "تومان",
+    "steps": {
+      "address": "آدرس تحویل سفارش",
+      "delivery": "زمان ارسال",
+      "payment": "پرداخت",
+      "placeholder": "این مرحله به‌زودی طراحی می‌شود."
+    },
+    "actions": {
+      "selectDeliveryTime": "انتخاب زمان ارسال",
+      "addNewAddress": "افزودن آدرس جدید",
+      "editAddress": "ویرایش آدرس",
+      "cancel": "انصراف",
+      "continue": "ادامه",
+      "confirmOrder": "تایید سفارش",
+      "pay": "پرداخت"
+    },
+    "delivery": {
+      "methodTitle": "روش ارسال",
+      "timeTitle": "زمان ارسال",
+      "postMethod": "اداره پست",
+      "courierMethod": "پیک موتوری (۱۲۰,۰۰۰ تومان)"
+    },
+    "payment": {
+      "gateway": "با درگاه بانکی",
+      "wallet": "با کیف پول",
+      "walletBalance": "موجودی : ۱,۲۵۰,۰۰۰ تومان",
+      "discountTitle": "کد تخفیف",
+      "discountPlaceholder": "کارت هدیه یا کد تخفیف",
+      "applyCode": "اعمال کد",
+      "bankMelli": "بانک ملی",
+      "bankMellat": "بانک ملت"
+    },
+    "address": {
+      "emptyMessage": "شما تاکنون آدرسی جهت دریافت سفارش ثبت نکرده‌اید.",
+      "emptyAction": "افزودن آدرس جدید +",
+      "emptyAlt": "بدون آدرس",
+      "selectedAddress": "ارسال به آدرس انتخاب شده",
+      "receiverLabel": "گیرنده",
+      "addTitle": "افزودن آدرس جدید",
+      "editTitle": "ویرایش آدرس",
+      "receiverName": "نام گیرنده",
+      "phone": "شماره تلفن همراه",
+      "email": "ایمیل (اختیاری)",
+      "province": "استان",
+      "city": "شهر",
+      "postalCode": "کد پستی",
+      "addressLine": "آدرس"
+    },
+    "summary": {
+      "itemsPrice": "قیمت کالاها",
+      "shippingCost": "هزینه ارسال",
+      "cartTotal": "جمع سبد خرید",
+      "savings": "سود شما از خرید"
+    },
+    "form": {
+      "required": "این فیلد اجباری است."
+    },
+    "toast": {
+      "selectAddressWarning": "لطفاً ابتدا یک آدرس انتخاب کنید.",
+      "selectDeliveryWarning": "لطفاً روش ارسال و زمان ارسال را انتخاب کنید."
+    }
+  }
+}
