@@ -2,6 +2,9 @@
 
 import { Box, Divider, Typography } from '@mui/material';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { OrdersProfileOrder } from '../types/ordersProfile';
@@ -24,6 +27,25 @@ export default function OrderCart({
   labels,
   detailsHref,
 }: OrderCartProps) {
+  const statusIcon =
+    order.status === 'delivered' ? (
+      <CheckCircleIcon sx={{ fontSize: 16, color: 'success.main' }} />
+    ) : order.status === 'returned' ? (
+      <RestartAltIcon sx={{ fontSize: 16, color: 'text.primary' }} />
+    ) : order.status === 'canceled' ? (
+      <CancelOutlinedIcon sx={{ fontSize: 16, color: 'error.main' }} />
+    ) : (
+      <Box
+        sx={{
+          width: 16,
+          height: 16,
+          borderRadius: '50%',
+          border: '2px dashed',
+          borderColor: 'divider',
+        }}
+      />
+    );
+
   return (
     <Box
       sx={{
@@ -63,15 +85,7 @@ export default function OrderCart({
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-          <Box
-            sx={{
-              width: 16,
-              height: 16,
-              borderRadius: '50%',
-              border: '2px dashed',
-              borderColor: 'divider',
-            }}
-          />
+          {statusIcon}
           <Typography
             sx={{ fontSize: 14, fontWeight: 500, color: 'text.primary' }}
           >

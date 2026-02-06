@@ -11,6 +11,11 @@ export async function generateMetadata() {
   };
 }
 
-export default function OrderDetailPage() {
-  return <OrderDetailContainer />;
+export default async function OrderDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  return <OrderDetailContainer orderId={id} />;
 }

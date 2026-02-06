@@ -62,6 +62,22 @@
         "confirm": "Yes, I'm sure",
         "dismiss": "Dismiss"
       },
+      "processingModal": {
+        "title": "Order registration",
+        "description": "Your order was registered successfully.",
+        "action": "Understood"
+      },
+      "review": {
+        "action": "Submit review",
+        "rateTitle": "Submit your rating.",
+        "rateDescription": "Please help improve our platform by rating us so we can provide the best service for you!",
+        "commentPlaceholder": "Write your opinion.",
+        "submit": "Submit review",
+        "cancel": "Cancel",
+        "successTitle": "Review submission",
+        "successDescription": "Your review was submitted successfully.",
+        "acknowledge": "Understood"
+      },
       "fields": {
         "orderCode": "Order code",
         "shippingCost": "Shipping cost",
@@ -71,6 +87,14 @@
         "receiver": "Receiver",
         "phone": "Mobile",
         "address": "Address"
+      },
+      "returnFields": {
+        "returnRequestDate": "Return request date",
+        "returnMethod": "Return method",
+        "refundedAmount": "Refunded amount"
+      },
+      "canceledFields": {
+        "orderAmount": "Order amount"
       },
       "product": {
         "color": "Color",

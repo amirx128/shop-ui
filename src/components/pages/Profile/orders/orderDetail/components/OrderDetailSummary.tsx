@@ -33,13 +33,19 @@ export default function OrderDetailSummary({
                 flexWrap: 'wrap',
               }}
             >
-              <Typography sx={{ fontSize: 13, color: 'text.secondary' }}>
+              <Typography
+                sx={{
+                  fontSize: '0.75rem',
+                  fontWeight: 400,
+                  color: 'text.secondary',
+                }}
+              >
                 {item.label}:
               </Typography>
               <Typography
                 sx={{
-                  fontSize: 13,
-                  fontWeight: 600,
+                  fontSize: 14,
+                  fontWeight: 500,
                   color: 'text.primary',
                 }}
               >
@@ -47,7 +53,7 @@ export default function OrderDetailSummary({
               </Typography>
             </Box>
           ) : (
-            <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
+            <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
               {item.value}
             </Typography>
           )}
