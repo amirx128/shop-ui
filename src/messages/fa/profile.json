@@ -1,0 +1,82 @@
+{
+  "profile": {
+    "title": "پروفایل",
+    "subtitle": "مدیریت حساب و تنظیمات",
+    "avatarAlt": "آواتار پروفایل",
+    "user": {
+      "name": "سارا احمدی",
+      "phone": "۰۹۱۲ ۰۰۰ ۰۰۰۰"
+    },
+    "items": {
+      "account": "اطلاعات کاربری",
+      "orders": "سفارش های من",
+      "wallet": "کیف پول",
+      "favorites": "لیست علاقه مندی ها",
+      "comments": "نظرات من",
+      "addresses": "آدرس های من",
+      "notifications": "پیام ها",
+      "contact": "تماس با ما",
+      "about": "درباره ما",
+      "logout": "خروج از حساب کاربری"
+    },
+    "accountProfile": {
+      "title": "اطلاعات کاربری",
+      "fields": {
+        "fullName": "نام و نام خانوادگی",
+        "email": "ایمیل (اختیاری)",
+        "phone": "شماره تلفن همراه",
+        "postalCode": "کد پستی",
+        "province": "استان",
+        "city": "شهر",
+        "address": "آدرس"
+      },
+      "actions": {
+        "save": "ذخیره اطلاعات",
+        "cancel": "انصراف"
+      },
+      "validation": {
+        "required": "این فیلد الزامی است.",
+        "email": "ایمیل معتبر وارد کنید."
+      }
+    },
+    "ordersProfile": {
+      "title": "سفارش های من",
+      "tabs": {
+        "processing": "در حال پردازش",
+        "delivered": "تحویل شده",
+        "returned": "مرجوع شده",
+        "canceled": "لغو شده"
+      },
+      "orderCodeLabel": "کد سفارش",
+      "payableAmountLabel": "مبلغ قابل پرداخت",
+      "currency": "تومان",
+      "detailsLabel": "جزییات سفارش",
+      "itemAlt": "عکس محصول"
+    },
+    "orderDetail": {
+      "title": "جزئیات سفارش",
+      "cancelAction": "لغو سفارش",
+      "modal": {
+        "title": "لغو سفارش",
+        "question": "آیا از لغو سفارش خود مطمئن هستید؟",
+        "confirm": "بله مطمئنم",
+        "dismiss": "انصراف"
+      },
+      "fields": {
+        "orderCode": "کد سفارش",
+        "shippingCost": "هزینه ارسال",
+        "payableAmount": "مبلغ قابل پرداخت",
+        "shippingMethod": "روش ارسال",
+        "deliveryTime": "زمان تحویل",
+        "receiver": "گیرنده",
+        "phone": "تلفن همراه",
+        "address": "آدرس"
+      },
+      "product": {
+        "color": "رنگ",
+        "quantity": "تعداد",
+        "price": "قیمت"
+      }
+    }
+  }
+}

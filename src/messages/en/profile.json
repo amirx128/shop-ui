@@ -1,0 +1,82 @@
+{
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account and preferences",
+    "avatarAlt": "Profile avatar",
+    "user": {
+      "name": "Sara Ahmadi",
+      "phone": "+98 912 000 0000"
+    },
+    "items": {
+      "account": "Account Info",
+      "orders": "My Orders",
+      "wallet": "Wallet",
+      "favorites": "Favorites",
+      "comments": "My Comments",
+      "addresses": "My Addresses",
+      "notifications": "Notifications",
+      "contact": "Contact Us",
+      "about": "About Us",
+      "logout": "Sign Out"
+    },
+    "accountProfile": {
+      "title": "Account Info",
+      "fields": {
+        "fullName": "Full name",
+        "email": "Email (optional)",
+        "phone": "Mobile number",
+        "postalCode": "Postal code",
+        "province": "Province",
+        "city": "City",
+        "address": "Address"
+      },
+      "actions": {
+        "save": "Save information",
+        "cancel": "Cancel"
+      },
+      "validation": {
+        "required": "This field is required.",
+        "email": "Please enter a valid email."
+      }
+    },
+    "ordersProfile": {
+      "title": "My Orders",
+      "tabs": {
+        "processing": "Processing",
+        "delivered": "Delivered",
+        "returned": "Returned",
+        "canceled": "Canceled"
+      },
+      "orderCodeLabel": "Order code",
+      "payableAmountLabel": "Amount payable",
+      "currency": "Toman",
+      "detailsLabel": "Order details",
+      "itemAlt": "Product image"
+    },
+    "orderDetail": {
+      "title": "Order details",
+      "cancelAction": "Cancel order",
+      "modal": {
+        "title": "Cancel order",
+        "question": "Are you sure you want to cancel this order?",
+        "confirm": "Yes, I'm sure",
+        "dismiss": "Dismiss"
+      },
+      "fields": {
+        "orderCode": "Order code",
+        "shippingCost": "Shipping cost",
+        "payableAmount": "Amount payable",
+        "shippingMethod": "Shipping method",
+        "deliveryTime": "Delivery time",
+        "receiver": "Receiver",
+        "phone": "Mobile",
+        "address": "Address"
+      },
+      "product": {
+        "color": "Color",
+        "quantity": "Quantity",
+        "price": "Price"
+      }
+    }
+  }
+}
