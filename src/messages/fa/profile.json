@@ -53,6 +53,160 @@
       "detailsLabel": "جزییات سفارش",
       "itemAlt": "عکس محصول"
     },
+    "walletProfile": {
+      "currency": "تومان",
+      "balanceLabel": "موجودی شما",
+      "actions": {
+        "charge": "شارژ حساب",
+        "withdraw": "برداشت"
+      },
+      "chargeModal": {
+        "title": "شارژ کیف پول",
+        "selectAmountLabel": "مبلغ شارژ را انتخاب کنید.",
+        "presets": {
+          "first": "۵۰۰ هزار تومان",
+          "second": "۱ میلیون تومان",
+          "third": "۵ میلیون تومان"
+        },
+        "customAmountLabel": "یا مبلغ دلخواه",
+        "customAmountPlaceholder": "مبلغ به تومان",
+        "submit": "پرداخت امن با درگاه بانکی",
+        "successDescription": "شارژ کیف پول شما با موفقیت انجام شد.",
+        "acknowledge": "متوجه شدم"
+      },
+      "withdrawModal": {
+        "title": "برداشت از کیف پول",
+        "amountLabel": "مبلغ برداشت",
+        "amountPlaceholder": "مبلغ به تومان",
+        "withdrawAll": "برداشت کل موجودی",
+        "shebaLabel": "شماره کارت مقصد (شبا)",
+        "shebaPlaceholder": "شماره شبا",
+        "shebaHelper": "شماره شبا باید به نام خودتان باشد.",
+        "shebaError": "شماره شبا وارد شده معتبر نیست.",
+        "submit": "تایید و ارسال درخواست",
+        "note": "برداشت ظرف ۲۴-۴۸ ساعت به حساب شما واریز می‌شود",
+        "otpTitle": "کد تایید را وارد کنید.",
+        "otpLabel": "کد تایید برای شماره {phone} پیامک شد.",
+        "otpPlaceholder": "کد تایید",
+        "otpTimer": "مانده تا دریافت مجدد کد",
+        "otpResend": "دریافت مجدد کد",
+        "otpSubmit": "تایید",
+        "successDescription": "برداشت از کیف پول با موفقیت انجام شد.",
+        "acknowledge": "متوجه شدم"
+      },
+      "promo": {
+        "title": "شارژ کن و ۵٪ هدیه بگیر!",
+        "subtitle": "برای شارژ بالای ۱ میلیون تومان"
+      },
+      "latestTransactions": "آخرین تراکنش ها",
+      "viewAll": "مشاهده همه",
+      "transactions": {
+        "purchase": {
+          "title": "خرید کالسکه دلیجان",
+          "date": "۵ مهر ۱۴۰۲ , ۱۴:۲۲"
+        },
+        "charge": {
+          "title": "شارژ کیف پول",
+          "date": "۱۰ مهر ۱۴۰۲ , ۱۲:۰۸"
+        },
+        "refund": {
+          "title": "بازگشت وجه سفارش",
+          "date": "۱۲ مهر ۱۴۰۲ , ۱۶:۴۰"
+        },
+        "gift": {
+          "title": "هدیه ثبت نظر",
+          "date": "۱۵ مهر ۱۴۰۲ , ۱۱:۳۱"
+        }
+      }
+    },
+    "walletTransactions": {
+      "title": "همه تراکنش ها",
+      "header": {
+        "backToWallet": "همه تراکنش ها",
+        "filters": "فیلتر ها"
+      },
+      "filterModal": {
+        "title": "فیلتر ها",
+        "tabs": {
+          "all": "همه",
+          "deposit": "واریز به حساب",
+          "withdraw": "برداشت از حساب"
+        },
+        "accountTypePlaceholder": "نوع حساب",
+        "accountTypes": {
+          "wallet": "حساب کیف پول",
+          "bank": "حساب بانکی"
+        },
+        "transactionAmountTitle": "مبلغ تراکنش ها",
+        "amountToPlaceholder": "تا مبلغ (تومان)",
+        "amountFromPlaceholder": "از مبلغ (تومان)",
+        "transactionDateTitle": "تاریخ تراکنش ها",
+        "dateFromPlaceholder": "از تاریخ",
+        "dateToPlaceholder": "تا تاریخ",
+        "apply": "اعمال فیلتر",
+        "validation": {
+          "amountRange": "مبلغ از نباید بیشتر از مبلغ تا باشد.",
+          "dateRange": "تاریخ از نباید بعد از تاریخ تا باشد."
+        }
+      },
+      "cards": {
+        "details": "جزئیات",
+        "status": {
+          "success": "موفق",
+          "failed": "ناموفق"
+        },
+        "transactions": {
+          "purchase": {
+            "title": "خرید از کالسکه چی",
+            "date": "۵ مهر ۱۴۰۲ , ۱۴:۲۲"
+          },
+          "charge": {
+            "title": "شارژ کیف پول",
+            "date": "۱۰ مهر ۱۴۰۲ , ۱۲:۰۸"
+          },
+          "refund": {
+            "title": "بازگشت وجه سفارش",
+            "date": "۱۲ مهر ۱۴۰۲ , ۱۶:۴۰"
+          },
+          "gift": {
+            "title": "هدیه ثبت نظر",
+            "date": "۱۵ مهر ۱۴۰۲ , ۱۱:۳۱"
+          }
+        }
+      },
+      "emptyState": {
+        "noTransactions": "شما هیچ تراکنشی ندارید."
+      },
+      "transactionDetail": {
+        "title": "جزییات تراکنش",
+        "purchaseInvoice": "فاکتور خرید",
+        "status": {
+          "success": "تراکنش موفق",
+          "failed": "تراکنش نا موفق"
+        },
+        "fields": {
+          "trackingNumber": "شماره پیگیری",
+          "orderNumber": "شماره سفارش",
+          "transactionType": "نوع تراکنش",
+          "dateTime": "تاریخ و زمان",
+          "orderAmount": "مبلغ سفارش"
+        },
+        "values": {
+          "trackingNumber": "WER542000-8592001",
+          "orderNumber": "۸۵۶۹۵۶۵۴۶۴",
+          "transactionType": "خرید محصول",
+          "dateTime": "امروز ۱۴:۲۳ - ۲۵ مهر ۱۴۰۳"
+        },
+        "actions": {
+          "viewOrder": "مشاهده سفارش"
+        },
+        "support": {
+          "title": "نیاز به راهنمایی دارید ؟",
+          "action": "تماس با پشتیبانی",
+          "iconAlt": "پشتیبانی"
+        }
+      }
+    },
     "orderDetail": {
       "title": "جزئیات سفارش",
       "cancelAction": "لغو سفارش",

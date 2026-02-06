@@ -9,6 +9,7 @@ export const ROUTES = {
     ORDERS: '/profile/orders',
     ORDER_DETAIL: '/profile/orders/order',
     WALLET: '/profile/wallet',
+    WALLET_TRANSACTIONS: '/profile/wallet/transactions',
     FAVORITES: '/profile/favorites',
     COMMENTS: '/profile/comments',
     ADDRESSES: '/profile/addresses',

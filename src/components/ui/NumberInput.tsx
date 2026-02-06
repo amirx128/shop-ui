@@ -2,9 +2,8 @@ import {
   TextField,
   Box,
   Typography,
-  SxProps,
-  Theme,
   TextFieldProps,
+  InputAdornment,
 } from '@mui/material';
 import { forwardRef } from 'react';
 
@@ -14,10 +13,25 @@ interface NumberInputProps
   error?: boolean;
   errorMessage?: React.ReactNode;
   centerText?: boolean;
+  firstContent?: React.ReactNode;
+  endContent?: React.ReactNode;
 }
 
 const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
-  ({ label, error, errorMessage, centerText = false, sx, ...props }, ref) => {
+  (
+    {
+      label,
+      error,
+      errorMessage,
+      centerText = false,
+      firstContent,
+      endContent,
+      InputProps,
+      sx,
+      ...props
+    },
+    ref,
+  ) => {
     return (
       <Box sx={{ width: '100%' }}>
         {label && (
@@ -37,6 +51,15 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           error={error}
           type="tel"
           inputMode="numeric"
+          InputProps={{
+            startAdornment: firstContent ? (
+              <InputAdornment position="start">{firstContent}</InputAdornment>
+            ) : undefined,
+            endAdornment: endContent ? (
+              <InputAdornment position="end">{endContent}</InputAdornment>
+            ) : undefined,
+            ...InputProps,
+          }}
           inputProps={{
             pattern: '[0-9]*',
             ...props.inputProps,

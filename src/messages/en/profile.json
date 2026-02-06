@@ -53,6 +53,160 @@
       "detailsLabel": "Order details",
       "itemAlt": "Product image"
     },
+    "walletProfile": {
+      "currency": "Toman",
+      "balanceLabel": "Your balance",
+      "actions": {
+        "charge": "Charge account",
+        "withdraw": "Withdraw"
+      },
+      "chargeModal": {
+        "title": "Wallet charge",
+        "selectAmountLabel": "Select charge amount.",
+        "presets": {
+          "first": "500 thousand Toman",
+          "second": "1 million Toman",
+          "third": "5 million Toman"
+        },
+        "customAmountLabel": "Or custom amount",
+        "customAmountPlaceholder": "Amount in Toman",
+        "submit": "Secure payment via bank gateway",
+        "successDescription": "Your wallet has been charged successfully.",
+        "acknowledge": "Understood"
+      },
+      "withdrawModal": {
+        "title": "Withdraw from wallet",
+        "amountLabel": "Withdraw amount",
+        "amountPlaceholder": "Amount in Toman",
+        "withdrawAll": "Withdraw full balance",
+        "shebaLabel": "Destination card number (Sheba)",
+        "shebaPlaceholder": "Sheba number",
+        "shebaHelper": "The Sheba number must belong to you.",
+        "shebaError": "The entered Sheba number is not valid.",
+        "submit": "Confirm and submit request",
+        "note": "Withdrawal will be deposited to your account within 24-48 hours",
+        "otpTitle": "Enter the verification code.",
+        "otpLabel": "Verification code was sent to {phone}.",
+        "otpPlaceholder": "Verification code",
+        "otpTimer": "Time left to receive the code again",
+        "otpResend": "Resend code",
+        "otpSubmit": "Confirm",
+        "successDescription": "Withdrawal from wallet was completed successfully.",
+        "acknowledge": "Understood"
+      },
+      "promo": {
+        "title": "Charge and get a 5% gift!",
+        "subtitle": "For charges over 1,000,000 Toman"
+      },
+      "latestTransactions": "Latest transactions",
+      "viewAll": "View all",
+      "transactions": {
+        "purchase": {
+          "title": "Delijan stroller purchase",
+          "date": "Sep 27, 2023, 14:22"
+        },
+        "charge": {
+          "title": "Wallet charge",
+          "date": "Oct 2, 2023, 12:08"
+        },
+        "refund": {
+          "title": "Order refund",
+          "date": "Oct 4, 2023, 16:40"
+        },
+        "gift": {
+          "title": "Review gift",
+          "date": "Oct 7, 2023, 11:31"
+        }
+      }
+    },
+    "walletTransactions": {
+      "title": "All transactions",
+      "header": {
+        "backToWallet": "All transactions",
+        "filters": "Filters"
+      },
+      "filterModal": {
+        "title": "Filters",
+        "tabs": {
+          "all": "All",
+          "deposit": "Account deposit",
+          "withdraw": "Account withdrawal"
+        },
+        "accountTypePlaceholder": "Account type",
+        "accountTypes": {
+          "wallet": "Wallet account",
+          "bank": "Bank account"
+        },
+        "transactionAmountTitle": "Transaction amounts",
+        "amountToPlaceholder": "Up to amount (Toman)",
+        "amountFromPlaceholder": "From amount (Toman)",
+        "transactionDateTitle": "Transaction dates",
+        "dateFromPlaceholder": "From date",
+        "dateToPlaceholder": "To date",
+        "apply": "Apply filters",
+        "validation": {
+          "amountRange": "From amount cannot be greater than up to amount.",
+          "dateRange": "From date cannot be after to date."
+        }
+      },
+      "cards": {
+        "details": "Details",
+        "status": {
+          "success": "Successful",
+          "failed": "Failed"
+        },
+        "transactions": {
+          "purchase": {
+            "title": "Purchase from Kaleskechi",
+            "date": "Oct 5, 2023, 14:22"
+          },
+          "charge": {
+            "title": "Wallet charge",
+            "date": "Oct 10, 2023, 12:08"
+          },
+          "refund": {
+            "title": "Order refund",
+            "date": "Oct 12, 2023, 16:40"
+          },
+          "gift": {
+            "title": "Review gift",
+            "date": "Oct 15, 2023, 11:31"
+          }
+        }
+      },
+      "emptyState": {
+        "noTransactions": "You have no transactions."
+      },
+      "transactionDetail": {
+        "title": "Transaction details",
+        "purchaseInvoice": "Purchase invoice",
+        "status": {
+          "success": "Successful transaction",
+          "failed": "Failed transaction"
+        },
+        "fields": {
+          "trackingNumber": "Tracking number",
+          "orderNumber": "Order number",
+          "transactionType": "Transaction type",
+          "dateTime": "Date and time",
+          "orderAmount": "Order amount"
+        },
+        "values": {
+          "trackingNumber": "WER542000-8592001",
+          "orderNumber": "8569565464",
+          "transactionType": "Product purchase",
+          "dateTime": "Today 14:23 - Mehr 25, 1403"
+        },
+        "actions": {
+          "viewOrder": "View order"
+        },
+        "support": {
+          "title": "Need help?",
+          "action": "Contact support",
+          "iconAlt": "Support"
+        }
+      }
+    },
     "orderDetail": {
       "title": "Order details",
       "cancelAction": "Cancel order",
