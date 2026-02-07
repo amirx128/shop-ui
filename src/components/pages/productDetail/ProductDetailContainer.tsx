@@ -1,38 +1,13 @@
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { Box } from '@mui/material';
-import ProductDetailHeader from './components/ProductDetailHeader';
-import ProductDetailFooter from './components/ProductDetailFooter';
-import ProductGallery from './components/ProductGallery';
-import ProductTitleSection from './components/ProductTitleSection';
-import ProductVariableSection from './components/ProductVariableSection';
-import ProductDescriptionSection from './components/ProductDescriptionSection';
-import ProductFeatureSection from './components/ProductFeatureSection';
-import ProductCommentSection from './components/ProductCommentSection';
-import ProductGudeSection from './components/ProductGudeSection';
-import SimilarProductSection from './components/SimilarProductSection';
-import SuggestionProductSection from './components/SuggestionProductSection';
+import { getBaseCatalogUrl } from '@/lib/catalog';
+import ProductDetailView from './ProductDetailView';
 import {
-  CategoryFilterResponse,
+  CategoryPropertyFilterDto,
+  CategoryPropertyFilterValueDto,
   CategorySummaryDto,
   ProductDetailsDto,
 } from './types';
-import { COLOR_FILTER_ID, AGE_RANGE_FILTER_ID } from '@/components/pages/shop/types';
-
-const DEFAULT_CATALOG_API_URL = 'http://localhost:5201';
-
-const getBaseCatalogUrl = () => {
-  const catalogUrl =
-    process.env.NEXT_CATALOG_API_URL ??
-    process.env.NEXT_PUBLIC_CATALOG_API_URL ??
-    DEFAULT_CATALOG_API_URL;
-
-  if (!catalogUrl) {
-    return DEFAULT_CATALOG_API_URL;
-  }
-
-  return catalogUrl.replace(/\/+$/, '');
-};
 
 const formatPriceValue = (value?: number) => {
   if (typeof value !== 'number') {
@@ -62,10 +37,47 @@ export default async function ProductDetailContainer({
 }: ProductDetailContainerProps) {
   const { locale, slug } = params;
   const baseUrl = getBaseCatalogUrl();
-  const translations = (await getTranslations({
+  const getTranslation = await getTranslations({
     locale,
     namespace: 'product',
-  })) as Record<string, string>;
+  });
+  const translations: Record<string, string> = {
+    addToCart: getTranslation('addToCart') ?? '',
+    shareSuccess: getTranslation('shareSuccess') ?? '',
+    shareError: getTranslation('shareError') ?? '',
+    copySuccess: getTranslation('copySuccess') ?? '',
+    copyError: getTranslation('copyError') ?? '',
+    color: getTranslation('color') ?? '',
+    black: getTranslation('black') ?? '',
+    gray: getTranslation('gray') ?? '',
+    pink: getTranslation('pink') ?? '',
+    orange: getTranslation('orange') ?? '',
+    ageGroup: getTranslation('ageGroup') ?? '',
+    productDescription: getTranslation('productDescription') ?? '',
+    usageGuideTitle: getTranslation('usageGuideTitle') ?? '',
+    usageGuideEmpty: getTranslation('usageGuideEmpty') ?? '',
+    descriptionTitle: getTranslation('descriptionTitle') ?? '',
+    fullDescriptionTitle: getTranslation('fullDescriptionTitle') ?? '',
+    productFeatures: getTranslation('productFeatures') ?? '',
+    reviews: getTranslation('reviews') ?? '',
+    rating: getTranslation('rating') ?? '',
+    averageRating: getTranslation('averageRating') ?? '',
+    reviewScores: getTranslation('reviewScores') ?? '',
+    submitReview: getTranslation('submitReview') ?? '',
+    cancel: getTranslation('cancel') ?? '',
+    submit: getTranslation('submit') ?? '',
+    pleaseRate: getTranslation('pleaseRate') ?? '',
+    rateToHelp: getTranslation('rateToHelp') ?? '',
+    writeComment: getTranslation('writeComment') ?? '',
+    userName: getTranslation('userName') ?? '',
+    commentText: getTranslation('commentText') ?? '',
+    loadingComments: getTranslation('loadingComments') ?? '',
+    noComments: getTranslation('noComments') ?? '',
+    material: getTranslation('material') ?? '',
+    colorFeature: getTranslation('colorFeature') ?? '',
+    gender: getTranslation('gender') ?? '',
+    quality: getTranslation('quality') ?? '',
+  };
 
   const canonicalSlug = searchParams?.sourceSlug ?? slug;
   let productResponse = await fetchProductBySlug(baseUrl, canonicalSlug);
@@ -92,7 +104,7 @@ export default async function ProductDetailContainer({
   }
 
   const product: ProductDetailsDto = await productResponse.json();
-  const filterData = (await filterResponse.json()) as CategoryFilterResponse;
+  const filterData = (await filterResponse.json()) as CategoryPropertyFilterDto[];
   const categoryData = (await categoryResponse.json()) as {
     categories: CategorySummaryDto[];
   };
@@ -100,6 +112,11 @@ export default async function ProductDetailContainer({
   const categories = categoryData.categories ?? [];
   const categoryName =
     categories.find((category) => category.id === product.categoryId)?.name ?? '';
+
+  const productColors = product.colors ?? [];
+  const colorNames = Array.from(
+    new Set(productColors.map((color) => color.name))
+  );
 
   const candidateImages =
     product.images.length > 0
@@ -111,28 +128,32 @@ export default async function ProductDetailContainer({
   const galleryImages =
     candidateImages.length > 0 ? candidateImages : ['/images/tempproduct.png'];
 
-  const availableFilters = filterData?.filters ?? [];
-  const colorFilter = availableFilters.find(
-    (filter) => filter.id === COLOR_FILTER_ID
-  );
-  const ageRangeFilter = availableFilters.find(
-    (filter) => filter.id === AGE_RANGE_FILTER_ID
+  const availableFilters = filterData ?? [];
+
+  const filterValueLookup = new Map<string, CategoryPropertyFilterValueDto>(
+    availableFilters.flatMap((filter) =>
+      filter.values.map((value) => [value.id, value])
+    )
   );
 
-  const colorNames =
-    colorFilter?.values
-      .filter((value) => product.colorIds.includes(value.id))
-      .map((value) => value.title) ?? [];
+  const ageRangeOptions: CategoryPropertyFilterValueDto[] = product.ageRangeIds.map(
+    (id) => {
+      const matchedValue = filterValueLookup.get(id);
+      return {
+        id,
+        title: matchedValue?.title ?? id,
+        usageCount: matchedValue?.usageCount ?? 0,
+      };
+    }
+  );
 
-  const ageRangeNames =
-    ageRangeFilter?.values
-      .filter((value) => product.ageRangeIds.includes(value.id))
-      .map((value) => value.title) ?? [];
+  const ageRangeNames = ageRangeOptions
+    .map((value) => value.title)
+    .filter((title) => Boolean(title));
 
   const patternProperty = product.properties.find((prop) =>
     /pattern|مدل|نوع/i.test(prop.title)
   );
-  const patternOptions = patternProperty?.values.map((value) => value.title) ?? [];
 
   const propertyFeatures = product.properties
     .filter((prop) => prop.id !== patternProperty?.id)
@@ -148,7 +169,7 @@ export default async function ProductDetailContainer({
       ? `${translations.colorFeature ?? 'Colors'}: ${colorNames.join(', ')}`
       : null,
     ageRangeNames.length
-      ? `${translations.ageGroup ?? 'Age Range'}: ${ageRangeNames.join(', ')}`
+      ? `${translations.ageGroup ?? 'ageRangeIds'}: ${ageRangeNames.join(', ')}`
       : null,
     ...propertyFeatures,
   ].filter((value): value is string => Boolean(value));
@@ -163,7 +184,7 @@ export default async function ProductDetailContainer({
       value: product.genderId || '—',
     },
     {
-      title: translations.ageGroup ?? 'Age Group',
+      title: translations.ageGroup ?? 'age Range',
       value: ageRangeNames.join(', ') || '—',
     },
     {
@@ -181,96 +202,15 @@ export default async function ProductDetailContainer({
   ];
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100vh',
-      }}
-    >
-      <ProductDetailHeader productName={product.name} />
-
-      <Box
-        sx={{
-          flex: 1,
-          overflowY: 'auto',
-          paddingBottom: '80px',
-        }}
-      >
-        <ProductGallery images={galleryImages} />
-
-        <ProductTitleSection
-          category={categoryName}
-          productName={product.name}
-          toastTranslations={{
-            shareSuccess: translations.shareSuccess,
-            shareError: translations.shareError,
-            copySuccess: translations.copySuccess,
-            copyError: translations.copyError,
-          }}
-        />
-
-        <ProductVariableSection
-          translations={{
-            color: translations.color,
-            pattern: translations.pattern,
-            black: translations.black,
-            gray: translations.gray,
-            pink: translations.pink,
-            orange: translations.orange,
-            catPattern: translations.catPattern,
-            carPattern: translations.carPattern,
-          }}
-          colors={colorNames}
-          patterns={patternOptions}
-        />
-
-        <ProductDescriptionSection
-          translations={{
-            productDescription: translations.productDescription,
-            descriptionTitle: translations.descriptionTitle,
-            descriptionText: product.description,
-            fullDescriptionTitle: translations.fullDescriptionTitle,
-            fullDescriptionText: product.description,
-          }}
-        />
-
-        <ProductFeatureSection
-          translations={{
-            productFeatures: translations.productFeatures,
-          }}
-          features={featureList}
-          modalFeatures={modalFeatures}
-        />
-
-        <ProductCommentSection
-          translations={{
-            reviews: translations.reviews,
-            rating: translations.rating,
-            averageRating: translations.averageRating,
-            reviewScores: translations.reviewScores,
-            submitReview: translations.submitReview,
-            cancel: translations.cancel,
-            submit: translations.submit,
-            pleaseRate: translations.pleaseRate,
-            rateToHelp: translations.rateToHelp,
-            writeComment: translations.writeComment,
-            userName: translations.userName,
-            commentText: translations.commentText,
-          }}
-        />
-        <ProductGudeSection />
-        <SimilarProductSection addToCartText={translations.addToCart} />
-        <SuggestionProductSection addToCartText={translations.addToCart} />
-      </Box>
-
-      <ProductDetailFooter
-        price={product.priceRial}
-        addToCartText={translations.addToCart}
-        productId={product.id}
-        unitOfMeasure={product.unitOfMeasure}
-        defaultSku={product.defaultSku}
-      />
-    </Box>
+    <ProductDetailView
+      translations={translations}
+      categoryName={categoryName}
+      galleryImages={galleryImages}
+      featureList={featureList}
+      modalFeatures={modalFeatures}
+      product={product}
+      ageRangeOptions={ageRangeOptions}
+      locale={locale}
+    />
   );
 }

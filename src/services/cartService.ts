@@ -1,9 +1,13 @@
+import { authStorage } from '@/lib/storage/authStorage';
+
 const ordersApiUrl =
   process.env.NEXT_PUBLIC_ORDERS_API_URL?.replace(/\/+$/, '') ?? 'http://localhost:5401';
 const inventoryApiUrl =
   process.env.NEXT_PUBLIC_INVENTORY_API_URL?.replace(/\/+$/, '') ?? 'http://localhost:5301';
 
-export const CUSTOMER_ID = 'd1a291d5-0cfa-4f5e-a019-44455492e985';
+const FALLBACK_CUSTOMER_ID = 'd1a291d5-0cfa-4f5e-a019-44455492e985';
+
+const resolveCustomerId = () => authStorage.getCustomerId() ?? FALLBACK_CUSTOMER_ID;
 
 async function fetchJson<T>(input: RequestInfo, init?: RequestInit) {
   const response = await fetch(input, init);
@@ -14,13 +18,15 @@ async function fetchJson<T>(input: RequestInfo, init?: RequestInit) {
   return (await response.json()) as T;
 }
 
-interface ProductDefaultSkuResponse {
+export interface ProductDefaultSkuResponse {
   productId: string;
   skuId?: string | null;
   availableQty: number;
 }
 
-export async function findDefaultSku(productId: string): Promise<string | null> {
+export async function findDefaultSku(
+  productId: string
+): Promise<ProductDefaultSkuResponse | null> {
   if (!productId) {
     return null;
   }
@@ -38,7 +44,7 @@ export async function findDefaultSku(productId: string): Promise<string | null> 
   );
 
   const match = data.find((item) => item.productId === productId);
-  return match?.skuId ?? null;
+  return match ?? null;
 }
 
 export type CartItemPayload = {
@@ -58,19 +64,19 @@ export async function addProductToCart(payload: CartItemPayload): Promise<void> 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-Customer-Id': CUSTOMER_ID,
+      'X-Customer-Id': resolveCustomerId(),
     },
     body: JSON.stringify(payload),
   });
 }
 
 export async function checkoutCart(): Promise<void> {
-  const url = `${ordersApiUrl}/api/admin/shopping-carts/checkout`;
+  const url = `${ordersApiUrl}/api/shopping-carts/checkout`;
   await fetchJson(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ CustomerId: CUSTOMER_ID }),
+    body: JSON.stringify({ CustomerId: resolveCustomerId() }),
   });
 }

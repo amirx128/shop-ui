@@ -22,13 +22,14 @@ export default async function ProductPage({
   searchParams,
 }: {
   params: Promise<{ locale: string; slug: string }>;
-  searchParams: { sourceSlug?: string };
+  searchParams: Promise<{ sourceSlug?: string }>;
 }) {
   const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
   return (
     <ProductDetailContainer
       params={resolvedParams}
-      searchParams={searchParams}
+      searchParams={resolvedSearchParams}
     />
   );
 }

@@ -52,6 +52,7 @@ export interface CatalogProductSummaryDto {
   mainImageUrl?: string | null;
   categoryId: string;
   unitOfMeasure?: string;
+  usageGuide?: string;
   defaultSku?: DefaultSkuInfo | null;
 }
 

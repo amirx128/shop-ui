@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -16,6 +16,10 @@ import TextAreaInput from '@/components/ui/TextAreaInput';
 import ProductFullModal from './ProductFullModal';
 import Button from '@/components/ui/Button';
 import { useTheme } from '@mui/material/styles';
+import {
+  fetchProductComments,
+  type ProductCommentDto,
+} from '@/services/productComment.service';
 
 const reviewSchema = z.object({
   rating: z.number().min(1, 'Rating is required'),
@@ -38,17 +42,24 @@ interface ProductCommentSectionProps {
     writeComment: string;
     userName: string;
     commentText: string;
+    loadingComments: string;
+    noComments: string;
   };
+  productId: string;
 }
 
 export default function ProductCommentSection({
   translations,
+  productId,
 }: ProductCommentSectionProps) {
   const theme = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
+  const [comments, setComments] = useState<ProductCommentDto[]>([]);
+  const [isLoadingComments, setIsLoadingComments] = useState(false);
+  const [commentsError, setCommentsError] = useState<string | null>(null);
 
   const {
     control,
@@ -63,14 +74,36 @@ export default function ProductCommentSection({
     },
   });
 
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoadingComments(true);
+    fetchProductComments(productId)
+      .then((data) => {
+        if (!isMounted) {
+          return;
+        }
+        setComments(data);
+        setCommentsError(null);
+      })
+      .catch((error) => {
+        if (!isMounted) {
+          return;
+        }
+        setComments([]);
+        setCommentsError(error.message);
+      })
+      .finally(() => {
+        if (!isMounted) {
+          return;
+        }
+        setIsLoadingComments(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, [productId]);
+
   const comment = watch('comment');
-
-  const comments = Array(5).fill({
-    userName: translations.userName,
-    comment: translations.commentText,
-    avatar: '/images/product/avatar.png',
-  });
-
   const isFormValid = selectedRating > 0 && comment.length >= 10;
 
   const handleStarHover = (rating: number) => {
@@ -187,21 +220,34 @@ export default function ProductCommentSection({
               gap: 2,
             }}
           >
-            {comments.map((item, index) => (
-              <Box
-                key={index}
-                sx={{
-                  // minWidth: 280,
-                  flexShrink: 0,
-                }}
-              >
-                <CommentCard
-                  userName={item.userName}
-                  comment={item.comment}
-                  avatar={item.avatar}
-                />
-              </Box>
-            ))}
+            {isLoadingComments ? (
+              <Typography variant="body2" color="text.secondary">
+                {translations.loadingComments}
+              </Typography>
+            ) : commentsError ? (
+              <Typography variant="body2" color="error">
+                {commentsError}
+              </Typography>
+            ) : comments.length === 0 ? (
+              <Typography variant="body2" color="text.secondary">
+                {translations.noComments}
+              </Typography>
+            ) : (
+              comments.map((item) => (
+                <Box
+                  key={item.id}
+                  sx={{
+                    flexShrink: 0,
+                  }}
+                >
+                  <CommentCard
+                    userName={item.displayName || translations.userName}
+                    comment={item.message || translations.commentText}
+                    avatar={item.avatarUrl ?? '/images/product/avatar.png'}
+                  />
+                </Box>
+              ))
+            )}
           </Box>
 
           <Divider />
@@ -238,15 +284,29 @@ export default function ProductCommentSection({
               gap: 2,
             }}
           >
-            {comments.map((item, index) => (
-              <CommentCard
-                key={index}
-                userName={item.userName}
-                comment={item.comment}
-                avatar={item.avatar}
-                fullWidth
-              />
-            ))}
+            {isLoadingComments ? (
+              <Typography variant="body2" color="text.secondary">
+                {translations.loadingComments}
+              </Typography>
+            ) : commentsError ? (
+              <Typography variant="body2" color="error">
+                {commentsError}
+              </Typography>
+            ) : comments.length === 0 ? (
+              <Typography variant="body2" color="text.secondary">
+                {translations.noComments}
+              </Typography>
+            ) : (
+              comments.map((item) => (
+                <CommentCard
+                  key={item.id}
+                  userName={item.displayName || translations.userName}
+                  comment={item.message || translations.commentText}
+                  avatar={item.avatarUrl ?? '/images/product/avatar.png'}
+                  fullWidth
+                />
+              ))
+            )}
           </Box>
         </Box>
       </ProductFullModal>

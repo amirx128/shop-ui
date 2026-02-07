@@ -39,6 +39,8 @@
     "rateToHelp": "Please help us improve our tools by rating us so we can provide you with the best services!",
     "writeComment": "Write your comment",
     "userName": "Sadeq Ghasemnezhad",
-    "commentText": "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+    "commentText": "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+    "loadingComments": "Loading comments...",
+    "noComments": "No reviews available yet."
   }
 }

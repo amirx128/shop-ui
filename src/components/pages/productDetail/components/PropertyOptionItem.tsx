@@ -2,17 +2,17 @@
 
 import { Box, Typography } from '@mui/material';
 
-interface PatternItemProps {
-  patternName: string;
+interface PropertyOptionItemProps {
+  label: string;
   isSelected: boolean;
   onClick: () => void;
 }
 
-export default function PatternItem({
-  patternName,
+export default function PropertyOptionItem({
+  label,
   isSelected,
   onClick,
-}: PatternItemProps) {
+}: PropertyOptionItemProps) {
   return (
     <Box
       onClick={onClick}
@@ -20,23 +20,30 @@ export default function PatternItem({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: 67,
-        height: 32,
+        width: 'auto',
+        minWidth: 80,
+        maxWidth: 140,
+        px: 1.5,
+        py: 0.5,
         border: '1px solid',
         borderColor: isSelected ? 'secondary.main' : 'divider',
         borderRadius: '8px',
         cursor: 'pointer',
         color: isSelected ? 'common.white' : 'text.primary',
+        whiteSpace: 'normal',
+        textAlign: 'center',
+        lineHeight: 1.3,
+        wordBreak: 'break-word',
       }}
     >
       <Typography
-        variant="caption"
+        variant="body2"
         sx={{
           fontSize: '12px',
           textAlign: 'center',
         }}
       >
-        {patternName}
+        {label}
       </Typography>
     </Box>
   );

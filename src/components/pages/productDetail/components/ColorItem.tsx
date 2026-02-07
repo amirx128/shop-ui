@@ -5,6 +5,7 @@ import { Box, Typography } from '@mui/material';
 interface ColorItemProps {
   colorName: string;
   colorCode: string;
+  colorId: string;
   isSelected: boolean;
   onClick: () => void;
 }
@@ -12,6 +13,7 @@ interface ColorItemProps {
 export default function ColorItem({
   colorName,
   colorCode,
+  colorId,
   isSelected,
   onClick,
 }: ColorItemProps) {
@@ -41,14 +43,23 @@ export default function ColorItem({
           borderColor: 'divider',
         }}
       />
-      <Typography
-        variant="body2"
+      <Box
         sx={{
-          fontSize: '14px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 0.15,
         }}
       >
-        {colorName}
-      </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            fontSize: '14px',
+          }}
+        >
+          {colorName}
+        </Typography>
+        
+      </Box>
     </Box>
   );
 }

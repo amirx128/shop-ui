@@ -13,6 +13,7 @@ interface ProductFullModalProps {
   onClose: () => void;
   title: string;
   content?: string;
+  contentHtml?: string;
   features?: Feature[];
   footer?: React.ReactNode;
   children?: React.ReactNode;
@@ -23,6 +24,7 @@ export default function ProductFullModal({
   onClose,
   title,
   content,
+  contentHtml,
   features,
   footer,
   children,
@@ -97,16 +99,26 @@ export default function ProductFullModal({
                 py: 2,
               }}
             >
-              {content && (
-                <Typography
-                  variant="body1"
+              {contentHtml ? (
+                <Box
+                  component="div"
                   sx={{
                     lineHeight: 1.8,
-                    whiteSpace: 'pre-line',
                   }}
-                >
-                  {content}
-                </Typography>
+                  dangerouslySetInnerHTML={{ __html: contentHtml }}
+                />
+              ) : (
+                content && (
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      lineHeight: 1.8,
+                      whiteSpace: 'pre-line',
+                    }}
+                  >
+                    {content}
+                  </Typography>
+                )
               )}
 
               {features && (

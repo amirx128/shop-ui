@@ -1,5 +1,11 @@
 import { DefaultSkuInfo } from '@/types/defaultSku';
 
+export interface ProductColorInfo {
+  id: string;
+  name: string;
+  colorCode: string;
+}
+
 export interface ProductPropertyValueEntry {
   id: string;
   title: string;
@@ -47,6 +53,7 @@ export interface ProductDetailsDto {
   pricing?: ProductPricing | null;
   categoryId: string;
   description: string;
+  usageGuide: string;
   brand: string;
   genderId: string;
   colorIds: string[];
@@ -58,11 +65,26 @@ export interface ProductDetailsDto {
   lowStockMessageThreshold: number;
   similarProductIds: string[];
   complementaryProductIds: string[];
+  similarProducts: ProductRelationSummary[];
+  complementaryProducts: ProductRelationSummary[];
   isFeaturedTop: boolean;
   isFeaturedBottom: boolean;
   featuredImageUrl?: string | null;
   mainImageUrl?: string | null;
   images: ProductImage[];
+  defaultSku?: DefaultSkuInfo | null;
+  colors: ProductColorInfo[];
+}
+
+export interface ProductRelationSummary {
+  id: string;
+  slug: string;
+  name: string;
+  priceRial: number;
+  categoryName: string;
+  mainImageUrl?: string | null;
+  colorCodes: string[];
+  unitOfMeasure?: string;
   defaultSku?: DefaultSkuInfo | null;
 }
 
@@ -90,4 +112,10 @@ export interface CategoryPropertyFilterValueDto {
   id: string;
   title: string;
   usageCount: number;
+}
+
+export interface ProductVariableSelection {
+  colorId?: string;
+  ageRangeId?: string;
+  propertyValueIds: string[];
 }

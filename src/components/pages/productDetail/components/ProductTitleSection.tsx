@@ -68,12 +68,18 @@ export default function ProductTitleSection({
           }}
         >
           <Typography
-            variant="caption"
+            variant="subtitle1"
             sx={{
-              color: 'caption',
+              fontSize: '20px',
+              fontWeight: 500,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              flex: 1,
+              minWidth: 0,
             }}
           >
-            {category}
+            {category ? `${category} · ${productName}` : productName}
           </Typography>
 
           <Box
@@ -113,16 +119,6 @@ export default function ProductTitleSection({
             </Box>
           </Box>
         </Box>
-
-        <Typography
-          variant="subtitle1"
-          sx={{
-            fontSize: '24px',
-            fontWeight: 500,
-          }}
-        >
-          {productName}
-        </Typography>
 
         <Divider />
       </Box>

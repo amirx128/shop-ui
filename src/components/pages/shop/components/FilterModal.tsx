@@ -70,10 +70,13 @@ export default function FilterModal({
     setSelectedFilter(null);
   };
 
-  const handleSelectChange = (filterId: string, selectedIds: string[]) => {
+  const handleSelectChange = (filterId: string, selectedIds: Array<string | number>) => {
     setFilterStates((prev) => ({
       ...prev,
-      [filterId]: { ...prev[filterId], selectedValueIds: selectedIds },
+      [filterId]: {
+        ...prev[filterId],
+        selectedValueIds: selectedIds.map((id) => `${id}`),
+      },
     }));
   };
 

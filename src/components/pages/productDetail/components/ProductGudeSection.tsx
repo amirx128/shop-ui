@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Box, Container, Typography, Divider } from '@mui/material';
@@ -6,13 +6,23 @@ import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import ProductFullModal from './ProductFullModal';
 
-export default function ProductGudeSection() {
+type ProductGudeSectionProps = {
+  translations: {
+    title: string;
+    emptyMessage: string;
+  };
+  usageGuide?: string | null;
+};
+
+export default function ProductGudeSection({
+  translations,
+  usageGuide,
+}: ProductGudeSectionProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const guideTitle = '\u0631\u0627\u0647\u0646\u0645\u0627\u06cc \u0627\u0633\u062a\u0641\u0627\u062f\u0647';
-  const guideSubtitle =
-    '\u0646\u062d\u0648\u0647 \u0627\u0633\u062a\u0641\u0627\u062f\u0647';
-  const guideText =
-    'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi';
+  const hasGuide = Boolean(usageGuide?.trim());
+  const emptyMessage =
+    translations.emptyMessage || 'هنوز برای راهنمای استفاده متنی ثبت نشده است.';
+  const title = translations.title || 'راهنمای استفاده';
 
   return (
     <>
@@ -46,7 +56,7 @@ export default function ProductGudeSection() {
                   fontWeight: 500,
                 }}
               >
-                {guideTitle}
+                {title}
               </Typography>
             </Box>
 
@@ -64,18 +74,29 @@ export default function ProductGudeSection() {
                 mb: 1,
               }}
             >
-              {guideSubtitle}
+              {title}
             </Typography>
 
-            <Typography
-              variant="body2"
-              sx={{
-                lineHeight: 1.8,
-                color: 'text.secondary',
-              }}
-            >
-              {guideText}
-            </Typography>
+            {hasGuide ? (
+              <Box
+                component="div"
+                sx={{
+                  lineHeight: 1.8,
+                  color: 'text.secondary',
+                }}
+                dangerouslySetInnerHTML={{ __html: usageGuide ?? '' }}
+              />
+            ) : (
+              <Typography
+                variant="body2"
+                sx={{
+                  lineHeight: 1.8,
+                  color: 'text.secondary',
+                }}
+              >
+                {emptyMessage}
+              </Typography>
+            )}
           </Box>
 
           <Divider />
@@ -85,8 +106,9 @@ export default function ProductGudeSection() {
       <ProductFullModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={guideTitle}
-        content={`${guideSubtitle}\n\n${guideText}`}
+        title={title}
+        content={hasGuide ? undefined : emptyMessage}
+        contentHtml={hasGuide ? usageGuide ?? '' : undefined}
       />
     </>
   );

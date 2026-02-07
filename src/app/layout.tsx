@@ -33,13 +33,11 @@ export const metadata: Metadata = {
 
 type RootLayoutProps = {
   children: ReactNode;
-  params?: {
-    locale?: Locale | string;
-  };
+  params?: Promise<{ locale?: Locale | string }>;
 };
 
-export default function RootLayout({ children, params }: RootLayoutProps) {
-  const localeParam = params?.locale ?? defaultLocale;
+export default async function RootLayout({ children, params }: RootLayoutProps) {
+  const localeParam = (await params)?.locale ?? defaultLocale;
   const resolvedLocale = locales.includes(localeParam as Locale)
     ? (localeParam as Locale)
     : defaultLocale;

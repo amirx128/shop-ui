@@ -1,72 +1,100 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Box, Container, Typography, Divider } from '@mui/material';
 import ColorItem from './ColorItem';
-import PatternItem from './PatternItem';
+import PropertyOptionItem from './PropertyOptionItem';
+import {
+  CategoryPropertyFilterValueDto,
+  ProductColorInfo,
+  ProductPropertyEntry,
+  ProductVariableSelection,
+} from '../types';
 
 interface ProductVariableSectionProps {
   translations: {
     color: string;
-    pattern: string;
     black: string;
     gray: string;
     pink: string;
     orange: string;
-    catPattern: string;
-    carPattern: string;
+    ageGroup: string;
   };
-  colors?: string[];
-  patterns?: string[];
+  colors: ProductColorInfo[];
+  properties?: ProductPropertyEntry[];
+  ageRanges?: CategoryPropertyFilterValueDto[];
+  onSelectionChange?: (selection: ProductVariableSelection) => void;
 }
-
-const DEFAULT_COLOR_CODES: Record<string, string> = {
-  black: '#000000',
-  gray: '#808080',
-  pink: '#FFC0CB',
-  orange: '#FFA500',
-};
 
 export default function ProductVariableSection({
   translations,
   colors = [],
-  patterns = [],
+  properties = [],
+  ageRanges = [],
+  onSelectionChange,
 }: ProductVariableSectionProps) {
   const fallbackColors = [
-    translations.black,
-    translations.gray,
-    translations.pink,
-    translations.orange,
+    { id: 'fallback-black', name: translations.black, colorCode: '#000000' },
+    { id: 'fallback-gray', name: translations.gray, colorCode: '#808080' },
+    { id: 'fallback-pink', name: translations.pink, colorCode: '#FFC0CB' },
+    { id: 'fallback-orange', name: translations.orange, colorCode: '#FFA500' },
   ];
-  const colorOptions = (colors.length > 0 ? colors : fallbackColors).map(
-    (color) => ({
-      name: color,
-      code:
-        DEFAULT_COLOR_CODES[
-          color === translations.black
-            ? 'black'
-            : color === translations.gray
-            ? 'gray'
-            : color === translations.pink
-            ? 'pink'
-            : color === translations.orange
-            ? 'orange'
-            : 'black'
-        ] ?? '#BDBDBD',
-    })
+
+  const colorOptions = colors.length > 0 ? colors : fallbackColors;
+  const [selectedColorId, setSelectedColorId] = useState(
+    colorOptions[0]?.id ?? fallbackColors[0].id
   );
 
-  const patternOptions =
-    patterns.length > 0
-      ? patterns
-      : [translations.catPattern, translations.carPattern];
+  const selectedColor = colorOptions.find(
+    (color) => color.id === selectedColorId
+  );
 
-  const [selectedColor, setSelectedColor] = useState(
-    colorOptions[0]?.name ?? translations.black
+  const propertyGroups =
+    properties.filter((property) => property.values.length > 0) ?? [];
+  const ageRangeOptions = ageRanges.filter((value) =>
+    Boolean(value && value.title && value.id)
   );
-  const [selectedPattern, setSelectedPattern] = useState<string | undefined>(
-    patternOptions[0]
+
+  const [selectedAgeRangeId, setSelectedAgeRangeId] = useState<
+    string | undefined
+  >(ageRangeOptions[0]?.id);
+
+  const selectedAgeRange = ageRangeOptions.find(
+    (range) => range.id === selectedAgeRangeId
   );
+
+  const [selectedPropertyValues, setSelectedPropertyValues] = useState<
+    Record<string, string>
+  >(() => {
+    const selections: Record<string, string> = {};
+    for (const property of propertyGroups) {
+      const firstValue = property.values[0];
+      if (firstValue) {
+        selections[property.id] = firstValue.id;
+      }
+    }
+    return selections;
+  });
+
+  const handlePropertySelect = (propertyId: string, valueId: string) => {
+    setSelectedPropertyValues((prev) => ({
+      ...prev,
+      [propertyId]: valueId,
+    }));
+  };
+
+  const propertyValueIds = useMemo(
+    () => Object.values(selectedPropertyValues),
+    [selectedPropertyValues]
+  );
+
+  useEffect(() => {
+    onSelectionChange?.({
+      colorId: selectedColorId,
+      ageRangeId: selectedAgeRangeId,
+      propertyValueIds,
+    });
+  }, [onSelectionChange, selectedColorId, selectedAgeRangeId, propertyValueIds]);
 
   return (
     <Container>
@@ -92,7 +120,7 @@ export default function ProductVariableSection({
               fontSize: '14px',
             }}
           >
-            {translations.color}: {selectedColor}
+            {translations.color}: {selectedColor?.name ?? translations.black}
           </Typography>
 
           <Box
@@ -102,19 +130,19 @@ export default function ProductVariableSection({
               gap: 1,
             }}
           >
-            {colorOptions.map((color, index) => (
+            {colorOptions.map((color) => (
               <ColorItem
-                key={`${color.name}-${index}`}
+                key={color.id}
+                colorId={color.id}
                 colorName={color.name}
-                colorCode={color.code}
-                isSelected={selectedColor === color.name}
-                onClick={() => setSelectedColor(color.name)}
+                colorCode={color.colorCode}
+                isSelected={selectedColorId === color.id}
+                onClick={() => setSelectedColorId(color.id)}
               />
             ))}
           </Box>
         </Box>
-
-        {patternOptions.length > 0 && (
+        {ageRangeOptions.length > 0 && (
           <Box
             sx={{
               display: 'flex',
@@ -129,24 +157,81 @@ export default function ProductVariableSection({
                 fontSize: '14px',
               }}
             >
-              {translations.pattern}
+              {translations.ageGroup}
+              {selectedAgeRange ? ` : ${selectedAgeRange.title}` : ''}
             </Typography>
 
             <Box
               sx={{
                 display: 'flex',
-                gap: 2,
+                flexWrap: 'wrap',
+                gap: 1,
               }}
             >
-              {patternOptions.map((pattern) => (
-                <PatternItem
-                  key={pattern}
-                  patternName={pattern}
-                  isSelected={selectedPattern === pattern}
-                  onClick={() => setSelectedPattern(pattern)}
+              {ageRangeOptions.map((value) => (
+                <PropertyOptionItem
+                  key={value.id}
+                  label={value.title}
+                  isSelected={selectedAgeRangeId === value.id}
+                  onClick={() => setSelectedAgeRangeId(value.id)}
                 />
               ))}
             </Box>
+          </Box>
+        )}
+
+        {propertyGroups.length > 0 && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+            }}
+          >
+            {propertyGroups.map((property) => {
+              const selectedValueId = selectedPropertyValues[property.id];
+              const selectedValue =
+                property.values.find((value) => value.id === selectedValueId) ??
+                property.values[0];
+              return (
+                <Box
+                  key={property.id}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1,
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: 'text.primary',
+                      fontSize: '14px',
+                    }}
+                  >
+                    {property.title}
+                    {selectedValue ? ` : ${selectedValue.title}` : ''}
+                  </Typography>
+
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 1,
+                    }}
+                  >
+                    {property.values.map((value) => (
+                      <PropertyOptionItem
+                        key={value.id}
+                        label={value.title}
+                        isSelected={selectedValueId === value.id}
+                        onClick={() => handlePropertySelect(property.id, value.id)}
+                      />
+                    ))}
+                  </Box>
+                </Box>
+              );
+            })}
           </Box>
         )}
 

@@ -8,6 +8,8 @@ import PhoneForm from './PhoneForm';
 import OTPForm from './OTPForm';
 import type { PhoneFormData, OTPFormData } from '../types';
 import { authService } from '@/services/auth.service';
+import { identityService } from '@/services/identity.service';
+import { authStorage } from '@/lib/storage/authStorage';
 import { useRouter } from 'next/navigation';
 
 export default function AuthContent() {
@@ -51,7 +53,23 @@ export default function AuthContent() {
 
   const loginOtpMutation = useMutation({
     mutationFn: authService.loginOtp,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      const accessToken = data?.accessToken;
+      const refreshToken = data?.refreshToken;
+
+      if (accessToken || refreshToken) {
+        authStorage.setTokens(accessToken, refreshToken);
+      }
+
+      if (accessToken) {
+        try {
+          const profile = await identityService.getProfile(accessToken);
+          authStorage.setProfile(profile);
+        } catch (error) {
+          console.error('Failed to load identity profile', error);
+        }
+      }
+
       toast.success(data?.message ?? 'ورود موفق');
       router.push('/fa/mobile');
     },

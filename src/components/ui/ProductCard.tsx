@@ -23,6 +23,7 @@ interface ProductCardProps {
   onAddToCart?: () => void;
   isAddToCartLoading?: boolean;
   detailUrl?: string;
+  onCardClick?: () => void;
 }
 
 const formatPrice = (price: number) => price.toLocaleString('fa-IR');
@@ -56,18 +57,26 @@ export default function ProductCard({
   onAddToCart = () => {},
   isAddToCartLoading = false,
   detailUrl,
+  onCardClick,
 }: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const titleProps = getTitleProps(detailUrl);
+  const handleCardClick = () => {
+    if (onCardClick) {
+      onCardClick();
+    }
+  };
 
   if (size === 'md') {
     return (
       <Box
+        onClick={onCardClick ? handleCardClick : undefined}
         sx={{
           border: 1,
           borderColor: 'divider',
           borderRadius: 2,
           backgroundColor,
+          cursor: onCardClick ? 'pointer' : undefined,
         }}
       >
         <Box
@@ -205,12 +214,15 @@ export default function ProductCard({
                 alignItems: 'center',
               }}
             >
-              <Button
-                startIcon={<ShoppingBasketOutlinedIcon />}
-                sx={{ alignSelf: 'flex-end' }}
-                onClick={onAddToCart}
-                disabled={isAddToCartLoading}
-              >
+                  <Button
+                    startIcon={<ShoppingBasketOutlinedIcon />}
+                    sx={{ alignSelf: 'flex-end' }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onAddToCart?.();
+                    }}
+                    disabled={isAddToCartLoading}
+                  >
                 {addToCartText}
               </Button>
               <Box sx={{ display: 'flex', gap: 1 }}>
@@ -222,7 +234,10 @@ export default function ProductCard({
                       color: 'error.main',
                     },
                   }}
-                  onClick={() => setIsFavorite(!isFavorite)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setIsFavorite(!isFavorite);
+                  }}
                 >
                   {isFavorite ? (
                     <FavoriteIcon fontSize="small" color="error" />
@@ -238,7 +253,10 @@ export default function ProductCard({
                       color: 'secondary.main',
                     },
                   }}
-                  onClick={onCompareClick}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onCompareClick?.();
+                  }}
                 >
                   <CompareArrowsOutlinedIcon fontSize="small" />
                 </Box>
@@ -251,16 +269,18 @@ export default function ProductCard({
   }
 
   return (
-    <Box
-      sx={{
-        border: 1,
-        borderColor: 'divider',
-        borderRadius: 2,
-        padding: '14px 16px',
-        width: '100%',
-        backgroundColor,
-      }}
-    >
+      <Box
+        onClick={onCardClick ? handleCardClick : undefined}
+        sx={{
+          border: 1,
+          borderColor: 'divider',
+          borderRadius: 2,
+          padding: '14px 16px',
+          width: '100%',
+          backgroundColor,
+          cursor: onCardClick ? 'pointer' : undefined,
+        }}
+      >
       <Box
         sx={{
           display: 'flex',
@@ -347,7 +367,10 @@ export default function ProductCard({
                   color: 'error.main',
                 },
               }}
-              onClick={() => setIsFavorite(!isFavorite)}
+              onClick={(event) => {
+                event.stopPropagation();
+                setIsFavorite(!isFavorite);
+              }}
             >
               {isFavorite ? (
                 <FavoriteIcon fontSize="small" color="error" />
@@ -402,7 +425,10 @@ export default function ProductCard({
           <Button
             startIcon={<ShoppingBasketOutlinedIcon />}
             sx={{ alignSelf: 'flex-end' }}
-            onClick={onAddToCart}
+            onClick={(event) => {
+              event.stopPropagation();
+              onAddToCart?.();
+            }}
             disabled={isAddToCartLoading}
           >
             {addToCartText}

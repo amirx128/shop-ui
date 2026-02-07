@@ -6,14 +6,13 @@ import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlin
 import { toast } from 'react-toastify';
 import Button from '@/components/ui/Button';
 import { addProductToCart, checkoutCart } from '@/services/cartService';
-import { DefaultSkuInfo } from '@/types/defaultSku';
 
 interface ProductDetailFooterProps {
   price: number;
   addToCartText: string;
   productId: string;
   unitOfMeasure?: string;
-  defaultSku?: DefaultSkuInfo | null;
+  propertyValueIds?: string[];
 }
 
 export default function ProductDetailFooter({
@@ -21,7 +20,7 @@ export default function ProductDetailFooter({
   addToCartText,
   productId,
   unitOfMeasure,
-  defaultSku,
+  propertyValueIds,
 }: ProductDetailFooterProps) {
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -34,27 +33,21 @@ export default function ProductDetailFooter({
 
     setIsProcessing(true);
     try {
-      const skuId = defaultSku?.id;
-      const availableQty = defaultSku?.availableQty ?? 0;
-      if (!skuId || availableQty < 1) {
-        throw new Error('هیچ SKU با موجودی بیشتر از 1 پیدا نشد.');
-      }
-
       await addProductToCart({
         productId,
-        skuId,
         quantity: 1,
         unitOfMeasure: unitOfMeasure ?? 'unit',
         unitPrice: price,
         discountPerUnit: 0,
         rowPrice: price,
+        propertyValueIds: propertyValueIds?.length ? propertyValueIds : undefined,
       });
 
       await checkoutCart();
-      toast.success('سفارش مشتری ثبت شد.');
+      toast.success('Ø³ÙØ§Ø±Ø´ Ù…Ø´ØªØ±ÛŒ Ø«Ø¨Øª Ø´Ø¯.');
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : 'خطا در افزودن به سبد خرید.'
+        error instanceof Error ? error.message : 'Ø®Ø·Ø§ Ø¯Ø± Ø§ÙØ²ÙˆØ¯Ù† Ø¨Ù‡ Ø³Ø¨Ø¯ Ø®Ø±ÛŒØ¯.'
       );
     } finally {
       setIsProcessing(false);
@@ -98,7 +91,7 @@ export default function ProductDetailFooter({
               fontWeight: 600,
             }}
           >
-            {formatPrice(price)} تومان
+            {formatPrice(price)} ريال
           </Typography>
         </Box>
       </Container>

@@ -8,7 +8,7 @@ import ShopBody from './ShopBody';
 import ProductCard from '@/components/ui/ProductCard';
 import FilterModal from './FilterModal';
 import { toast } from 'react-toastify';
-import { addProductToCart, checkoutCart } from '@/services/cartService';
+import { addProductToCart, checkoutCart, findDefaultSku } from '@/services/cartService';
 import {
   ShopHeaderItemProps,
   CategoryPropertyFilter,
@@ -215,9 +215,19 @@ export default function ShopContainerClient({
     setProcessingProductId(product.id);
 
     try {
-      const defaultSku = product.defaultSku;
-      const skuId = defaultSku?.id;
-      const availableQty = defaultSku?.availableQty ?? 0;
+      let resolvedSku = product.defaultSku ?? null;
+      if (!resolvedSku?.id) {
+        const fallback = await findDefaultSku(product.id);
+        if (fallback?.skuId) {
+          resolvedSku = {
+            id: fallback.skuId,
+            availableQty: fallback.availableQty,
+          };
+        }
+      }
+
+      const skuId = resolvedSku?.id;
+      const availableQty = resolvedSku?.availableQty ?? 0;
       if (!skuId || availableQty < 1) {
         throw new Error('هیچ SKU با موجودی بیشتر از 1 پیدا نشد.');
       }
