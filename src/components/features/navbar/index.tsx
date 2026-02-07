@@ -12,7 +12,7 @@ const navItems: NavItemType[] = [
   {
     icon: HomeOutlinedIcon,
     label: 'home',
-    href: '#',
+    href: ROUTES.BASE,
     key: 'home',
   },
   {
@@ -24,7 +24,7 @@ const navItems: NavItemType[] = [
   {
     icon: StorefrontOutlinedIcon,
     label: 'store',
-    href: '#',
+    href: ROUTES.SHOP,
     key: 'store',
   },
   {

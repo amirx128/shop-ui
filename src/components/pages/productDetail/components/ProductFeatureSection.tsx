@@ -1,7 +1,5 @@
 'use client';
 
-'use client';
-
 import { useState } from 'react';
 import { Box, Container, Typography, Divider } from '@mui/material';
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';

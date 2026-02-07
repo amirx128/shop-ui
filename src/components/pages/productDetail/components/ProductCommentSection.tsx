@@ -104,6 +104,8 @@ export default function ProductCommentSection({
   }, [productId]);
 
   const comment = watch('comment');
+
+
   const isFormValid = selectedRating > 0 && comment.length >= 10;
 
   const handleStarHover = (rating: number) => {

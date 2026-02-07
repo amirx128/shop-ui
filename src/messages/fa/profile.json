@@ -1,0 +1,304 @@
+{
+  "profile": {
+    "title": "پروفایل",
+    "subtitle": "مدیریت حساب و تنظیمات",
+    "avatarAlt": "آواتار پروفایل",
+    "user": {
+      "name": "سارا احمدی",
+      "phone": "۰۹۱۲ ۰۰۰ ۰۰۰۰"
+    },
+    "items": {
+      "account": "اطلاعات کاربری",
+      "orders": "سفارش های من",
+      "wallet": "کیف پول",
+      "favorites": "لیست علاقه مندی ها",
+      "comments": "نظرات من",
+      "addresses": "آدرس های من",
+      "notifications": "پیام ها",
+      "contact": "تماس با ما",
+      "about": "درباره ما",
+      "logout": "خروج از حساب کاربری"
+    },
+    "addressesPage": {
+      "emptyState": {
+        "description": "شما تاکنون آدرسی جهت دریافت سفارش ثبت نکرده اید.",
+        "imageAlt": "حالت بدون آدرس"
+      },
+      "actions": {
+        "add": "افزودن آدرس جدید",
+        "edit": "ویرایش",
+        "editAddress": "ویرایش آدرس",
+        "cancel": "انصراف"
+      },
+      "labels": {
+        "selectedAddress": "ارسال به آدرس انتخاب شده",
+        "receiver": "گیرنده :"
+      },
+      "fields": {
+        "receiverName": "نام گیرنده",
+        "phone": "شماره تلفن همراه",
+        "email": "ایمیل (اختیاری)",
+        "province": "استان",
+        "city": "شهر",
+        "postalCode": "کد پستی",
+        "address": "آدرس"
+      },
+      "validation": {
+        "required": "این فیلد الزامی است.",
+        "email": "ایمیل معتبر وارد کنید.",
+        "phone": "شماره تلفن همراه معتبر وارد کنید.",
+        "postalCode": "کد پستی معتبر وارد کنید."
+      }
+    },
+    "notificationsPage": {
+      "tabs": {
+        "all": "همه",
+        "read": "خوانده شده",
+        "unread": "خوانده نشده"
+      },
+      "emptyState": {
+        "description": "هیچ پیامی وجود ندارد."
+      },
+      "sample": {
+        "message": "با خرید مجموعه جدید لباس‌های نوزاد ، تا ۲۰ درصد تخفیف ویژه دریافت کنید. این فرصت را از دست ندهید!"
+      }
+    },
+    "accountProfile": {
+      "title": "اطلاعات کاربری",
+      "fields": {
+        "fullName": "نام و نام خانوادگی",
+        "email": "ایمیل (اختیاری)",
+        "phone": "شماره تلفن همراه",
+        "postalCode": "کد پستی",
+        "province": "استان",
+        "city": "شهر",
+        "address": "آدرس"
+      },
+      "actions": {
+        "save": "ذخیره اطلاعات",
+        "cancel": "انصراف"
+      },
+      "validation": {
+        "required": "این فیلد الزامی است.",
+        "email": "ایمیل معتبر وارد کنید."
+      }
+    },
+    "ordersProfile": {
+      "title": "سفارش های من",
+      "tabs": {
+        "processing": "در حال پردازش",
+        "delivered": "تحویل شده",
+        "returned": "مرجوع شده",
+        "canceled": "لغو شده"
+      },
+      "orderCodeLabel": "کد سفارش",
+      "payableAmountLabel": "مبلغ قابل پرداخت",
+      "currency": "تومان",
+      "detailsLabel": "جزییات سفارش",
+      "itemAlt": "عکس محصول"
+    },
+    "walletProfile": {
+      "currency": "تومان",
+      "balanceLabel": "موجودی شما",
+      "actions": {
+        "charge": "شارژ حساب",
+        "withdraw": "برداشت"
+      },
+      "chargeModal": {
+        "title": "شارژ کیف پول",
+        "selectAmountLabel": "مبلغ شارژ را انتخاب کنید.",
+        "presets": {
+          "first": "۵۰۰ هزار تومان",
+          "second": "۱ میلیون تومان",
+          "third": "۵ میلیون تومان"
+        },
+        "customAmountLabel": "یا مبلغ دلخواه",
+        "customAmountPlaceholder": "مبلغ به تومان",
+        "submit": "پرداخت امن با درگاه بانکی",
+        "successDescription": "شارژ کیف پول شما با موفقیت انجام شد.",
+        "acknowledge": "متوجه شدم"
+      },
+      "withdrawModal": {
+        "title": "برداشت از کیف پول",
+        "amountLabel": "مبلغ برداشت",
+        "amountPlaceholder": "مبلغ به تومان",
+        "withdrawAll": "برداشت کل موجودی",
+        "shebaLabel": "شماره کارت مقصد (شبا)",
+        "shebaPlaceholder": "شماره شبا",
+        "shebaHelper": "شماره شبا باید به نام خودتان باشد.",
+        "shebaError": "شماره شبا وارد شده معتبر نیست.",
+        "submit": "تایید و ارسال درخواست",
+        "note": "برداشت ظرف ۲۴-۴۸ ساعت به حساب شما واریز می‌شود",
+        "otpTitle": "کد تایید را وارد کنید.",
+        "otpLabel": "کد تایید برای شماره {phone} پیامک شد.",
+        "otpPlaceholder": "کد تایید",
+        "otpTimer": "مانده تا دریافت مجدد کد",
+        "otpResend": "دریافت مجدد کد",
+        "otpSubmit": "تایید",
+        "successDescription": "برداشت از کیف پول با موفقیت انجام شد.",
+        "acknowledge": "متوجه شدم"
+      },
+      "promo": {
+        "title": "شارژ کن و ۵٪ هدیه بگیر!",
+        "subtitle": "برای شارژ بالای ۱ میلیون تومان"
+      },
+      "latestTransactions": "آخرین تراکنش ها",
+      "viewAll": "مشاهده همه",
+      "transactions": {
+        "purchase": {
+          "title": "خرید کالسکه دلیجان",
+          "date": "۵ مهر ۱۴۰۲ , ۱۴:۲۲"
+        },
+        "charge": {
+          "title": "شارژ کیف پول",
+          "date": "۱۰ مهر ۱۴۰۲ , ۱۲:۰۸"
+        },
+        "refund": {
+          "title": "بازگشت وجه سفارش",
+          "date": "۱۲ مهر ۱۴۰۲ , ۱۶:۴۰"
+        },
+        "gift": {
+          "title": "هدیه ثبت نظر",
+          "date": "۱۵ مهر ۱۴۰۲ , ۱۱:۳۱"
+        }
+      }
+    },
+    "walletTransactions": {
+      "title": "همه تراکنش ها",
+      "header": {
+        "backToWallet": "همه تراکنش ها",
+        "filters": "فیلتر ها"
+      },
+      "filterModal": {
+        "title": "فیلتر ها",
+        "tabs": {
+          "all": "همه",
+          "deposit": "واریز به حساب",
+          "withdraw": "برداشت از حساب"
+        },
+        "accountTypePlaceholder": "نوع حساب",
+        "accountTypes": {
+          "wallet": "حساب کیف پول",
+          "bank": "حساب بانکی"
+        },
+        "transactionAmountTitle": "مبلغ تراکنش ها",
+        "amountToPlaceholder": "تا مبلغ (تومان)",
+        "amountFromPlaceholder": "از مبلغ (تومان)",
+        "transactionDateTitle": "تاریخ تراکنش ها",
+        "dateFromPlaceholder": "از تاریخ",
+        "dateToPlaceholder": "تا تاریخ",
+        "apply": "اعمال فیلتر",
+        "validation": {
+          "amountRange": "مبلغ از نباید بیشتر از مبلغ تا باشد.",
+          "dateRange": "تاریخ از نباید بعد از تاریخ تا باشد."
+        }
+      },
+      "cards": {
+        "details": "جزئیات",
+        "status": {
+          "success": "موفق",
+          "failed": "ناموفق"
+        },
+        "transactions": {
+          "purchase": {
+            "title": "خرید از کالسکه چی",
+            "date": "۵ مهر ۱۴۰۲ , ۱۴:۲۲"
+          },
+          "charge": {
+            "title": "شارژ کیف پول",
+            "date": "۱۰ مهر ۱۴۰۲ , ۱۲:۰۸"
+          },
+          "refund": {
+            "title": "بازگشت وجه سفارش",
+            "date": "۱۲ مهر ۱۴۰۲ , ۱۶:۴۰"
+          },
+          "gift": {
+            "title": "هدیه ثبت نظر",
+            "date": "۱۵ مهر ۱۴۰۲ , ۱۱:۳۱"
+          }
+        }
+      },
+      "emptyState": {
+        "noTransactions": "شما هیچ تراکنشی ندارید."
+      },
+      "transactionDetail": {
+        "title": "جزییات تراکنش",
+        "purchaseInvoice": "فاکتور خرید",
+        "status": {
+          "success": "تراکنش موفق",
+          "failed": "تراکنش نا موفق"
+        },
+        "fields": {
+          "trackingNumber": "شماره پیگیری",
+          "orderNumber": "شماره سفارش",
+          "transactionType": "نوع تراکنش",
+          "dateTime": "تاریخ و زمان",
+          "orderAmount": "مبلغ سفارش"
+        },
+        "values": {
+          "trackingNumber": "WER542000-8592001",
+          "orderNumber": "۸۵۶۹۵۶۵۴۶۴",
+          "transactionType": "خرید محصول",
+          "dateTime": "امروز ۱۴:۲۳ - ۲۵ مهر ۱۴۰۳"
+        },
+        "actions": {
+          "viewOrder": "مشاهده سفارش"
+        },
+        "support": {
+          "title": "نیاز به راهنمایی دارید ؟",
+          "action": "تماس با پشتیبانی",
+          "iconAlt": "پشتیبانی"
+        }
+      }
+    },
+    "orderDetail": {
+      "title": "جزئیات سفارش",
+      "cancelAction": "لغو سفارش",
+      "modal": {
+        "title": "لغو سفارش",
+        "question": "آیا از لغو سفارش خود مطمئن هستید؟",
+        "confirm": "بله مطمئنم",
+        "dismiss": "انصراف"
+      },
+      "processingModal": {
+        "title": "ثبت سفارش",
+        "description": "سفارش شما با موفقیت ثبت شد.",
+        "action": "متوجه شدم"
+      },
+      "review": {
+        "action": "ثبت دیدگاه",
+        "rateTitle": "امتیاز خود را ثبت کنید.",
+        "rateDescription": "لطفاً با ارزیابی ما، به بهبود ابزارمان کمک کنید تا بهترین خدمات را به شما ارائه دهیم!",
+        "commentPlaceholder": "نظر خود را بنویسید.",
+        "submit": "ثبت نظر",
+        "cancel": "انصراف",
+        "successTitle": "ثبت نظر",
+        "successDescription": "نظر شما با موفقیت ثبت شد.",
+        "acknowledge": "متوجه شدم"
+      },
+      "fields": {
+        "orderCode": "کد سفارش",
+        "shippingCost": "هزینه ارسال",
+        "payableAmount": "مبلغ قابل پرداخت",
+        "shippingMethod": "روش ارسال",
+        "deliveryTime": "زمان تحویل",
+        "receiver": "گیرنده",
+        "phone": "تلفن همراه",
+        "address": "آدرس"
+      },
+      "returnFields": {
+        "returnRequestDate": "تاریخ درخواست مرجوعی",
+        "returnMethod": "روش مرجوعی",
+        "refundedAmount": "مبلغ مرجوع شده"
+      },
+      "canceledFields": {
+        "orderAmount": "مبلغ سفارش"
+      },
+      "product": {
+        "color": "رنگ",
+        "quantity": "تعداد",
+        "price": "قیمت"
+      }
+    }
+  }
+}

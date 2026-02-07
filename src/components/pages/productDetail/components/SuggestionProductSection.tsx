@@ -115,7 +115,7 @@ export default function SuggestionProductSection({
                         flexDirection: 'column',
                         gap: 0.25,
                       }}
-                    > 
+                    >
                     </Box>
                   </Box>
                 </SwiperSlide>

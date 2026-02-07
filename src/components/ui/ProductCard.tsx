@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, SxProps, Theme } from '@mui/material';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
@@ -24,6 +24,7 @@ interface ProductCardProps {
   addToCartText: string;
   size?: 'full' | 'md';
   backgroundColor?: string;
+  defaultFavorite?: boolean;
   onCompareClick?: () => void;
   onAddToCart?: () => void;
   isAddToCartLoading?: boolean;
@@ -60,6 +61,7 @@ export default function ProductCard({
   addToCartText,
   size = 'full',
   backgroundColor = 'transparent',
+  defaultFavorite = false,
   onCompareClick,
   onAddToCart = () => {},
   isAddToCartLoading = false,
@@ -228,17 +230,17 @@ export default function ProductCard({
                   gap: 1,
                 }}
               >
-            {colors.map((color, index) => (
-              <Box
-                key={index}
-                sx={{
-                  width: 16,
-                  height: 16,
-                  borderRadius: '2px',
-                  backgroundColor: color,
-                }}
-              />
-            ))}
+                {colors.map((color, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: 16,
+                      height: 16,
+                      borderRadius: '2px',
+                      backgroundColor: color,
+                    }}
+                  />
+                ))}
               </Box>
             </Box>
             <Box

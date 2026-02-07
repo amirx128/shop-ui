@@ -4,9 +4,14 @@ import { Box, Container, Dialog, IconButton, Typography, CircularProgress } from
 import { useState } from 'react';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 import Button from '@/components/ui/Button';
 import Divider from '@/components/ui/Divider';
+import SwitchInput from '@/components/ui/SwitchInput';
 import SelectFilter from '@/components/ui/filters/SelectFilter';
+import RangeFilter from '@/components/ui/filters/RangeFilter';
+import ColorFilter from '@/components/ui/filters/ColorFilter';
+import { ProductColor } from '@/enums/colors';
 import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
 import {
   CategoryPropertyFilter,
@@ -228,8 +233,8 @@ export default function FilterModal({
           )}
         </Container>
       </Box>
-      </>
-    );
+    </>
+  );
 
   const renderDetailView = () => {
     const filter = categoryFilters.find((f) => f.id === selectedFilter);

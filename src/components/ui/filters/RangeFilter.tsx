@@ -56,8 +56,6 @@ export default function RangeFilter({
     onChange(newValue);
   };
 
-  console.log('RangeFilter render - localValue:', localValue);
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, py: 2 }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
