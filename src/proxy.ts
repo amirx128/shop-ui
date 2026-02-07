@@ -82,7 +82,7 @@ function getDeviceRedirect(
       userAgent
     );
   const deviceSegment = isMobile ? 'mobile' : 'desktop';
-  const normalizedPath = normalizeDevicePath(pathnameWithoutLocale);
+  const normalizedPath = pathnameWithoutLocale === '/' ? '' : pathnameWithoutLocale;
   const targetPath = `/${locale}/${deviceSegment}${normalizedPath}`;
 
   if (targetPath === pathname) {
@@ -102,16 +102,4 @@ function getLocaleFromPath(pathname: string) {
   }
 
   return defaultLocale;
-}
-
-function normalizeDevicePath(pathnameWithoutLocale: string) {
-  if (!pathnameWithoutLocale || pathnameWithoutLocale === '/') {
-    return '';
-  }
-
-  if (/^\/auth\/login\/?$/.test(pathnameWithoutLocale)) {
-    return '/auth';
-  }
-
-  return pathnameWithoutLocale;
 }

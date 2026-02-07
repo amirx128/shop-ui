@@ -2,7 +2,7 @@
 
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 
 interface NavItemProps {
@@ -14,7 +14,29 @@ interface NavItemProps {
 export default function NavItem({ icon: Icon, label, href }: NavItemProps) {
   const t = useTranslations('navbar');
   const pathname = usePathname();
-  const isActive = pathname.split('/').at(-1) === href.split('/').at(-1);
+  const locale = useLocale();
+  const deviceSegments = new Set(['mobile', 'desktop']);
+  const normalizePath = (path: string) => {
+    if (!path || path === '#') return '#';
+    const withoutLocale = path.startsWith(`/${locale}`)
+      ? path.slice(locale.length + 1)
+      : path;
+    const segments = withoutLocale.split('/').filter(Boolean);
+    if (segments.length > 0 && deviceSegments.has(segments[0])) {
+      segments.shift();
+    }
+    const normalized = `/${segments.join('/')}`;
+    if (normalized === '/') return '/';
+    return normalized.replace(/\/+$/g, '');
+  };
+  const normalizedPathname = normalizePath(pathname);
+  const normalizedHref = normalizePath(href);
+  const isActive =
+    normalizedHref !== '#' &&
+    (normalizedHref === '/'
+      ? normalizedPathname === '/'
+      : normalizedPathname === normalizedHref ||
+        normalizedPathname.startsWith(`${normalizedHref}/`));
   return (
     <Link href={href}>
       <Box

@@ -110,7 +110,7 @@ export default function SimilarProductSection({
                         gap: 0.25,
                       }}
                     >
-                     
+
                     </Box>
                   </Box>
                 </SwiperSlide>

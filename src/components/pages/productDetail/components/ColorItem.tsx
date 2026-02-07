@@ -43,23 +43,14 @@ export default function ColorItem({
           borderColor: 'divider',
         }}
       />
-      <Box
+      <Typography
+        variant="body2"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 0.15,
+          fontSize: '14px',
         }}
       >
-        <Typography
-          variant="body2"
-          sx={{
-            fontSize: '14px',
-          }}
-        >
-          {colorName}
-        </Typography>
-        
-      </Box>
+        {colorName}
+      </Typography>
     </Box>
   );
 }
