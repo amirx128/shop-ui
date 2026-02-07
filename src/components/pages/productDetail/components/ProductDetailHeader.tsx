@@ -5,11 +5,11 @@ import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined
 import { useRouter } from 'next/navigation';
 
 interface ProductDetailHeaderProps {
-  productName: string;
+  headerText: string;
 }
 
 export default function ProductDetailHeader({
-  productName,
+  headerText,
 }: ProductDetailHeaderProps) {
   const router = useRouter();
 
@@ -45,7 +45,7 @@ export default function ProductDetailHeader({
               fontWeight: 500,
             }}
           >
-            {productName}
+            {headerText}
           </Typography>
         </Box>
       </Container>

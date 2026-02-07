@@ -3,7 +3,9 @@
 import { Box, Container, Typography } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import ProductCard from '@/components/ui/ProductCard';
+import ProductCard, {
+  ProductCardFavoriteToggle,
+} from '@/components/ui/ProductCard';
 import { ProductRelationSummary } from '../types';
 
 interface SimilarProductSectionProps {
@@ -12,6 +14,7 @@ interface SimilarProductSectionProps {
   locale: string;
   onAddToCart?: (product: ProductRelationSummary) => void;
   processingProductId?: string | null;
+  onFavoriteToggle?: ProductCardFavoriteToggle;
 }
 
 const fallbackImage = '/images/tempproduct.png';
@@ -22,6 +25,7 @@ export default function SimilarProductSection({
   locale,
   onAddToCart,
   processingProductId,
+  onFavoriteToggle,
 }: SimilarProductSectionProps) {
   const title = 'محصولات مشابه';
   const items = products ?? [];
@@ -90,19 +94,21 @@ export default function SimilarProductSection({
                       gap: 1,
                     }}
                   >
-                    <ProductCard
-                      image={image}
-                      colors={displayColors}
-                      category={product.categoryName}
-                      name={product.name}
-                      price={Number(product.priceRial)}
-                      addToCartText={addToCartText}
-                      size="md"
-                      detailUrl={detailUrl}
-                      onCardClick={openProduct}
-                      onAddToCart={() => onAddToCart?.(product)}
-                      isAddToCartLoading={processingProductId === product.id}
-                    />
+              <ProductCard
+                image={image}
+                colors={displayColors}
+                category={product.categoryName}
+                name={product.name}
+                price={Number(product.priceRial)}
+                addToCartText={addToCartText}
+                size="md"
+                detailUrl={detailUrl}
+                onCardClick={openProduct}
+                onAddToCart={() => onAddToCart?.(product)}
+                isAddToCartLoading={processingProductId === product.id}
+                productId={product.id}
+                onFavoriteToggle={onFavoriteToggle}
+              />
                     <Box
                       sx={{
                         display: 'flex',

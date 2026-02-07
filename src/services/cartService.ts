@@ -1,13 +1,9 @@
-import { authStorage } from '@/lib/storage/authStorage';
+import { resolveCustomerId } from '@/lib/customer';
 
 const ordersApiUrl =
   process.env.NEXT_PUBLIC_ORDERS_API_URL?.replace(/\/+$/, '') ?? 'http://localhost:5401';
 const inventoryApiUrl =
   process.env.NEXT_PUBLIC_INVENTORY_API_URL?.replace(/\/+$/, '') ?? 'http://localhost:5301';
-
-const FALLBACK_CUSTOMER_ID = 'd1a291d5-0cfa-4f5e-a019-44455492e985';
-
-const resolveCustomerId = () => authStorage.getCustomerId() ?? FALLBACK_CUSTOMER_ID;
 
 async function fetchJson<T>(input: RequestInfo, init?: RequestInit) {
   const response = await fetch(input, init);

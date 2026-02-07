@@ -9,6 +9,11 @@ import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlin
 import Image from 'next/image';
 import Button from './Button';
 
+export type ProductCardFavoriteToggle = (
+  productId: string,
+  nextValue: boolean
+) => Promise<boolean | void> | boolean | void;
+
 interface ProductCardProps {
   image: string;
   colors: string[];
@@ -24,6 +29,8 @@ interface ProductCardProps {
   isAddToCartLoading?: boolean;
   detailUrl?: string;
   onCardClick?: () => void;
+  productId?: string;
+  onFavoriteToggle?: ProductCardFavoriteToggle;
 }
 
 const formatPrice = (price: number) => price.toLocaleString('fa-IR');
@@ -58,12 +65,39 @@ export default function ProductCard({
   isAddToCartLoading = false,
   detailUrl,
   onCardClick,
+  productId,
+  onFavoriteToggle,
 }: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const titleProps = getTitleProps(detailUrl);
   const handleCardClick = () => {
     if (onCardClick) {
       onCardClick();
+    }
+  };
+
+  const handleFavoriteButtonClick = async () => {
+    const nextValue = !isFavorite;
+    setIsFavorite(nextValue);
+
+    if (!productId || !onFavoriteToggle) {
+      return;
+    }
+
+    let handled = true;
+    try {
+      const result = await Promise.resolve(
+        onFavoriteToggle(productId, nextValue)
+      );
+      if (result === false) {
+        handled = false;
+      }
+    } catch {
+      handled = false;
+    }
+
+    if (!handled) {
+      setIsFavorite(!nextValue);
     }
   };
 
@@ -236,7 +270,7 @@ export default function ProductCard({
                   }}
                   onClick={(event) => {
                     event.stopPropagation();
-                    setIsFavorite(!isFavorite);
+                    handleFavoriteButtonClick();
                   }}
                 >
                   {isFavorite ? (
@@ -369,7 +403,7 @@ export default function ProductCard({
               }}
               onClick={(event) => {
                 event.stopPropagation();
-                setIsFavorite(!isFavorite);
+                handleFavoriteButtonClick();
               }}
             >
               {isFavorite ? (

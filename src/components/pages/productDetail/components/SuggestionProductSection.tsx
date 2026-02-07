@@ -3,7 +3,9 @@
 import { Box, Container, Typography } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import ProductCard from '@/components/ui/ProductCard';
+import ProductCard, {
+  ProductCardFavoriteToggle,
+} from '@/components/ui/ProductCard';
 import { ProductRelationSummary } from '../types';
 
 interface SuggestionProductSectionProps {
@@ -12,6 +14,7 @@ interface SuggestionProductSectionProps {
   locale: string;
   onAddToCart?: (product: ProductRelationSummary) => void;
   processingProductId?: string | null;
+  onFavoriteToggle?: ProductCardFavoriteToggle;
 }
 
 const fallbackImage = '/images/tempproduct.png';
@@ -22,6 +25,7 @@ export default function SuggestionProductSection({
   locale,
   onAddToCart,
   processingProductId,
+  onFavoriteToggle,
 }: SuggestionProductSectionProps) {
   const title = 'محصولات پیشنهادی';
   const items = products ?? [];
@@ -102,6 +106,8 @@ export default function SuggestionProductSection({
                     onCardClick={openProduct}
                     onAddToCart={() => onAddToCart?.(product)}
                     isAddToCartLoading={processingProductId === product.id}
+                    productId={product.id}
+                    onFavoriteToggle={onFavoriteToggle}
                   />
                     <Box
                       sx={{

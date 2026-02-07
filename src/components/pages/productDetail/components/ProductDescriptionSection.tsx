@@ -18,6 +18,7 @@ interface ProductDescriptionSectionProps {
   };
   description: string;
   fullDescription?: string;
+  locale: string;
 }
 
 type DescriptionSegment =
@@ -36,9 +37,10 @@ const formatInlinePrice = (value?: number) => {
 type InlineProductGroupProps = {
   ids: string[];
   products: Record<string, ProductDetailsDto>;
+  locale: string;
 };
 
-function InlineProductGroup({ ids, products }: InlineProductGroupProps) {
+function InlineProductGroup({ ids, products, locale }: InlineProductGroupProps) {
   return (
     <Box className="product-in-text-inline-grid">
       {ids.map((id) => {
@@ -48,8 +50,20 @@ function InlineProductGroup({ ids, products }: InlineProductGroupProps) {
           product?.mainImageUrl ||
           product?.images?.[0]?.url ||
           '/images/tempproduct.png';
+        const slugOrId = product?.slug ?? id;
+        const detailUrl = `/${locale}/mobile/product/${encodeURIComponent(
+          slugOrId
+        )}`;
         return (
-          <Box key={id} className="product-in-text-inline-card">
+          <Box
+            key={id}
+            component="a"
+            href={detailUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="product-in-text-inline-card"
+            sx={{ textDecoration: 'none', color: 'inherit' }}
+          >
             <Box className="product-in-text-inline-card-media">
               <img src={imageUrl} alt={product?.name ?? id} />
             </Box>
@@ -72,6 +86,7 @@ export default function ProductDescriptionSection({
   translations,
   description,
   fullDescription,
+  locale,
 }: ProductDescriptionSectionProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inlineProducts, setInlineProducts] = useState<Record<string, ProductDetailsDto>>({});
@@ -267,6 +282,7 @@ export default function ProductDescriptionSection({
                   key={segment.key}
                   ids={segment.ids}
                   products={inlineProducts}
+                  locale={locale}
                 />
               )
             )}

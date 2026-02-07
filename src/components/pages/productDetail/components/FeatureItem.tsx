@@ -13,12 +13,12 @@ export default function FeatureItem({ featureName }: FeatureItemProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: 67,
-        height: 32,
         border: '1px solid',
         borderColor: 'divider',
         borderRadius: '8px',
         cursor: 'default',
+        padding: '4px 12px',
+        minHeight: 32,
       }}
     >
       <Typography
@@ -26,6 +26,9 @@ export default function FeatureItem({ featureName }: FeatureItemProps) {
         sx={{
           fontSize: '12px',
           textAlign: 'center',
+          whiteSpace: 'normal',
+          wordBreak: 'break-word',
+          overflowWrap: 'anywhere',
         }}
       >
         {featureName}

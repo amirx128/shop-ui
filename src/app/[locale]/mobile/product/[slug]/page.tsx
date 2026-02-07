@@ -1,4 +1,3 @@
-import { getTranslations } from 'next-intl/server';
 import ProductDetailContainer from '@/components/pages/productDetail/ProductDetailContainer';
 
 export async function generateMetadata({
@@ -6,14 +5,10 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale } = await params;
-  const t = await getTranslations({
-    locale,
-    namespace: 'product',
-  });
+  const { slug } = await params;
 
   return {
-    title: t('addToCart'),
+    title: slug,
   };
 }
 

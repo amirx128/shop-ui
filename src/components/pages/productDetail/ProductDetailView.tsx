@@ -21,6 +21,8 @@ import {
   ProductVariableSelection,
 } from './types';
 import { addProductToCart, checkoutCart, findDefaultSku } from '@/services/cartService';
+import { addFavorite, removeFavorite } from '@/services/favoritesService';
+import type { ProductCardFavoriteToggle } from '@/components/ui/ProductCard';
 
 interface ProductDetailViewProps {
   translations: Record<string, string>;
@@ -112,6 +114,23 @@ export default function ProductDetailView({
     []
   );
 
+  const handleFavoriteToggle = useCallback<ProductCardFavoriteToggle>(
+    async (productId, shouldAdd) => {
+      try {
+        if (shouldAdd) {
+          await addFavorite(productId);
+        } else {
+          await removeFavorite(productId);
+        }
+        return true;
+      } catch (error) {
+        toast.error('Failed to update favorites.');
+        return false;
+      }
+    },
+    []
+  );
+
   const translate = (key: string) => translations[key] ?? '';
 
   const handleSelectionChange = useCallback(
@@ -144,7 +163,7 @@ export default function ProductDetailView({
         height: '100vh',
       }}
     >
-      <ProductDetailHeader productName={product.name} />
+      <ProductDetailHeader headerText={product.slug ?? product.name} />
 
       <Box
         sx={{
@@ -157,7 +176,9 @@ export default function ProductDetailView({
 
         <ProductTitleSection
           category={categoryName}
+          productId={product.id}
           productName={product.name}
+          onFavoriteToggle={handleFavoriteToggle}
           toastTranslations={{
             shareSuccess: translate('shareSuccess'),
             shareError: translate('shareError'),
@@ -191,6 +212,7 @@ export default function ProductDetailView({
           }}
           description={product.description}
           fullDescription={product.description}
+          locale={locale}
         />
 
         <ProductFeatureSection
@@ -233,6 +255,7 @@ export default function ProductDetailView({
           locale={locale}
           onAddToCart={handleRelationProductAddToCart}
           processingProductId={relationProductLoadingId}
+          onFavoriteToggle={handleFavoriteToggle}
         />
         <SuggestionProductSection
           addToCartText={translate('addToCart')}
@@ -240,6 +263,7 @@ export default function ProductDetailView({
           locale={locale}
           onAddToCart={handleRelationProductAddToCart}
           processingProductId={relationProductLoadingId}
+          onFavoriteToggle={handleFavoriteToggle}
         />
       </Box>
 
