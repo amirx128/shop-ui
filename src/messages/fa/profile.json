@@ -19,6 +19,50 @@
       "about": "درباره ما",
       "logout": "خروج از حساب کاربری"
     },
+    "addressesPage": {
+      "emptyState": {
+        "description": "شما تاکنون آدرسی جهت دریافت سفارش ثبت نکرده اید.",
+        "imageAlt": "حالت بدون آدرس"
+      },
+      "actions": {
+        "add": "افزودن آدرس جدید",
+        "edit": "ویرایش",
+        "editAddress": "ویرایش آدرس",
+        "cancel": "انصراف"
+      },
+      "labels": {
+        "selectedAddress": "ارسال به آدرس انتخاب شده",
+        "receiver": "گیرنده :"
+      },
+      "fields": {
+        "receiverName": "نام گیرنده",
+        "phone": "شماره تلفن همراه",
+        "email": "ایمیل (اختیاری)",
+        "province": "استان",
+        "city": "شهر",
+        "postalCode": "کد پستی",
+        "address": "آدرس"
+      },
+      "validation": {
+        "required": "این فیلد الزامی است.",
+        "email": "ایمیل معتبر وارد کنید.",
+        "phone": "شماره تلفن همراه معتبر وارد کنید.",
+        "postalCode": "کد پستی معتبر وارد کنید."
+      }
+    },
+    "notificationsPage": {
+      "tabs": {
+        "all": "همه",
+        "read": "خوانده شده",
+        "unread": "خوانده نشده"
+      },
+      "emptyState": {
+        "description": "هیچ پیامی وجود ندارد."
+      },
+      "sample": {
+        "message": "با خرید مجموعه جدید لباس‌های نوزاد ، تا ۲۰ درصد تخفیف ویژه دریافت کنید. این فرصت را از دست ندهید!"
+      }
+    },
     "accountProfile": {
       "title": "اطلاعات کاربری",
       "fields": {

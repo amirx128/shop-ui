@@ -19,6 +19,7 @@ interface ProductCardProps {
   addToCartText: string;
   size?: 'full' | 'md';
   backgroundColor?: string;
+  defaultFavorite?: boolean;
   onCompareClick?: () => void;
 }
 
@@ -32,9 +33,10 @@ export default function ProductCard({
   addToCartText,
   size = 'full',
   backgroundColor = 'transparent',
+  defaultFavorite = false,
   onCompareClick,
 }: ProductCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(defaultFavorite);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString('fa-IR');
