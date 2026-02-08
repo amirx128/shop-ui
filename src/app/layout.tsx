@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import type { Locale } from '@/i18n';
 import { defaultLocale, locales } from '@/i18n';
 import './globals.css';
+import 'leaflet/dist/leaflet.css';
 import Providers from './providers';
 import ServiceWorkerRegister from './service-worker-register';
 
