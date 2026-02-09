@@ -8,7 +8,8 @@ import ShopBody from './ShopBody';
 import ProductCard from '@/components/ui/ProductCard';
 import FilterModal from './FilterModal';
 import { toast } from 'react-toastify';
-import { addProductToCart, checkoutCart, findDefaultSku } from '@/services/cartService';
+import { addProductToCartWithDefaultSku, checkoutCart } from '@/services/cartService';
+import { getBaseCatalogUrl } from '@/lib/catalog';
 import {
   ShopHeaderItemProps,
   CategoryPropertyFilter,
@@ -44,11 +45,7 @@ export default function ShopContainerClient({
   translations,
   locale,
 }: ShopContainerClientProps) {
-  const catalogApiBaseUrl = (
-    process.env.NEXT_PUBLIC_CATALOG_API_URL ??
-    process.env.NEXT_CATALOG_API_URL ??
-    'http://localhost:5201'
-  ).replace(/\/+$/, '');
+  const catalogApiBaseUrl = getBaseCatalogUrl();
 
   const trimSlugSuffix = (slug?: string, productId?: string) => {
     if (!slug) {
@@ -215,26 +212,9 @@ export default function ShopContainerClient({
     setProcessingProductId(product.id);
 
     try {
-      let resolvedSku = product.defaultSku ?? null;
-      if (!resolvedSku?.id) {
-        const fallback = await findDefaultSku(product.id);
-        if (fallback?.skuId) {
-          resolvedSku = {
-            id: fallback.skuId,
-            availableQty: fallback.availableQty,
-          };
-        }
-      }
-
-      const skuId = resolvedSku?.id;
-      const availableQty = resolvedSku?.availableQty ?? 0;
-      if (!skuId || availableQty < 1) {
-        throw new Error('هیچ SKU با موجودی بیشتر از 1 پیدا نشد.');
-      }
-
-      await addProductToCart({
+      await addProductToCartWithDefaultSku({
         productId: product.id,
-        skuId,
+        defaultSku: product.defaultSku,
         quantity: 1,
         unitOfMeasure: product.unitOfMeasure ?? 'unit',
         unitPrice: product.priceRial,
@@ -246,7 +226,9 @@ export default function ShopContainerClient({
       toast.success('سفارش مشتری ثبت شد.');
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : 'خطا در افزودن محصول به سبد خرید.'
+        error instanceof Error
+          ? error.message
+          : 'خطا در افزودن محصول به سبد خرید.'
       );
     } finally {
       setProcessingProductId(null);

@@ -1,10 +1,12 @@
-﻿'use client';
+'use client';
 
 import { useEffect } from 'react';
 import {
   Box,
   Container,
+  MenuItem,
   Modal,
+  TextField,
   Typography,
   IconButton,
   Button as MuiButton,
@@ -15,6 +17,7 @@ import TextInput from '@/components/ui/TextInput';
 import TextAreaInput from '@/components/ui/TextAreaInput';
 import Button from '@/components/ui/Button';
 import { AddressFormValues } from '../types/checkout';
+import type { LocationOption } from '@/services/location.service';
 
 interface AddressFormModalProps {
   open: boolean;
@@ -33,10 +36,16 @@ interface AddressFormModalProps {
     email: string;
     province: string;
     city: string;
-    postalCode: string;
+    street: string;
     addressLine: string;
     required: string;
   };
+  provinces: LocationOption[];
+  cities: LocationOption[];
+  isCityLoading: boolean;
+  onProvinceChange: (provinceId: number) => Promise<LocationOption[]>;
+  isSubmitting: boolean;
+  formId: string;
 }
 
 export default function AddressFormModal({
@@ -46,23 +55,57 @@ export default function AddressFormModal({
   onClose,
   onSubmit,
   translations,
+  provinces,
+  cities,
+  isCityLoading,
+  onProvinceChange,
+  isSubmitting,
+  formId,
 }: AddressFormModalProps) {
   const {
     register,
     control,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<AddressFormValues>({
     defaultValues: initialValues,
     mode: 'onChange',
   });
 
+  const selectedProvinceId = watch('provinceId');
+
   useEffect(() => {
     if (open) {
       reset(initialValues);
     }
   }, [open, initialValues, reset]);
+
+  useEffect(() => {
+    if (!selectedProvinceId) {
+      setValue('cityId', 0);
+      return;
+    }
+
+    onProvinceChange(selectedProvinceId).then((loaded) => {
+      if (mode === 'create' && loaded.length > 0) {
+        setValue('cityId', loaded[0].id);
+        return;
+      }
+
+      if (mode === 'edit' && initialValues.cityId) {
+        setValue('cityId', initialValues.cityId);
+      }
+    });
+  }, [
+    mode,
+    onProvinceChange,
+    selectedProvinceId,
+    setValue,
+    initialValues.cityId,
+  ]);
 
   const title =
     mode === 'create'
@@ -71,10 +114,15 @@ export default function AddressFormModal({
   const submitLabel =
     mode === 'create' ? translations.submitAdd : translations.submitEdit;
 
+  const handleClose = () => {
+    reset(initialValues);
+    onClose();
+  };
+
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       sx={{
         display: 'flex',
         alignItems: 'flex-end',
@@ -83,6 +131,7 @@ export default function AddressFormModal({
     >
       <Box
         component="form"
+        id={formId}
         onSubmit={handleSubmit(onSubmit)}
         sx={{
           width: '100%',
@@ -113,7 +162,7 @@ export default function AddressFormModal({
                 {title}
               </Typography>
               <IconButton
-                onClick={onClose}
+                onClick={handleClose}
                 size="small"
                 sx={{ color: 'text.primary' }}
               >
@@ -163,36 +212,70 @@ export default function AddressFormModal({
                 {...register('email')}
               />
 
-              <TextInput
-                label={translations.province}
-                placeholder={translations.province}
-                fullWidth
-                error={!!errors.province}
-                helperText={errors.province?.message}
-                {...register('province', {
-                  required: translations.required,
-                })}
+              <Controller
+                name="provinceId"
+                control={control}
+                rules={{ required: translations.required }}
+                render={({ field }) => (
+                  <TextField
+                    label={translations.province}
+                    select
+                    value={field.value ?? ''}
+                    onChange={(event) =>
+                      field.onChange(Number(event.target.value) || 0)
+                    }
+                    error={Boolean(errors.provinceId)}
+                    helperText={errors.provinceId?.message}
+                    fullWidth
+                  >
+                    <MenuItem value="">
+                      <em>{translations.province}</em>
+                    </MenuItem>
+                    {provinces.map((province) => (
+                      <MenuItem key={province.id} value={province.id}>
+                        {province.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+
+              <Controller
+                name="cityId"
+                control={control}
+                rules={{ required: translations.required }}
+                render={({ field }) => (
+                  <TextField
+                    label={translations.city}
+                    select
+                    value={field.value ?? ''}
+                    onChange={(event) =>
+                      field.onChange(Number(event.target.value) || 0)
+                    }
+                    error={Boolean(errors.cityId)}
+                    helperText={errors.cityId?.message}
+                    fullWidth
+                    disabled={isCityLoading || cities.length === 0}
+                  >
+                    <MenuItem value="">
+                      <em>{translations.city}</em>
+                    </MenuItem>
+                    {cities.map((city) => (
+                      <MenuItem key={city.id} value={city.id}>
+                        {city.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
               />
 
               <TextInput
-                label={translations.city}
-                placeholder={translations.city}
+                label={translations.street}
+                placeholder={translations.street}
                 fullWidth
-                error={!!errors.city}
-                helperText={errors.city?.message}
-                {...register('city', {
-                  required: translations.required,
-                })}
-              />
-
-              <TextInput
-                label={translations.postalCode}
-                placeholder={translations.postalCode}
-                inputMode="numeric"
-                fullWidth
-                error={!!errors.postalCode}
-                helperText={errors.postalCode?.message}
-                {...register('postalCode', {
+                error={!!errors.street}
+                helperText={errors.street?.message}
+                {...register('street', {
                   required: translations.required,
                 })}
               />
@@ -224,17 +307,18 @@ export default function AddressFormModal({
         >
           <Container>
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button variant="outline" fullWidth type="submit">
+              <Button variant="outline" fullWidth type="submit" disabled={isSubmitting}>
                 {submitLabel}
               </Button>
               <MuiButton
                 variant="text"
                 fullWidth
-                onClick={onClose}
+                onClick={handleClose}
                 sx={{
                   color: 'text.secondary',
                   textTransform: 'none',
                 }}
+                disabled={isSubmitting}
               >
                 {translations.cancel}
               </MuiButton>

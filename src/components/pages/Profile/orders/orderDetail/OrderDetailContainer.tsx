@@ -17,6 +17,51 @@ import type {
   ProductOrderCartLabels,
   ProductOrderCartProduct,
 } from '@/components/ui/ProductOrderCart';
+import { ORDERS_API_URL } from '@/lib/orders';
+import type {
+  CartAddressDto,
+  ShoppingCartDetail,
+} from '@/types/shoppingCartDetail';
+
+const parseUtcDate = (value?: string | null): Date | null => {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
+const formatAddress = (address?: CartAddressDto | null): string | null => {
+  if (!address) {
+    return null;
+  }
+
+  const segments = [
+    address.street,
+    address.address,
+    address.alley,
+    address.plaque,
+    address.unit,
+  ].filter((segment): segment is string => Boolean(segment));
+
+  return segments.join(', ') || null;
+};
+
+async function fetchShoppingCartDetail(orderId: string): Promise<ShoppingCartDetail> {
+  const response = await fetch(
+    `${ORDERS_API_URL}/api/shopping-carts/${encodeURIComponent(orderId)}/detail`,
+    {
+      cache: 'no-store',
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error('Unable to load order detail.');
+  }
+
+  return (await response.json()) as ShoppingCartDetail;
+}
 
 interface OrderDetailContainerProps {
   orderId: string;
@@ -30,19 +75,113 @@ export default async function OrderDetailContainer({
     getTranslations('profile'),
   ]);
 
-  const orderStatusById: Record<string, OrderDetailStatus> = {
-    '1': 'processing',
-    '2': 'delivered',
-    '3': 'returned',
-    '4': 'canceled',
-  };
-  const orderStatus = orderStatusById[orderId] ?? 'delivered';
-  const isProcessingOrder = orderStatus === 'processing';
-  const isDeliveredOrder = orderStatus === 'delivered';
+  const cartDetail = await fetchShoppingCartDetail(orderId);
+
   const isFaLocale = locale.startsWith('fa');
   const numberFormatter = new Intl.NumberFormat(locale);
+  const dateFormatter = new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
   const currencyLabel = isFaLocale ? 'تومان' : 'Toman';
-  const orderCode = '65758595';
+
+  const orderStatus: OrderDetailStatus = cartDetail.isPaid ? 'delivered' : 'processing';
+  const isProcessingOrder = orderStatus === 'processing';
+  const isDeliveredOrder = orderStatus === 'delivered';
+
+  const createdAtDate = parseUtcDate(cartDetail.createdAtUtc) ?? new Date();
+  const deliveryDate =
+    parseUtcDate(cartDetail.modifiedAtUtc) ??
+    parseUtcDate(cartDetail.paidAtUtc) ??
+    parseUtcDate(cartDetail.createdAtUtc);
+
+  const orderCode = cartDetail.cartCode?.trim() || cartDetail.cartId;
+  const shippingAmount = cartDetail.shippingAmount;
+  const shippingCostValue =
+    shippingAmount != null && shippingAmount > 0
+      ? `${numberFormatter.format(shippingAmount)} ${currencyLabel}`
+      : isFaLocale
+        ? 'رایگان'
+        : 'Free';
+  const payableAmount = cartDetail.paymentAmount ?? cartDetail.itemsTotal;
+  const payableValue = `${numberFormatter.format(payableAmount)} ${currencyLabel}`;
+  const shippingMethodValue = isFaLocale ? 'پست پیشتاز' : 'Express post';
+  const receiverValue =
+    cartDetail.customerDisplayName ??
+    cartDetail.customerAddress?.title ??
+    cartDetail.customerId ??
+    '—';
+  const phoneValue = cartDetail.customerPhoneNumber ?? '—';
+  const addressValue = formatAddress(cartDetail.customerAddress) ?? '—';
+
+  const summaryItems: OrderDetailSummaryItem[] = [
+    {
+      id: 'order-date',
+      value: dateFormatter.format(createdAtDate),
+    },
+    {
+      id: 'order-code',
+      label: t('orderDetail.fields.orderCode'),
+      value: orderCode,
+    },
+    {
+      id: 'shipping-cost',
+      label: t('orderDetail.fields.shippingCost'),
+      value: shippingCostValue,
+    },
+    {
+      id: 'payable-amount',
+      label: t('orderDetail.fields.payableAmount'),
+      value: payableValue,
+    },
+    {
+      id: 'shipping-method',
+      label: t('orderDetail.fields.shippingMethod'),
+      value: shippingMethodValue,
+    },
+    {
+      id: 'delivery-time',
+      label: t('orderDetail.fields.deliveryTime'),
+      value: deliveryDate ? dateFormatter.format(deliveryDate) : '—',
+    },
+    {
+      id: 'receiver',
+      label: t('orderDetail.fields.receiver'),
+      value: receiverValue,
+    },
+    {
+      id: 'phone',
+      label: t('orderDetail.fields.phone'),
+      value: phoneValue,
+    },
+    {
+      id: 'address',
+      label: t('orderDetail.fields.address'),
+      value: addressValue,
+      fullWidth: true,
+    },
+  ];
+
+  const productLabels: ProductOrderCartLabels = {
+    color: t('orderDetail.product.color'),
+    quantity: t('orderDetail.product.quantity'),
+    price: t('orderDetail.product.price'),
+  };
+
+  const products: ProductOrderCartProduct[] = cartDetail.items.map((item) => ({
+    id: item.productId,
+    title:
+      item.name ?? (isFaLocale ? 'محصول بدون نام' : 'Unnamed product'),
+    color: {
+      name: item.colorName ?? (isFaLocale ? 'انتخاب‌شده' : 'Selected'),
+      hex: item.colorHex || '#d4d4d8',
+    },
+    quantity: isFaLocale ? `${item.quantity} عدد` : `${item.quantity} item`,
+    price: `${numberFormatter.format(item.rowPrice)} ${currencyLabel}`,
+    imageSrc: item.imageUrl ?? '/images/tempProduct.png',
+    imageAlt: item.name ?? (isFaLocale ? 'تصویر محصول' : 'Product image'),
+  }));
 
   const cancelLabels: CancelOrderLabels = {
     action: t('orderDetail.cancelAction'),
@@ -67,151 +206,6 @@ export default async function OrderDetailContainer({
     successDescription: t('orderDetail.review.successDescription'),
     acknowledge: t('orderDetail.review.acknowledge'),
   };
-
-  const summaryItems: OrderDetailSummaryItem[] =
-    orderStatus === 'returned'
-      ? [
-          {
-            id: 'return-request-date',
-            label: t('orderDetail.returnFields.returnRequestDate'),
-            value: isFaLocale ? '۱۰ مهر ۱۴۰۴' : 'Oct 2, 2025',
-          },
-          {
-            id: 'return-method',
-            label: t('orderDetail.returnFields.returnMethod'),
-            value: isFaLocale ? 'پست پیشتاز' : 'Express post',
-          },
-          {
-            id: 'return-receiver-1',
-            label: t('orderDetail.fields.receiver'),
-            value: isFaLocale ? 'باران اکبری' : 'Baran Akbari',
-          },
-          {
-            id: 'refunded-amount',
-            label: t('orderDetail.returnFields.refundedAmount'),
-            value: `${numberFormatter.format(1123020)} ${currencyLabel}`,
-          },
-          {
-            id: 'return-receiver-2',
-            label: t('orderDetail.fields.receiver'),
-            value: isFaLocale ? 'باران اکبری' : 'Baran Akbari',
-          },
-          {
-            id: 'return-phone',
-            label: t('orderDetail.fields.phone'),
-            value: isFaLocale ? '۰۹۱۲۴۹۳۷۴۴۶' : '09124937446',
-          },
-          {
-            id: 'return-address',
-            label: t('orderDetail.fields.address'),
-            value: isFaLocale
-              ? 'تهران ، رسالت ، خیابان کرد ، کوچه اول ، پلاک ۱، واحد ۴'
-              : 'Tehran, Resalat, Kord St, First Alley, No. 1, Unit 4',
-            fullWidth: true,
-          },
-        ]
-      : orderStatus === 'canceled'
-        ? [
-            {
-              id: 'canceled-date',
-              value: isFaLocale ? '۵ مهر ۱۴۰۳' : 'Sep 26, 2024',
-            },
-            {
-              id: 'canceled-order-code',
-              label: t('orderDetail.fields.orderCode'),
-              value: isFaLocale ? '۸۵۹۰۳۲۶' : '8590326',
-            },
-            {
-              id: 'canceled-shipping-cost',
-              label: t('orderDetail.fields.shippingCost'),
-              value: isFaLocale ? 'رایگان' : 'Free',
-            },
-            {
-              id: 'canceled-order-amount',
-              label: t('orderDetail.canceledFields.orderAmount'),
-              value: `${numberFormatter.format(1123020)} ${currencyLabel}`,
-            },
-            {
-              id: 'canceled-delivery-time',
-              label: t('orderDetail.fields.deliveryTime'),
-              value: isFaLocale
-                ? 'شنبه ۲۵ مهر ۱۴۰۴'
-                : 'Saturday, Oct 17, 2025',
-            },
-          ]
-      : [
-          {
-            id: 'order-date',
-            value: isFaLocale ? '5 مهر 1404' : 'Sep 27, 2025',
-          },
-          {
-            id: 'order-code',
-            label: t('orderDetail.fields.orderCode'),
-            value: orderCode,
-          },
-          {
-            id: 'shipping-cost',
-            label: t('orderDetail.fields.shippingCost'),
-            value: isFaLocale ? 'رایگان' : 'Free',
-          },
-          {
-            id: 'payable-amount',
-            label: t('orderDetail.fields.payableAmount'),
-            value: `${numberFormatter.format(1850000)} ${currencyLabel}`,
-          },
-          {
-            id: 'shipping-method',
-            label: t('orderDetail.fields.shippingMethod'),
-            value: isFaLocale ? 'پست پیشتاز' : 'Express post',
-          },
-          {
-            id: 'delivery-time',
-            label: t('orderDetail.fields.deliveryTime'),
-            value: isFaLocale ? '25 مهر 1404' : 'Oct 17, 2025',
-          },
-          {
-            id: 'receiver',
-            label: t('orderDetail.fields.receiver'),
-            value: isFaLocale ? 'باران اکبری' : 'Baran Akbari',
-          },
-          {
-            id: 'phone',
-            label: t('orderDetail.fields.phone'),
-            value: '09121234567',
-          },
-          {
-            id: 'address',
-            label: t('orderDetail.fields.address'),
-            value: isFaLocale
-              ? 'تهران ، رسالت ، خیابان کرد ، کوچه اول ، پلاک ۱، واحد ۴'
-              : 'Tehran, Resalat, Kord St, First Alley, No. 1, Unit 4',
-            fullWidth: true,
-          },
-        ];
-
-  const productLabels: ProductOrderCartLabels = {
-    color: t('orderDetail.product.color'),
-    quantity: t('orderDetail.product.quantity'),
-    price: t('orderDetail.product.price'),
-  };
-
-  const products: ProductOrderCartProduct[] = Array.from(
-    { length: 3 },
-    (_, index) => ({
-      id: `product-${index + 1}`,
-      title: isFaLocale
-        ? 'آغوشی سوئیسی مخمل کبریتی آرامیس کد ۶۰۰۵'
-        : 'Swiss corduroy baby carrier Aramis 6005',
-      color: {
-        name: isFaLocale ? 'مشکی' : 'Black',
-        hex: '#000000',
-      },
-      quantity: isFaLocale ? '1 عدد' : '1 item',
-      price: `${numberFormatter.format(18500000)} ${currencyLabel}`,
-      imageSrc: '/images/tempProduct.png',
-      imageAlt: isFaLocale ? 'تصویر محصول' : 'Product image',
-    }),
-  );
 
   const title = `${t('orderDetail.title')} ${orderCode}`;
 

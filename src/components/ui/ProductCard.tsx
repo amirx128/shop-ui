@@ -1,6 +1,4 @@
 'use client';
-
-import { useState } from 'react';
 import { Box, Typography, SxProps, Theme } from '@mui/material';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -24,7 +22,7 @@ interface ProductCardProps {
   addToCartText: string;
   size?: 'full' | 'md';
   backgroundColor?: string;
-  defaultFavorite?: boolean;
+  isFavorite?: boolean;
   onCompareClick?: () => void;
   onAddToCart?: () => void;
   isAddToCartLoading?: boolean;
@@ -61,7 +59,7 @@ export default function ProductCard({
   addToCartText,
   size = 'full',
   backgroundColor = 'transparent',
-  defaultFavorite = false,
+  isFavorite = false,
   onCompareClick,
   onAddToCart = () => {},
   isAddToCartLoading = false,
@@ -70,7 +68,6 @@ export default function ProductCard({
   productId,
   onFavoriteToggle,
 }: ProductCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
   const titleProps = getTitleProps(detailUrl);
   const handleCardClick = () => {
     if (onCardClick) {
@@ -79,28 +76,11 @@ export default function ProductCard({
   };
 
   const handleFavoriteButtonClick = async () => {
-    const nextValue = !isFavorite;
-    setIsFavorite(nextValue);
-
     if (!productId || !onFavoriteToggle) {
       return;
     }
 
-    let handled = true;
-    try {
-      const result = await Promise.resolve(
-        onFavoriteToggle(productId, nextValue)
-      );
-      if (result === false) {
-        handled = false;
-      }
-    } catch {
-      handled = false;
-    }
-
-    if (!handled) {
-      setIsFavorite(!nextValue);
-    }
+    await onFavoriteToggle(productId, !isFavorite);
   };
 
   if (size === 'md') {

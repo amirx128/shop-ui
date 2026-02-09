@@ -8,6 +8,7 @@ export interface CartProduct {
   id: string;
   image: string;
   quantity: number;
+  skuId?: string | null;
   category: string;
   name: string;
   price: number;

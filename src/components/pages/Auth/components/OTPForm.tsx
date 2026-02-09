@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -45,12 +46,35 @@ export default function OTPForm({
     register,
     handleSubmit,
     formState: { errors, isValid },
+    watch,
   } = useForm<OTPFormData>({
     resolver: zodResolver(otpSchema),
     mode: 'onChange',
   });
 
   const { isExpired, reset, formatTime } = useCountdown(180);
+  const otpValue = watch('otp');
+  const lastAutoSubmit = useRef<string | undefined>(undefined);
+  const submitAutomatically = useCallback(() => {
+    handleSubmit(onSubmit)();
+  }, [handleSubmit, onSubmit]);
+
+  useEffect(() => {
+    if (!otpValue || otpValue.length < 6) {
+      lastAutoSubmit.current = undefined;
+      return;
+    }
+
+    if (
+      otpValue.length === 6 &&
+      isValid &&
+      !isSubmitting &&
+      lastAutoSubmit.current !== otpValue
+    ) {
+      lastAutoSubmit.current = otpValue;
+      submitAutomatically();
+    }
+  }, [isValid, isSubmitting, otpValue, submitAutomatically]);
 
   const handleResendCode = () => {
     if (isResending) {

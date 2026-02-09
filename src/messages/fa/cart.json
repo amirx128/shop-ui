@@ -11,6 +11,20 @@
     "itemsPrice": "قیمت کالا ها",
     "cartTotal": "جمع سبد خرید",
     "savings": "سود شما از خرید",
-    "checkout": "تایید و تکمیل سفارش"
+    "checkout": "تایید و تکمیل سفارش",
+    "modal": {
+      "title": "تایید سفارش",
+      "deliveryAddressLabel": "آدرس وصول",
+      "addressNotFound": "آدرسی یافت نشد، لطفا یک آدرس پیش‌فرض ست کنید.",
+      "question": "آیا تایید می‌کنید؟",
+      "confirm": "بلی",
+      "decline": "خیر",
+      "changeDefaultAddress": "تغییر آدرس پیش‌فرض",
+      "loadingAddress": "در حال بارگذاری آدرس...",
+      "labels": {
+        "province": "استان",
+        "city": "شهر"
+      }
+    }
   }
 }

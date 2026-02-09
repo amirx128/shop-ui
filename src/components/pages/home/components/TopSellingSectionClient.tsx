@@ -6,6 +6,7 @@ import { alpha } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import { toast } from 'react-toastify';
 import Button from '@/components/ui/Button';
 import ProductCard from '@/components/ui/ProductCard';
 import type {
@@ -13,6 +14,8 @@ import type {
   HomeTopSellingTranslations,
 } from '../types';
 import Image from 'next/image';
+import { addProductToCartWithDefaultSku, checkoutCart } from '@/services/cartService';
+import { FALLBACK_PRODUCT_ID } from '@/lib/fallbackProduct';
 
 const tabKeys = ['all', 'newest', 'bestSelling', 'discounted'] as const;
 
@@ -28,6 +31,7 @@ export default function TopSellingSectionClient({
   products,
 }: TopSellingSectionClientProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('all');
+  const [processingProductId, setProcessingProductId] = useState<string | null>(null);
 
   const tabLabels: Record<TabKey, string> = {
     all: translations.tabs.all,
@@ -37,6 +41,32 @@ export default function TopSellingSectionClient({
   };
 
   const displayedProducts = products;
+
+  const handleAddToCart = async (cardId: string, price: number) => {
+    setProcessingProductId(cardId);
+    try {
+      await addProductToCartWithDefaultSku({
+        productId: FALLBACK_PRODUCT_ID,
+        quantity: 1,
+        unitOfMeasure: 'unit',
+        unitPrice: price,
+        discountPerUnit: 0,
+        rowPrice: price,
+      });
+      await checkoutCart();
+      toast.success('سفارش مشتری ثبت شد.');
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'خطا در افزودن محصول به سبد خرید.'
+      );
+    } finally {
+      setProcessingProductId((current) =>
+        current === cardId ? null : current
+      );
+    }
+  };
 
   return (
     <Box
@@ -132,6 +162,9 @@ export default function TopSellingSectionClient({
                   addToCartText={translations.addToCart}
                   size="md"
                   backgroundColor="common.white"
+                  productId={product.id}
+                  onAddToCart={() => handleAddToCart(product.id, product.price)}
+                  isAddToCartLoading={processingProductId === product.id}
                 />
               </SwiperSlide>
             ))}

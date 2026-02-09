@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { Box, Container, Typography, Divider } from '@mui/material';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -19,6 +18,7 @@ interface ProductTitleSectionProps {
     copyError: string;
   };
   onFavoriteToggle?: ProductCardFavoriteToggle;
+  isFavorite?: boolean;
 }
 
 export default function ProductTitleSection({
@@ -27,8 +27,8 @@ export default function ProductTitleSection({
   productId,
   onFavoriteToggle,
   toastTranslations,
+  isFavorite = false,
 }: ProductTitleSectionProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -108,28 +108,10 @@ export default function ProductTitleSection({
 
             <Box
               onClick={async () => {
-                const nextValue = !isFavorite;
-                setIsFavorite(nextValue);
-
                 if (!onFavoriteToggle) {
                   return;
                 }
-
-                let handled = true;
-                try {
-                  const result = await Promise.resolve(
-                    onFavoriteToggle(productId, nextValue)
-                  );
-                  if (result === false) {
-                    handled = false;
-                  }
-                } catch {
-                  handled = false;
-                }
-
-                if (!handled) {
-                  setIsFavorite(!nextValue);
-                }
+                await onFavoriteToggle(productId, !isFavorite);
               }}
               sx={{
                 cursor: 'pointer',

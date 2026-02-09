@@ -1,4 +1,5 @@
 import { axiosInstanceIdentity } from './axios.config';
+import { authStorage } from '@/lib/storage/authStorage';
 
 export type IdentityProfileResponse = {
   userId: string;
@@ -9,19 +10,21 @@ export type IdentityProfileResponse = {
   lastName: string;
   displayName: string;
   avatarUrl: string;
+  defaultAddressId?: string | null;
 };
 
 export const identityService = {
-  getProfile: async (accessToken: string) => {
-    if (!accessToken) {
-      throw new Error('Access token is required to fetch the identity profile.');
+  getProfile: async () => {
+    const token = authStorage.getAccessToken();
+    if (!token) {
+      throw new Error('Access token is not available for identity requests.');
     }
 
     const response = await axiosInstanceIdentity.get<IdentityProfileResponse>(
       '/api/identity/profile',
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );

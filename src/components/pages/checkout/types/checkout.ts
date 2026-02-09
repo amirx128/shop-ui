@@ -19,8 +19,8 @@ export interface AddressFormValues {
   receiverName: string;
   phone: string;
   email?: string;
-  province: string;
-  city: string;
-  postalCode: string;
+  provinceId: number;
+  cityId: number;
+  street: string;
   addressLine: string;
 }

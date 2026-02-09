@@ -11,9 +11,12 @@ export interface CommentItem {
   userName: string;
   avatarSrc: string;
   avatarAlt: string;
-  rating: number;
+  rating?: number;
   status: CommentStatus;
   date: string;
   comment: string;
+  productName?: string;
+  productImage?: string;
+  productPrice?: string;
 }
 

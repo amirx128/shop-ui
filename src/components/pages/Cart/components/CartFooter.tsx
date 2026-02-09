@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { Box, Container, Typography } from '@mui/material';
 import Button from '@/components/ui/Button';
 
@@ -7,13 +8,21 @@ interface CartFooterProps {
   totalLabel: string;
   totalValue: string;
   actionLabel: string;
+  locale: string;
 }
 
 export default function CartFooter({
   totalLabel,
   totalValue,
   actionLabel,
+  locale,
 }: CartFooterProps) {
+  const router = useRouter();
+
+  const handleActionClick = () => {
+    router.push(`/${locale}/mobile/checkout`);
+  };
+
   return (
     <Box
       sx={{
@@ -36,7 +45,9 @@ export default function CartFooter({
             gap: 2,
           }}
         >
-          <Button>{actionLabel}</Button>
+          <Button type="button" onClick={handleActionClick}>
+            {actionLabel}
+          </Button>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               {totalLabel}

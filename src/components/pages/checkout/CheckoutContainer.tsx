@@ -51,6 +51,7 @@ export default async function CheckoutContainer({
       email: t('address.email'),
       province: t('address.province'),
       city: t('address.city'),
+      street: t('address.street'),
       postalCode: t('address.postalCode'),
       addressLine: t('address.addressLine'),
     },
@@ -63,7 +64,8 @@ export default async function CheckoutContainer({
     delivery: {
       methodTitle: t('delivery.methodTitle'),
       timeTitle: t('delivery.timeTitle'),
-      postMethod: t('delivery.postMethod'),
+      postMethodInvoice: t('delivery.postMethodInvoice'),
+      postMethodPayLater: t('delivery.postMethodPayLater'),
       courierMethod: t('delivery.courierMethod'),
     },
     payment: {
@@ -84,29 +86,6 @@ export default async function CheckoutContainer({
       selectDeliveryWarning: t('toast.selectDeliveryWarning'),
     },
   };
-
-  const addressData: CheckoutAddress[] = [
-    {
-      id: 'address-1',
-      receiverName: 'ناهید رضایی',
-      phone: '09912330923',
-      email: '',
-      province: 'تهران',
-      city: 'تهران',
-      postalCode: '1234567890',
-      addressLine: 'تهران، خیابان ولیعصر، کوچه نرگس، پلاک 12',
-    },
-    {
-      id: 'address-2',
-      receiverName: 'امیر محمدی',
-      phone: '09912330923',
-      email: 'amir@example.com',
-      province: 'البرز',
-      city: 'کرج',
-      postalCode: '9876543210',
-      addressLine: 'کرج، بلوار طالقانی، کوچه سرو، پلاک 8',
-    },
-  ];
 
   const itemsCount = 3;
   const itemsPrice = 5200000;
@@ -161,7 +140,6 @@ export default async function CheckoutContainer({
             totalValue={formatCurrency(baseTotal)}
             actionLabel={translations.actions.selectDeliveryTime}
             nextStepHref={`/${locale}/mobile/checkout?step=2`}
-            initialAddresses={addressData}
             translations={{
               emptyAddressMessage: translations.address.emptyMessage,
               emptyAddressAction: translations.address.emptyAction,
@@ -179,7 +157,7 @@ export default async function CheckoutContainer({
               email: translations.address.email,
               province: translations.address.province,
               city: translations.address.city,
-              postalCode: translations.address.postalCode,
+              street: translations.address.street,
               addressLine: translations.address.addressLine,
               required: translations.form.required,
               selectAddressWarning: translations.toast.selectAddressWarning,
@@ -189,16 +167,13 @@ export default async function CheckoutContainer({
           <CheckoutStepTwoClient
             locale={locale}
             currency={translations.currency}
-            itemsCount={itemsCount}
-            itemsPrice={itemsPrice}
-            savings={savings}
-            baseTotal={baseTotal}
             actionLabel={translations.actions.confirmOrder}
             nextStepHref={`/${locale}/mobile/checkout?step=3`}
             translations={{
               methodTitle: translations.delivery.methodTitle,
               timeTitle: translations.delivery.timeTitle,
-              postMethod: translations.delivery.postMethod,
+              postMethodInvoice: translations.delivery.postMethodInvoice,
+              postMethodPayLater: translations.delivery.postMethodPayLater,
               courierMethod: translations.delivery.courierMethod,
               itemsPrice: translations.summary.itemsPrice,
               shippingCost: translations.summary.shippingCost,

@@ -4,7 +4,8 @@
     "workingHours": "8 صبح تا 18 هر روز هفته",
     "header": {
       "search": "جستجو"
-    }
+    },
+    "addToCart": "افزودن به سبد خرید"
   },
   "navbar": {
     "home": "خانه",

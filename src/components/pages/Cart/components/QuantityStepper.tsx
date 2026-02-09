@@ -14,16 +14,19 @@ interface QuantityStepperProps {
     remove: string;
   };
   onRemove?: () => void;
+  onQuantityChange?: (quantity: number) => void;
 }
 
 export default function QuantityStepper({
   initialQuantity,
   labels,
   onRemove,
+  onQuantityChange,
 }: QuantityStepperProps) {
   const { quantity, increase, decrease } = useQuantity({
     initialQuantity,
     min: 1,
+    onChange: onQuantityChange,
   });
 
   const isMin = quantity <= 1;

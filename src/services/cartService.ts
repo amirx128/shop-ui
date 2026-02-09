@@ -1,9 +1,16 @@
+import { DefaultSkuInfo } from '@/types/defaultSku';
+import { ORDERS_API_URL } from '@/lib/orders';
 import { resolveCustomerId } from '@/lib/customer';
+import { buildOrdersCustomerHeaders } from '@/lib/ordersHeaders';
+const trimUrl = (value?: string) => value?.replace(/\/+$/, '') ?? '';
+const inventoryApiUrl = (() => {
+  const url = trimUrl(process.env.NEXT_PUBLIC_INVENTORY_API_URL);
+  if (!url) {
+    throw new Error('NEXT_PUBLIC_INVENTORY_API_URL must be defined in the environment.');
+  }
 
-const ordersApiUrl =
-  process.env.NEXT_PUBLIC_ORDERS_API_URL?.replace(/\/+$/, '') ?? 'http://localhost:5401';
-const inventoryApiUrl =
-  process.env.NEXT_PUBLIC_INVENTORY_API_URL?.replace(/\/+$/, '') ?? 'http://localhost:5301';
+  return url;
+})();
 
 async function fetchJson<T>(input: RequestInfo, init?: RequestInit) {
   const response = await fetch(input, init);
@@ -18,6 +25,16 @@ export interface ProductDefaultSkuResponse {
   productId: string;
   skuId?: string | null;
   availableQty: number;
+}
+
+export interface CartComplementaryProductResponse {
+  productId: string;
+  slug: string;
+  name: string;
+  priceRial: number;
+  categoryName: string;
+  imageUrl?: string | null;
+  colorCodes: string[];
 }
 
 export async function findDefaultSku(
@@ -55,24 +72,109 @@ export type CartItemPayload = {
 };
 
 export async function addProductToCart(payload: CartItemPayload): Promise<void> {
-  const url = `${ordersApiUrl}/api/customer/carts/current/items`;
+  const url = `${ORDERS_API_URL}/api/customer/carts/current/items`;
   await fetchJson(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Customer-Id': resolveCustomerId(),
-    },
+    headers: buildOrdersCustomerHeaders(),
     body: JSON.stringify(payload),
   });
 }
 
 export async function checkoutCart(): Promise<void> {
-  const url = `${ordersApiUrl}/api/shopping-carts/checkout`;
+  const url = `${ORDERS_API_URL}/api/shopping-carts/checkout`;
   await fetchJson(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: buildOrdersCustomerHeaders(),
     body: JSON.stringify({ CustomerId: resolveCustomerId() }),
+  });
+}
+
+export async function updateCartItemQuantity(
+  productId: string,
+  quantity: number,
+  skuId?: string | null
+): Promise<void> {
+  const url = `${ORDERS_API_URL}/api/customer/carts/current/items/${encodeURIComponent(
+    productId
+  )}/quantity`;
+
+  await fetchJson(url, {
+    method: 'PUT',
+    headers: buildOrdersCustomerHeaders(),
+    body: JSON.stringify({ quantity, skuId }),
+  });
+}
+
+const DEFAULT_SKU_NOT_AVAILABLE_ERROR = 'هیچ SKU با موجودی بیشتر از ۱ یافت نشد.';
+
+async function resolveProductSku(
+  productId: string,
+  defaultSku?: DefaultSkuInfo | null
+): Promise<DefaultSkuInfo | null> {
+  if (defaultSku?.id) {
+    return defaultSku;
+  }
+
+  const fallback = await findDefaultSku(productId);
+  if (fallback?.skuId) {
+    return {
+      id: fallback.skuId,
+      availableQty: fallback.availableQty,
+    };
+  }
+
+  return null;
+}
+
+export interface AddProductToCartWithDefaultSkuPayload {
+  productId: string;
+  defaultSku?: DefaultSkuInfo | null;
+  quantity?: number;
+  unitOfMeasure?: string;
+  unitPrice: number;
+  discountPerUnit?: number;
+  rowPrice?: number;
+  propertyValueIds?: string[];
+}
+
+export async function addProductToCartWithDefaultSku(
+  payload: AddProductToCartWithDefaultSkuPayload
+): Promise<void> {
+  const {
+    productId,
+    defaultSku,
+    quantity = 1,
+    unitOfMeasure = 'unit',
+    unitPrice,
+    discountPerUnit = 0,
+    rowPrice,
+    propertyValueIds,
+  } = payload;
+
+  const resolvedRowPrice = rowPrice ?? unitPrice * quantity;
+  const resolvedSku = await resolveProductSku(productId, defaultSku);
+
+  if (!resolvedSku || resolvedSku.availableQty < quantity) {
+    throw new Error(DEFAULT_SKU_NOT_AVAILABLE_ERROR);
+  }
+
+  await addProductToCart({
+    productId,
+    skuId: resolvedSku.id,
+    quantity,
+    unitOfMeasure,
+    unitPrice,
+    discountPerUnit,
+    rowPrice: resolvedRowPrice,
+    propertyValueIds,
+  });
+}
+
+export async function fetchCartComplementaryProducts(): Promise<CartComplementaryProductResponse[]> {
+  const url = `${ORDERS_API_URL}/api/customer/carts/current/complementary-products`;
+  return fetchJson<CartComplementaryProductResponse[]>(url, {
+    method: 'GET',
+    headers: buildOrdersCustomerHeaders({ includeContentType: false }),
+    cache: 'no-store',
   });
 }

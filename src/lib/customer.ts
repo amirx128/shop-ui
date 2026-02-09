@@ -1,6 +1,11 @@
 import { authStorage } from '@/lib/storage/authStorage';
 
-const FALLBACK_CUSTOMER_ID = 'd1a291d5-0cfa-4f5e-a019-44455492e985';
+const CUSTOMER_ID_REQUIRED_MESSAGE = 'نیاز به لاگین دارد';
 
-export const resolveCustomerId = (): string =>
-  authStorage.getCustomerId() ?? FALLBACK_CUSTOMER_ID;
+export const resolveCustomerId = (): string => {
+  const customerId = authStorage.getCustomerId();
+  if (!customerId) {
+    throw new Error(CUSTOMER_ID_REQUIRED_MESSAGE);
+  }
+  return customerId;
+};

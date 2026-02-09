@@ -144,6 +144,8 @@ export default function OrderCart({
           component={Link}
           href={detailsHref}
           aria-label={labels.details}
+          target="_blank"
+          rel="noreferrer"
           sx={{
             display: 'flex',
             alignItems: 'center',

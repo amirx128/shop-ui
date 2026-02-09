@@ -35,20 +35,21 @@
         "receiver": "گیرنده :"
       },
       "fields": {
-        "receiverName": "نام گیرنده",
-        "phone": "شماره تلفن همراه",
-        "email": "ایمیل (اختیاری)",
+        "title": "عنوان آدرس",
         "province": "استان",
         "city": "شهر",
-        "postalCode": "کد پستی",
-        "address": "آدرس"
+        "street": "خیابان",
+        "address": "آدرس",
+        "alley": "کوچه",
+        "plaque": "پلاک",
+        "unit": "واحد",
+        "location": "موقعیت"
       },
       "validation": {
-        "required": "این فیلد الزامی است.",
-        "email": "ایمیل معتبر وارد کنید.",
-        "phone": "شماره تلفن همراه معتبر وارد کنید.",
-        "postalCode": "کد پستی معتبر وارد کنید."
-      }
+        "required": "این فیلد الزامی است."
+      },
+      "defaultAddressLabel": "آدرس پیش فرض شما :",
+      "selectionHint": "با کلیک روی هر ردیف، آن ردیف به عنوان آدرس پیش فرض لحاظ میشود"
     },
     "notificationsPage": {
       "tabs": {

@@ -1,4 +1,6 @@
-﻿import { Box, Typography } from '@mui/material';
+'use client';
+
+import { Box, Typography } from '@mui/material';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Image from 'next/image';
@@ -14,6 +16,8 @@ interface ProductCompareCardProps {
   addToCartText: string;
   locale: string;
   currency: string;
+  onAddToCart?: () => void;
+  isAddToCartLoading?: boolean;
 }
 
 export default function ProductCompareCard({
@@ -26,6 +30,8 @@ export default function ProductCompareCard({
   addToCartText,
   locale,
   currency,
+  onAddToCart,
+  isAddToCartLoading,
 }: ProductCompareCardProps) {
   const formatPrice = (value: number) => value.toLocaleString(locale);
 
@@ -119,7 +125,12 @@ export default function ProductCompareCard({
             gap: 2,
           }}
         >
-          <Button sx={{ px: 3 }} radius="full">
+          <Button
+            sx={{ px: 3 }}
+            radius="full"
+            onClick={onAddToCart}
+            disabled={isAddToCartLoading}
+          >
             {addToCartText}
           </Button>
           <Box

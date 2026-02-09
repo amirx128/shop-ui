@@ -1,14 +1,27 @@
 import ProductDetailContainer from '@/components/pages/productDetail/ProductDetailContainer';
 
+const decodeSlug = (slug?: string) => {
+  if (!slug) {
+    return '';
+  }
+
+  try {
+    return decodeURIComponent(slug);
+  } catch {
+    return slug;
+  }
+};
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { slug } = await params;
+  const normalizedSlug = decodeSlug(slug).replace(/^\/+/, '');
 
   return {
-    title: slug,
+    title: normalizedSlug || undefined,
   };
 }
 

@@ -64,6 +64,14 @@ export const authStorage = {
     return getItem(STORAGE_KEYS.CUSTOMER_ID);
   },
 
+  getAccessToken() {
+    return getItem(STORAGE_KEYS.ACCESS_TOKEN);
+  },
+
+  getRefreshToken() {
+    return getItem(STORAGE_KEYS.REFRESH_TOKEN);
+  },
+
   clear() {
     Object.values(STORAGE_KEYS).forEach(removeItem);
   },

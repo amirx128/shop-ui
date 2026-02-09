@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import ProductDetailHeader from './components/ProductDetailHeader';
@@ -20,8 +20,8 @@ import {
   ProductRelationSummary,
   ProductVariableSelection,
 } from './types';
-import { addProductToCart, checkoutCart, findDefaultSku } from '@/services/cartService';
-import { addFavorite, removeFavorite } from '@/services/favoritesService';
+import { addProductToCartWithDefaultSku, checkoutCart } from '@/services/cartService';
+import { addFavorite, getFavorites, removeFavorite } from '@/services/favoritesService';
 import type { ProductCardFavoriteToggle } from '@/components/ui/ProductCard';
 
 interface ProductDetailViewProps {
@@ -63,6 +63,7 @@ export default function ProductDetailView({
   const [selection, setSelection] = useState<ProductVariableSelection>(() =>
     buildInitialSelection()
   );
+  const [favoriteProductIds, setFavoriteProductIds] = useState<string[]>([]);
 
   const [relationProductLoadingId, setRelationProductLoadingId] = useState<string | null>(null);
 
@@ -70,26 +71,9 @@ export default function ProductDetailView({
     async (product: ProductRelationSummary) => {
       setRelationProductLoadingId(product.id);
       try {
-        let resolvedSku = product.defaultSku ?? null;
-        if (!resolvedSku?.id) {
-          const fallback = await findDefaultSku(product.id);
-          if (fallback?.skuId) {
-            resolvedSku = {
-              id: fallback.skuId,
-              availableQty: fallback.availableQty,
-            };
-          }
-        }
-
-        const skuId = resolvedSku?.id;
-        const availableQty = resolvedSku?.availableQty ?? 0;
-        if (!skuId || availableQty < 1) {
-          throw new Error('Ù‡ÛŒÚ† SKU Ø¨Ø§ Ù…ÙˆØ¬ÙˆØ¯ÛŒ Ø¨ÛŒØ´ØªØ± Ø§Ø² 1 Ù¾ÛŒØ¯Ø§ Ù†Ø´Ø¯.');
-        }
-
-        await addProductToCart({
+        await addProductToCartWithDefaultSku({
           productId: product.id,
-          skuId,
+          defaultSku: product.defaultSku,
           quantity: 1,
           unitOfMeasure: product.unitOfMeasure ?? 'unit',
           unitPrice: product.priceRial,
@@ -98,12 +82,12 @@ export default function ProductDetailView({
         });
 
         await checkoutCart();
-        toast.success('Ø³ÙØ§Ø±Ø´ Ù…Ø´ØªØ±ÛŒ Ø«Ø¨Øª Ø´Ø¯.');
+        toast.success('سفارش مشتری ثبت شد.');
       } catch (error) {
         toast.error(
           error instanceof Error
             ? error.message
-            : 'Ø®Ø·Ø§ Ø¯Ø± Ø§ÙØ²ÙˆØ¯Ù† Ù…Ø­ØµÙˆÙ„ Ø¨Ù‡ Ø³Ø¨Ø¯ Ø®Ø±ÛŒØ¯.'
+            : 'خطا در افزودن محصول به سبد خرید.'
         );
       } finally {
         setRelationProductLoadingId((current) =>
@@ -114,13 +98,38 @@ export default function ProductDetailView({
     []
   );
 
+  useEffect(() => {
+    let isActive = true;
+
+    getFavorites()
+      .then((items) => {
+        if (!isActive) {
+          return;
+        }
+        setFavoriteProductIds(items.map((item) => item.productId));
+      })
+      .catch(() => {
+        // ignore; keep existing favorites list.
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
   const handleFavoriteToggle = useCallback<ProductCardFavoriteToggle>(
     async (productId, shouldAdd) => {
       try {
         if (shouldAdd) {
           await addFavorite(productId);
+          setFavoriteProductIds((ids) =>
+            ids.includes(productId) ? ids : [...ids, productId]
+          );
         } else {
           await removeFavorite(productId);
+          setFavoriteProductIds((ids) =>
+            ids.filter((id) => id !== productId)
+          );
         }
         return true;
       } catch (error) {
@@ -179,6 +188,7 @@ export default function ProductDetailView({
           productId={product.id}
           productName={product.name}
           onFavoriteToggle={handleFavoriteToggle}
+          isFavorite={favoriteProductIds.includes(product.id)}
           toastTranslations={{
             shareSuccess: translate('shareSuccess'),
             shareError: translate('shareError'),
@@ -256,6 +266,7 @@ export default function ProductDetailView({
           onAddToCart={handleRelationProductAddToCart}
           processingProductId={relationProductLoadingId}
           onFavoriteToggle={handleFavoriteToggle}
+          favoriteProductIds={favoriteProductIds}
         />
         <SuggestionProductSection
           addToCartText={translate('addToCart')}
@@ -264,6 +275,7 @@ export default function ProductDetailView({
           onAddToCart={handleRelationProductAddToCart}
           processingProductId={relationProductLoadingId}
           onFavoriteToggle={handleFavoriteToggle}
+          favoriteProductIds={favoriteProductIds}
         />
       </Box>
 

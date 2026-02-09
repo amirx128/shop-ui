@@ -99,7 +99,7 @@ export default function AdressCart({
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <LocationOnOutlinedIcon fontSize="small" />
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {address.city}:
+            {address.province ? `${address.province} / ${address.city}` : address.city}:
           </Typography>
           <Typography variant="body2">{address.addressLine}</Typography>
         </Box>

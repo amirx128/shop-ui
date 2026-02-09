@@ -15,6 +15,7 @@ interface SuggestionProductSectionProps {
   onAddToCart?: (product: ProductRelationSummary) => void;
   processingProductId?: string | null;
   onFavoriteToggle?: ProductCardFavoriteToggle;
+  favoriteProductIds: string[];
 }
 
 const fallbackImage = '/images/tempproduct.png';
@@ -26,6 +27,7 @@ export default function SuggestionProductSection({
   onAddToCart,
   processingProductId,
   onFavoriteToggle,
+  favoriteProductIds,
 }: SuggestionProductSectionProps) {
   const title = 'محصولات پیشنهادی';
   const items = products ?? [];
@@ -108,6 +110,7 @@ export default function SuggestionProductSection({
                     isAddToCartLoading={processingProductId === product.id}
                     productId={product.id}
                     onFavoriteToggle={onFavoriteToggle}
+                    isFavorite={favoriteProductIds.includes(product.id)}
                   />
                     <Box
                       sx={{

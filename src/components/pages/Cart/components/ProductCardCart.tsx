@@ -15,6 +15,7 @@ interface ProductCardCartProps {
     remove: string;
   };
   onRemove?: () => void;
+  onQuantityChange?: (quantity: number) => void;
 }
 
 export default function ProductCardCart({
@@ -23,6 +24,7 @@ export default function ProductCardCart({
   currency,
   stepperLabels,
   onRemove,
+  onQuantityChange,
 }: ProductCardCartProps) {
   return (
     <Box
@@ -58,6 +60,7 @@ export default function ProductCardCart({
           initialQuantity={product.quantity}
           labels={stepperLabels}
           onRemove={onRemove}
+          onQuantityChange={onQuantityChange}
         />
       </Box>
 

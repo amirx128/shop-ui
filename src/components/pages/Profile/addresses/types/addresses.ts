@@ -1,33 +1,47 @@
 export interface AddressFormValues {
-  receiverName: string;
-  phone: string;
-  email: string;
-  province: string;
-  city: string;
-  postalCode: string;
+  title: string;
+  provinceId: number;
+  cityId: number;
+  street: string;
   address: string;
+  alley: string;
+  plaque: string;
+  unit: string;
+  location: string;
 }
 
-export interface AddressItem extends AddressFormValues {
+export interface AddressItem {
   id: string;
+  title: string;
+  street: string;
+  address: string;
+  provinceId: number;
+  cityId: number;
+  provinceName: string;
+  cityName: string;
+  alley?: string;
+  plaque?: string;
+  unit?: string;
+  location?: string;
+  createdAtUtc: string;
+  modifiedAtUtc?: string | null;
   isDefault: boolean;
 }
 
 export interface AddressFormLabels {
-  receiverName: string;
-  phone: string;
-  email: string;
+  title: string;
   province: string;
   city: string;
-  postalCode: string;
+  street: string;
   address: string;
+  alley: string;
+  plaque: string;
+  unit: string;
+  location: string;
 }
 
 export interface AddressFormValidationMessages {
   required: string;
-  email: string;
-  phone: string;
-  postalCode: string;
 }
 
 export interface AddressesTexts {
@@ -48,4 +62,6 @@ export interface AddressesTexts {
   };
   fields: AddressFormLabels;
   validation: AddressFormValidationMessages;
+  defaultAddressLabel: string;
+  selectionHint: string;
 }

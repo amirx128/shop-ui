@@ -2,13 +2,14 @@
 
 import { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
-import { Box, Container, Modal } from '@mui/material';
+import { Box, Container, MenuItem, Modal, TextField } from '@mui/material';
 import Button from '@/components/ui/Button';
 import TextAreaInput from '@/components/ui/TextAreaInput';
 import TextInput from '@/components/ui/TextInput';
 import { useAddAddressForm } from '../hooks';
 import AddressesHeader from './AddressesHeader';
 import type { AddressFormValues, AddressesTexts } from '../types/addresses';
+import type { LocationOption } from '@/services/location.service';
 
 interface AddAddressModalProps {
   open: boolean;
@@ -18,6 +19,11 @@ interface AddAddressModalProps {
   initialValues: AddressFormValues;
   formId: string;
   texts: AddressesTexts;
+  provinces: LocationOption[];
+  cities: LocationOption[];
+  isCityLoading: boolean;
+  onProvinceChange: (provinceId: number) => Promise<LocationOption[]>;
+  isSubmitting: boolean;
 }
 
 export default function AddAddressModal({
@@ -28,19 +34,52 @@ export default function AddAddressModal({
   initialValues,
   formId,
   texts,
+  provinces,
+  cities,
+  isCityLoading,
+  onProvinceChange,
+  isSubmitting,
 }: AddAddressModalProps) {
-  const { register, control, handleSubmit, reset, formState } = useAddAddressForm({
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    formState,
+  } = useAddAddressForm({
     defaultValues: initialValues,
-    validationMessages: texts.validation,
+    validationMessages: { required: texts.validation.required },
   });
 
   const { errors } = formState;
+  const selectedProvinceId = watch('provinceId');
 
   useEffect(() => {
-    if (open) {
-      reset(initialValues);
+    if (!open) {
+      return;
     }
-  }, [open, initialValues, reset]);
+    reset(initialValues);
+  }, [initialValues, open, reset]);
+
+  useEffect(() => {
+    if (!selectedProvinceId) {
+      return;
+    }
+
+    onProvinceChange(selectedProvinceId).then(() => {
+      if (mode === 'create') {
+        setValue('cityId', 0);
+      }
+    });
+  }, [mode, onProvinceChange, selectedProvinceId, setValue]);
+
+  useEffect(() => {
+    if (mode === 'create' && cities.length > 0) {
+      setValue('cityId', cities[0].id);
+    }
+  }, [cities, mode, setValue]);
 
   const handleClose = () => {
     reset(initialValues);
@@ -49,10 +88,9 @@ export default function AddAddressModal({
 
   const submitForm = (data: AddressFormValues) => {
     onSubmit(data);
-    handleClose();
   };
 
-  const submitLabel = mode === 'edit' ? texts.actions.edit : texts.actions.add;
+  const submitLabel = mode === 'edit' ? texts.actions.editAddress : texts.actions.add;
 
   return (
     <Modal
@@ -95,71 +133,77 @@ export default function AddAddressModal({
             <Container sx={{ py: 2 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <TextInput
-                  label={texts.fields.receiverName}
-                  placeholder={texts.fields.receiverName}
-                  autoComplete="name"
-                  error={Boolean(errors.receiverName)}
-                  helperText={errors.receiverName?.message}
+                  label={texts.fields.title}
+                  placeholder={texts.fields.title}
+                  error={Boolean(errors.title)}
+                  helperText={errors.title?.message}
                   fullWidth
-                  {...register('receiverName')}
-                />
-
-                <TextInput
-                  label={texts.fields.phone}
-                  placeholder={texts.fields.phone}
-                  autoComplete="tel"
-                  inputMode="numeric"
-                  error={Boolean(errors.phone)}
-                  helperText={errors.phone?.message}
-                  fullWidth
-                  {...register('phone')}
-                />
-
-                <TextInput
-                  label={texts.fields.email}
-                  placeholder={texts.fields.email}
-                  type="email"
-                  autoComplete="email"
-                  error={Boolean(errors.email)}
-                  helperText={errors.email?.message}
-                  fullWidth
-                  {...register('email')}
-                />
-
-                <TextInput
-                  label={texts.fields.province}
-                  placeholder={texts.fields.province}
-                  autoComplete="address-level1"
-                  error={Boolean(errors.province)}
-                  helperText={errors.province?.message}
-                  fullWidth
-                  {...register('province')}
-                />
-
-                <TextInput
-                  label={texts.fields.city}
-                  placeholder={texts.fields.city}
-                  autoComplete="address-level2"
-                  error={Boolean(errors.city)}
-                  helperText={errors.city?.message}
-                  fullWidth
-                  {...register('city')}
-                />
-
-                <TextInput
-                  label={texts.fields.postalCode}
-                  placeholder={texts.fields.postalCode}
-                  autoComplete="postal-code"
-                  inputMode="numeric"
-                  error={Boolean(errors.postalCode)}
-                  helperText={errors.postalCode?.message}
-                  fullWidth
-                  {...register('postalCode')}
+                  {...register('title')}
                 />
 
                 <Controller
+                  name="provinceId"
                   control={control}
+                  render={({ field }) => (
+                    <TextField
+                      label={texts.fields.province}
+                      select
+                      value={field.value ?? ''}
+                      onChange={(event) => field.onChange(Number(event.target.value))}
+                      error={Boolean(errors.provinceId)}
+                      helperText={errors.provinceId?.message}
+                      fullWidth
+                    >
+                      <MenuItem value="">
+                        <em>{texts.fields.province}</em>
+                      </MenuItem>
+                      {provinces.map((province) => (
+                        <MenuItem key={province.id} value={province.id}>
+                          {province.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                />
+
+                <Controller
+                  name="cityId"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      label={texts.fields.city}
+                      select
+                      value={field.value ?? ''}
+                      onChange={(event) => field.onChange(Number(event.target.value))}
+                      error={Boolean(errors.cityId)}
+                      helperText={errors.cityId?.message}
+                      fullWidth
+                      disabled={isCityLoading || cities.length === 0}
+                    >
+                      <MenuItem value="">
+                        <em>{texts.fields.city}</em>
+                      </MenuItem>
+                      {cities.map((city) => (
+                        <MenuItem key={city.id} value={city.id}>
+                          {city.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                />
+
+                <TextInput
+                  label={texts.fields.street}
+                  placeholder={texts.fields.street}
+                  error={Boolean(errors.street)}
+                  helperText={errors.street?.message}
+                  fullWidth
+                  {...register('street')}
+                />
+
+                <Controller
                   name="address"
+                  control={control}
                   render={({ field }) => (
                     <TextAreaInput
                       value={field.value}
@@ -168,6 +212,40 @@ export default function AddAddressModal({
                       placeholder={texts.fields.address}
                       error={Boolean(errors.address)}
                       helperText={errors.address?.message}
+                    />
+                  )}
+                />
+
+                <TextInput
+                  label={texts.fields.alley}
+                  placeholder={texts.fields.alley}
+                  fullWidth
+                  {...register('alley')}
+                />
+
+                <TextInput
+                  label={texts.fields.plaque}
+                  placeholder={texts.fields.plaque}
+                  fullWidth
+                  {...register('plaque')}
+                />
+
+                <TextInput
+                  label={texts.fields.unit}
+                  placeholder={texts.fields.unit}
+                  fullWidth
+                  {...register('unit')}
+                />
+
+                <Controller
+                  name="location"
+                  control={control}
+                  render={({ field }) => (
+                    <TextAreaInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      label={texts.fields.location}
+                      placeholder={texts.fields.location}
                     />
                   )}
                 />
@@ -186,7 +264,7 @@ export default function AddAddressModal({
           >
             <Container>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Button type="submit" fullWidth radius="md">
+                <Button type="submit" fullWidth radius="md" disabled={isSubmitting}>
                   {submitLabel}
                 </Button>
                 <Button
@@ -195,6 +273,7 @@ export default function AddAddressModal({
                   fullWidth
                   radius="md"
                   onClick={handleClose}
+                  disabled={isSubmitting}
                   sx={{
                     color: 'text.primary',
                     borderColor: 'text.primary',

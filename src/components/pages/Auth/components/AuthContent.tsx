@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Container } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { useLocale } from 'next-intl';
 import PhoneForm from './PhoneForm';
 import OTPForm from './OTPForm';
 import type { PhoneFormData, OTPFormData } from '../types';
@@ -14,6 +15,7 @@ import { useRouter } from 'next/navigation';
 
 export default function AuthContent() {
   const router = useRouter();
+  const locale = useLocale();
   const [step, setStep] = useState<'phone' | 'otp'>('phone');
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -56,6 +58,15 @@ export default function AuthContent() {
     onSuccess: async (data) => {
       const accessToken = data?.accessToken;
       const refreshToken = data?.refreshToken;
+      const customerId = data?.customerId;
+
+      if (customerId) {
+        authStorage.setProfile({
+          userId: customerId,
+          firstName: data?.firstName ?? '',
+          lastName: data?.lastName ?? '',
+        });
+      }
 
       if (accessToken || refreshToken) {
         authStorage.setTokens(accessToken, refreshToken);
@@ -63,7 +74,7 @@ export default function AuthContent() {
 
       if (accessToken) {
         try {
-          const profile = await identityService.getProfile(accessToken);
+          const profile = await identityService.getProfile();
           authStorage.setProfile(profile);
         } catch (error) {
           console.error('Failed to load identity profile', error);
@@ -71,7 +82,7 @@ export default function AuthContent() {
       }
 
       toast.success(data?.message ?? 'ورود موفق');
-      router.push('/fa/mobile');
+      router.push(`/${locale ?? 'fa'}/mobile/shop`);
     },
     onError: (error) => {
       toast.error(getErrorMessage(error, 'خطای اعتبار سنجی '));

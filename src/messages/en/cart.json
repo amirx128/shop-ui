@@ -11,6 +11,20 @@
     "itemsPrice": "Items price",
     "cartTotal": "Cart total",
     "savings": "Your savings",
-    "checkout": "Confirm and complete order"
+    "checkout": "Confirm and complete order",
+    "modal": {
+      "title": "Confirm order",
+      "deliveryAddressLabel": "Delivery address",
+      "addressNotFound": "No address found. Please set a default one.",
+      "question": "Do you confirm?",
+      "confirm": "Yes",
+      "decline": "No",
+      "changeDefaultAddress": "Change default address",
+      "loadingAddress": "Loading address...",
+      "labels": {
+        "province": "Province",
+        "city": "City"
+      }
+    }
   }
 }

@@ -5,7 +5,7 @@ import { Box, Container, Typography } from '@mui/material';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import { toast } from 'react-toastify';
 import Button from '@/components/ui/Button';
-import { addProductToCart, checkoutCart } from '@/services/cartService';
+import { addProductToCartWithDefaultSku, checkoutCart } from '@/services/cartService';
 
 interface ProductDetailFooterProps {
   price: number;
@@ -33,7 +33,7 @@ export default function ProductDetailFooter({
 
     setIsProcessing(true);
     try {
-      await addProductToCart({
+      await addProductToCartWithDefaultSku({
         productId,
         quantity: 1,
         unitOfMeasure: unitOfMeasure ?? 'unit',
@@ -44,10 +44,10 @@ export default function ProductDetailFooter({
       });
 
       await checkoutCart();
-      toast.success('Ø³ÙØ§Ø±Ø´ Ù…Ø´ØªØ±ÛŒ Ø«Ø¨Øª Ø´Ø¯.');
+      toast.success('سفارش مشتری ثبت شد.');
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : 'Ø®Ø·Ø§ Ø¯Ø± Ø§ÙØ²ÙˆØ¯Ù† Ø¨Ù‡ Ø³Ø¨Ø¯ Ø®Ø±ÛŒØ¯.'
+        error instanceof Error ? error.message : 'خطا در افزودن محصول به سبد خرید.'
       );
     } finally {
       setIsProcessing(false);

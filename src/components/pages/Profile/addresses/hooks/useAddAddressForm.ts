@@ -1,35 +1,30 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, type UseFormReturn, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type {
-  AddressFormValidationMessages,
   AddressFormValues,
+  AddressFormValidationMessages,
 } from '../types/addresses';
-
-const toEnglishDigits = (value: string) =>
-  value
-    .replace(/[۰-۹]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
-    .replace(/[٠-٩]/g, (digit) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)));
-
-const digitsOnly = (value: string) => toEnglishDigits(value).replace(/\D/g, '');
 
 const createAddAddressSchema = (messages: AddressFormValidationMessages) =>
   z.object({
-    receiverName: z.string().min(1, messages.required),
-    phone: z
-      .string()
-      .min(1, messages.required)
-      .refine((value) => digitsOnly(value).length === 11, messages.phone),
-    email: z.union([z.string().trim().email(messages.email), z.literal('')]),
-    province: z.string().min(1, messages.required),
-    city: z.string().min(1, messages.required),
-    postalCode: z
-      .string()
-      .min(1, messages.required)
-      .refine((value) => digitsOnly(value).length === 10, messages.postalCode),
+    title: z.string().min(1, messages.required),
+    provinceId: z.coerce
+      .number()
+      .int(messages.required)
+      .positive(messages.required),
+    cityId: z.coerce
+      .number()
+      .int(messages.required)
+      .positive(messages.required),
+    street: z.string().min(1, messages.required),
     address: z.string().min(1, messages.required),
+    alley: z.string(),
+    plaque: z.string(),
+    unit: z.string(),
+    location: z.string(),
   });
 
 interface UseAddAddressFormOptions {
@@ -40,11 +35,17 @@ interface UseAddAddressFormOptions {
 export default function useAddAddressForm({
   defaultValues,
   validationMessages,
-}: UseAddAddressFormOptions) {
+}: UseAddAddressFormOptions): UseFormReturn<AddressFormValues, any, AddressFormValues> {
   const schema = createAddAddressSchema(validationMessages);
 
-  return useForm<AddressFormValues>({
-    resolver: zodResolver(schema),
+  const resolver = zodResolver(schema) as Resolver<
+    AddressFormValues,
+    any,
+    AddressFormValues
+  >;
+
+  return useForm<AddressFormValues, any, AddressFormValues>({
+    resolver,
     defaultValues,
     mode: 'onBlur',
   });

@@ -39,8 +39,9 @@
     "delivery": {
       "methodTitle": "Shipping method",
       "timeTitle": "Delivery time",
-      "postMethod": "Post office",
-      "courierMethod": "Motor courier (120,000 Toman)"
+      "postMethodInvoice": "Post office (shipping added to invoice)",
+      "postMethodPayLater": "Post office (postpay, zero shipping now)",
+      "courierMethod": "Motor courier (123,000 Toman)"
     },
     "payment": {
       "gateway": "Bank gateway",
@@ -66,6 +67,7 @@
       "province": "Province",
       "city": "City",
       "postalCode": "Postal code",
+      "street": "Street",
       "addressLine": "Address"
     },
     "summary": {

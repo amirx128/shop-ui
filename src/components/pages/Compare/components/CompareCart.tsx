@@ -1,4 +1,6 @@
-﻿import { Box, Button, Typography } from '@mui/material';
+'use client';
+
+import { Box, Button, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ProductCompareCard from '@/components/ui/ProductCompareCard';
@@ -11,6 +13,8 @@ interface CompareCartProps {
   removeLabel: string;
   addToCartText: string;
   onRemove?: () => void;
+  onAddToCart?: () => void;
+  isAddToCartLoading?: boolean;
 }
 
 export default function CompareCart({
@@ -20,6 +24,8 @@ export default function CompareCart({
   removeLabel,
   addToCartText,
   onRemove,
+  onAddToCart,
+  isAddToCartLoading,
 }: CompareCartProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -50,6 +56,8 @@ export default function CompareCart({
         addToCartText={addToCartText}
         currency={currency}
         locale={locale}
+        onAddToCart={onAddToCart}
+        isAddToCartLoading={isAddToCartLoading}
       />
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>

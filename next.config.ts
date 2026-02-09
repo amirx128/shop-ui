@@ -3,12 +3,21 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 
-const catalogApiUrl =
-  process.env.NEXT_CATALOG_API_URL?.replace(/\/+$/, '') ?? 'http://localhost:5201';
-const ordersApiUrl =
-  process.env.NEXT_PUBLIC_ORDERS_API_URL?.replace(/\/+$/, '') ?? 'http://localhost:5401';
-const inventoryApiUrl =
-  process.env.NEXT_PUBLIC_INVENTORY_API_URL?.replace(/\/+$/, '') ?? 'http://localhost:5301';
+const ensureEnvUrl = (value: string | undefined, key: string) => {
+  const trimmed = value?.replace(/\/+$/, '') ?? '';
+  if (!trimmed) {
+    throw new Error(`${key} must be defined in the environment.`);
+  }
+
+  return trimmed;
+};
+
+const catalogApiUrl = ensureEnvUrl(process.env.NEXT_PUBLIC_CATALOG_API_URL, 'NEXT_PUBLIC_CATALOG_API_URL');
+const ordersApiUrl = ensureEnvUrl(process.env.NEXT_PUBLIC_ORDERS_API_URL, 'NEXT_PUBLIC_ORDERS_API_URL');
+const inventoryApiUrl = ensureEnvUrl(
+  process.env.NEXT_PUBLIC_INVENTORY_API_URL,
+  'NEXT_PUBLIC_INVENTORY_API_URL'
+);
 
 const nextConfig: NextConfig = {
   env: {

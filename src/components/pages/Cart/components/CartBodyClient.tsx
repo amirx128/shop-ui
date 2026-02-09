@@ -7,6 +7,7 @@ import ProductsNeedSection from './ProductsNeedSection';
 import CartSummarySection from './CartSummarySection';
 import CartFooter from './CartFooter';
 import { CartProduct } from '../types/cart';
+import { updateCartItemQuantity } from '@/services/cartService';
 
 interface CartBodyClientProps {
   initialProducts: CartProduct[];
@@ -39,6 +40,36 @@ export default function CartBodyClient({
 }: CartBodyClientProps) {
   const [products, setProducts] = useState<CartProduct[]>(initialProducts);
 
+  const handleQuantityChange = async (
+    productId: string,
+    quantity: number,
+    skuId?: string | null,
+  ) => {
+    const existingProduct = products.find((product) => product.id === productId);
+    if (!existingProduct || existingProduct.quantity === quantity) {
+      return;
+    }
+
+    const previousQuantity = existingProduct.quantity;
+
+    setProducts((prev) =>
+      prev.map((product) =>
+        product.id === productId ? { ...product, quantity } : product
+      )
+    );
+
+    try {
+      await updateCartItemQuantity(productId, quantity, skuId);
+    } catch (error) {
+      console.error('Unable to update cart item quantity', error);
+      setProducts((prev) =>
+        prev.map((product) =>
+          product.id === productId ? { ...product, quantity: previousQuantity } : product
+        )
+      );
+    }
+  };
+
   const handleRemove = (id: string) => {
     setProducts((prev) => prev.filter((product) => product.id !== id));
   };
@@ -67,6 +98,9 @@ export default function CartBodyClient({
             currency={currency}
             stepperLabels={stepperLabels}
             onRemove={() => handleRemove(product.id)}
+            onQuantityChange={(quantity) =>
+              handleQuantityChange(product.id, quantity, product.skuId)
+            }
           />
         ))}
       </Box>

@@ -48,6 +48,8 @@ export default function ComponentCard({ comment, statusLabels }: ComponentCardPr
 
   const StatusIcon = statusPresentation.icon;
 
+  const rating = comment.rating ?? 0;
+
   return (
     <Box
       sx={{
@@ -96,7 +98,7 @@ export default function ComponentCard({ comment, statusLabels }: ComponentCardPr
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
               {Array.from({ length: 5 }, (_, index) =>
-                index < comment.rating ? (
+                index < rating ? (
                   <StarRoundedIcon
                     key={`${comment.id}-filled-star-${index + 1}`}
                     sx={{ fontSize: 16, color: '#F5A524' }}
@@ -141,6 +143,41 @@ export default function ComponentCard({ comment, statusLabels }: ComponentCardPr
           <Typography sx={{ fontSize: 12, color: 'text.secondary' }}>{comment.date}</Typography>
         </Box>
       </Box>
+
+      {comment.productName && (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {comment.productImage && (
+            <Box
+              sx={{
+                width: 48,
+                height: 48,
+                borderRadius: 1,
+                overflow: 'hidden',
+                position: 'relative',
+                flexShrink: 0,
+              }}
+            >
+              <Image
+                src={comment.productImage}
+                alt={comment.productName}
+                fill
+                sizes="48px"
+                style={{ objectFit: 'cover' }}
+              />
+            </Box>
+          )}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.25 }}>
+            <Typography sx={{ fontSize: 14, fontWeight: 600, color: 'text.primary' }}>
+              {comment.productName}
+            </Typography>
+            {comment.productPrice && (
+              <Typography sx={{ fontSize: 12, color: 'text.secondary' }}>
+                {comment.productPrice}
+              </Typography>
+            )}
+          </Box>
+        </Box>
+      )}
 
       <Typography sx={{ fontSize: 14, lineHeight: 1.8, color: 'text.primary' }}>
         {comment.comment}
