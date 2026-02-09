@@ -1,0 +1,49 @@
+{
+  "contactus": {
+    "meta": {
+      "title": "Contact Us",
+      "description": "Get in touch with Kaleskechi support team"
+    },
+    "header": {
+      "title": "Contact Us",
+      "backLabel": "Back"
+    },
+    "content": {
+      "title": "Get in Touch",
+      "description": "To contact our support team, please complete the form below."
+    },
+    "form": {
+      "fields": {
+        "fullName": "Full name",
+        "mobile": "Mobile number",
+        "email": "Email (optional)",
+        "foundUs": "How did you find us?"
+      },
+      "foundUsPlaceholder": "Select an option",
+      "foundUsOptions": {
+        "instagram": "Instagram",
+        "search": "Web search",
+        "friends": "Friends and family",
+        "advertisement": "Advertisements",
+        "other": "Other"
+      },
+      "validation": {
+        "required": "This field is required.",
+        "invalidMobile": "Enter a valid mobile number.",
+        "invalidEmail": "Enter a valid email address."
+      },
+      "submit": "Submit"
+    },
+    "map": {
+      "popup": "Tehran",
+      "loading": "Loading map...",
+      "loadingAlt": "Loading Tehran map"
+    },
+    "contact": {
+      "emailLabel": "Email",
+      "emailValue": "info@Kaleskechi.com",
+      "phoneLabel": "Phone",
+      "phoneValue": "021-66102030"
+    }
+  }
+}

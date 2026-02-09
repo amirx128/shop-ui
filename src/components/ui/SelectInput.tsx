@@ -85,8 +85,22 @@ const SelectInput = forwardRef<HTMLInputElement, SelectInputProps>(
             right: 'auto',
             color: 'text.secondary',
           },
+          '& .MuiInputLabel-root': {
+            textAlign: 'left',
+            left: 14,
+            right: 'auto',
+            transformOrigin: 'top left',
+            px: 1,
+          },
           '[dir="rtl"] & .MuiOutlinedInput-input': {
             textAlign: 'right',
+          },
+          '[dir="rtl"] & .MuiInputLabel-root': {
+            textAlign: 'right',
+            right: 14,
+            left: 'auto',
+            transformOrigin: 'top right',
+            px: 2,
           },
           ...sx,
         }}

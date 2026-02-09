@@ -1,0 +1,49 @@
+{
+  "contactus": {
+    "meta": {
+      "title": "تماس با ما",
+      "description": "ارتباط با تیم پشتیبانی کالسکه‌چی"
+    },
+    "header": {
+      "title": "تماس با ما",
+      "backLabel": "بازگشت"
+    },
+    "content": {
+      "title": "ارتباط با ما",
+      "description": "برای ارتباط با تیم پشتیبانی، لطفاً فرم زیر را تکمیل کنید."
+    },
+    "form": {
+      "fields": {
+        "fullName": "نام و نام خانوادگی",
+        "mobile": "شماره موبایل",
+        "email": "ایمیل (اختیاری)",
+        "foundUs": "چطور ما را پیدا کردی؟"
+      },
+      "foundUsPlaceholder": "انتخاب کنید",
+      "foundUsOptions": {
+        "instagram": "اینستاگرام",
+        "search": "جستجو در اینترنت",
+        "friends": "پیشنهاد دوستان و آشنایان",
+        "advertisement": "تبلیغات",
+        "other": "سایر"
+      },
+      "validation": {
+        "required": "این فیلد الزامی است.",
+        "invalidMobile": "شماره موبایل معتبر وارد کنید.",
+        "invalidEmail": "ایمیل معتبر وارد کنید."
+      },
+      "submit": "ارسال"
+    },
+    "map": {
+      "popup": "تهران",
+      "loading": "در حال بارگذاری نقشه...",
+      "loadingAlt": "بارگذاری نقشه تهران"
+    },
+    "contact": {
+      "emailLabel": "ایمیل",
+      "emailValue": "info@Kaleskechi.com",
+      "phoneLabel": "شماره تماس",
+      "phoneValue": "۰۲۱-۶۶۱۰۲۰۳۰"
+    }
+  }
+}

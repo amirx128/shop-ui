@@ -1,0 +1,96 @@
+{
+  "aboutus": {
+    "meta": {
+      "title": "About Us",
+      "description": "Learn more about Kaleskechi and our values"
+    },
+    "header": {
+      "title": "About Us",
+      "backLabel": "Back to profile"
+    },
+    "content": {
+      "introParagraphs": [
+        "Kaleskechi is a baby essentials store created to provide the best products for infants and parents. By offering a complete range of strollers, car seats, and newborn necessities, we help families build a safer and more comfortable daily experience. With a strong focus on quality and safety, our products are selected from trusted global brands so parents can shop with confidence. We also provide expert consultation and after-sales support to help families choose the most suitable options.",
+        "Kaleskechi was established to create a distinct and exceptional experience for parents and babies as a leading destination in baby gear and essentials. With a deep belief in quality, safety, and comfort during a child’s earliest years, our mission is to provide the best products and deliver a secure, pleasant, and reliable shopping journey. We know the newborn stage is one of the most sensitive and challenging phases for parents, and choosing the right products can make a meaningful difference in comfort, safety, and peace of mind."
+      ],
+      "galleryAlts": [
+        "About us gallery 1",
+        "About us gallery 2",
+        "About us gallery 3",
+        "About us gallery 4",
+        "About us gallery 5",
+        "About us gallery 6"
+      ],
+      "sections": [
+        {
+          "title": "Our Philosophy and Values",
+          "paragraphs": [
+            "Kaleskechi operates on clear principles and strong values. We believe every parent deserves the best for their child, and every baby deserves to grow in a safe and comfortable environment. That is why our services and decisions are built around these values:",
+            "Premium quality: We consistently select the best products in the market. Our strollers, car seats, and accessories come from trusted international brands to ensure every item is not only stylish and modern but also aligned with global safety standards.",
+            "Safety and wellbeing: Baby safety is our highest priority. Every product goes through strict checks and follows international standards. From non-toxic materials to protective designs, we work to ensure children stay safe.",
+            "Comfort for both parent and child: Our products meet babies’ needs while making daily use easier for parents. Ergonomic strollers, easy-adjust car seats, and practical accessories simplify everyday routines.",
+            "Customer-focused support: We believe the customer journey does not end at checkout. After-sales services and specialized consultation are essential parts of our commitment. Our team supports parents before and after purchase based on needs, budget, and lifestyle."
+          ]
+        },
+        {
+          "title": "Our Products",
+          "paragraphs": [
+            "Kaleskechi offers a wide product portfolio to cover parents’ and babies’ needs in one place. Our main categories include:",
+            "Strollers: We provide lightweight and portable strollers, advanced four-wheel models, and premium options. Ergonomic design, adjustable backrests, standard safety harnesses, and durable wheels ensure comfort and safety.",
+            "Car seats: Child safety in vehicles is critical. Our car seats follow international standards and include advanced protection systems to reduce risk during accidents.",
+            "Baby essentials and accessories: From diapers and first clothes to mattresses, blankets, bags, and care sets, we provide carefully selected essentials with dependable quality."
+          ]
+        },
+        {
+          "title": "Shopping Experience at Kaleskechi",
+          "paragraphs": [
+            "At Kaleskechi, we believe shopping for baby products should be simple, secure, and enjoyable. Our process is designed so parents can quickly find what they need without stress. Key parts of our shopping experience include:",
+            "Expert consultation: Our specialists understand both products and child needs, and help parents choose the best fit in-store or online.",
+            "After-sales service: We do not just sell products; we stay with our customers through usage, maintenance, parts replacement, and technical guidance.",
+            "Easy and secure purchase flow: With modern systems, ordering, payment, and delivery are streamlined so parents can complete purchases in a few steps."
+          ]
+        },
+        {
+          "title": "Quality and Standards",
+          "paragraphs": [
+            "At Kaleskechi, quality and safety standards are not slogans; they are the core of our operations. Every product is reviewed before release and complies with international safety criteria. Materials are non-toxic to protect babies’ health. We also collaborate with trusted global brands to deliver original, durable, and reliable products."
+          ]
+        },
+        {
+          "title": "Commitment to Innovation",
+          "paragraphs": [
+            "Kaleskechi values innovation and staying current. By following global trends, new technologies in stroller and car seat design, and changing parent needs, we continuously improve our product lineup based on up-to-date standards."
+          ]
+        },
+        {
+          "title": "Future Vision",
+          "paragraphs": [
+            "Our vision is to become a leading reference for baby shopping in Iran and set new standards in quality, safety, and customer service. We plan to expand both physical and online channels, improve access to trusted products, and provide educational and advisory programs for parents."
+          ]
+        },
+        {
+          "title": "Value-Added Services",
+          "paragraphs": [
+            "Kaleskechi is more than a store; we are a trusted companion for parents. Our value-added services include:",
+            "Product guidance: Our experts recommend suitable options based on baby age, family needs, and environment.",
+            "Professional packaging and shipping: Every order is securely packaged to avoid damage during delivery.",
+            "Warranty and after-sales support: Product quality assurance and responsive support are part of our core commitment."
+          ]
+        },
+        {
+          "title": "Customer Communication",
+          "paragraphs": [
+            "We believe close and honest communication with customers is the key to trust. Parents can share questions, feedback, and concerns with our team and receive fast, professional responses. This two-way communication helps us continuously improve."
+          ]
+        },
+        {
+          "title": "Summary",
+          "paragraphs": [
+            "By focusing on quality, safety, and comfort, Kaleskechi creates a reliable experience for parents and babies. We are committed to selecting the best products from trusted global brands and supporting families through consultation and after-sales services.",
+            "Kaleskechi, a trusted companion for healthier and happier babies."
+          ]
+        }
+      ]
+    }
+  }
+}
